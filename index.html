@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sevgiliye Özel — Unutulmaz Bir Dijital Hediye</title>
+<title>Sevgiliye Özel — Kişiye Özel Aşk Sitesi</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Dancing+Script:wght@600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -116,6 +116,17 @@
   #loading .spinner { width: 40px; height: 40px; border-radius: 50%; border: 3px solid rgba(201,161,90, 0.2); border-top-color: var(--gold-400); animation: spin 1s linear infinite; margin-bottom: 20px; }
   #loading p { font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--gold-300); font-size: 22px; letter-spacing: 0.05em; }
 
+  /* ---------- YOUTUBE GİZLİ OYNATICI (MOBİL ÇÖZÜMÜ) ---------- */
+  #ytplayer-hidden {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    width: 100px;
+    height: 100px;
+    opacity: 0.01;
+    pointer-events: none;
+  }
+
   /* ---------- LOVE PAGE & ANİMASYONLAR ---------- */
   #lovepage{ min-height:100vh; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; cursor: pointer; background: var(--wine-950); }
   
@@ -138,6 +149,7 @@
   .since{ font-size:14px; letter-spacing:.02em; color:var(--rose-300); margin-bottom:10px; text-shadow:0 2px 8px rgba(0,0,0,0.5); transition: all 1.8s ease; }
   .since b{color:var(--cream-100);font-weight:700;}
 
+  /* 10 Saniye Sonrası Ortalanma Efekti */
   .text-wrapper.centered { transform: translateY(28vh); }
   .special-message { margin-top: 25px; font-family: 'Dancing Script', cursive; font-size: clamp(28px, 7vw, 36px); color: #fcebd5; text-shadow: 0 4px 15px rgba(0,0,0,0.9); line-height: 1.35; padding: 0 15px; opacity: 0.95; min-height: 100px; transition: all 1.8s cubic-bezier(0.4, 0, 0.2, 1); }
   .special-message.shrunk { font-size: clamp(20px, 5vw, 24px); margin-top: 50px; opacity: 0.85; }
@@ -178,7 +190,7 @@
 </head>
 <body>
 
-<!-- ================= 1. VİTRİN / TANITIM EKRANI (Ana Sayfa) ================= -->
+<!-- ================= 1. VİTRİN / TANITIM EKRANI ================= -->
 <div id="landing" class="hidden">
   <div class="landing-wrapper">
     <div class="landing-eyebrow">SEVGİLİYE ÖZEL TASARIM</div>
@@ -190,11 +202,11 @@
     <ul class="features">
       <li>Size özel kısa ve kalıcı web bağlantısı (örn: Ahmet-Ayse)</li>
       <li>Arka planda dilediğiniz fotoğraflardan oluşan slayt gösterisi</li>
-      <li>YouTube entegreli, reklamsız otomatik çalan "Sizin Şarkınız"</li>
+      <li>YouTube entegreli otomatik çalan "Sizin Şarkınız"</li>
       <li>Ekrana dokunulduğunda başlayan animasyonlu kalp şöleni</li>
     </ul>
 
-    <!-- Whatsapp numaranızı "905551234567" formatında güncelleyin -->
+    <!-- Whatsapp Numaranızı Buraya Ekleyin -->
     <a href="https://wa.me/905550000000?text=Merhaba, sevgiliye özel site hizmetiniz hakkında bilgi almak istiyorum." class="whatsapp-btn" target="_blank">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
       WhatsApp'tan Sipariş Ver
@@ -322,6 +334,7 @@
       <div class="special-message hidden" id="lpMessage"></div>
     </div>
     
+    <!-- YOUTUBE PLAYER (Görünmez alan) -->
     <div id="ytplayer-hidden"></div>
   </div>
 </div>
@@ -483,7 +496,7 @@
 
   document.getElementById('backBtn').addEventListener('click', function(){ location.hash = '#bydpanel'; show(views.builder); });
 
-  /* ---------- YOUTUBE API, SLAYT (ALBÜM) VE ANİMASYONLAR ---------- */
+  /* ---------- YOUTUBE API, SLAYT VE ANİMASYONLAR ---------- */
   var ytPlayerInstance;
   var isAnimationPlaying = false; 
   var isFirstPlayDone = false;
@@ -501,9 +514,8 @@
     var container = document.getElementById('ytplayer-hidden'); container.innerHTML = ''; 
     var newDiv = document.createElement('div'); newDiv.id = 'yt-iframe-placeholder'; container.appendChild(newDiv);
     ytPlayerInstance = new YT.Player('yt-iframe-placeholder', {
-      height: '0', width: '0', videoId: videoId, 
-      playerVars: { 'autoplay': 1, 'controls': 0, 'loop': 1, 'playlist': videoId, 'origin': window.location.origin, 'playsinline': 1, 'mute': 1 },
-      events: { 'onReady': function(event) { event.target.playVideo(); } }
+      height: '100', width: '100', videoId: videoId, 
+      playerVars: { 'autoplay': 0, 'controls': 0, 'loop': 1, 'playlist': videoId, 'origin': window.location.origin, 'playsinline': 1 }
     });
   }
   
@@ -530,7 +542,8 @@
         var h = document.createElement('div'); h.className = 'heart-particle';
         var size = Math.random() * 15 + 15;
         h.innerHTML = '<svg viewBox="0 0 32 29.6" width="'+size+'" height="'+size+'" fill="var(--rose-300)"><path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/></svg>';
-        h.style.left = (Math.random() * 90 + 5) + 'vw'; h.style.setProperty('--target-bottom', (Math.random() * 75 + 10) + 'vh');
+        h.style.left = (Math.random() * 90 + 5) + 'vw';
+        h.style.setProperty('--target-bottom', (Math.random() * 75 + 10) + 'vh');
         h.style.setProperty('--rot', (Math.random() * 60 - 30) + 'deg');
         container.appendChild(h); activeHearts.push(h);
     }
@@ -590,7 +603,7 @@
     playerWrapper.classList.remove('faded'); vinyl.classList.remove('playing'); tonearm.classList.remove('playing'); handIcon.classList.remove('show-hand', 'hidden-hand');
     hint.classList.remove('hidden-hint'); hint.textContent = 'Müzik için plağa dokun';
 
-    // ANA TIKLAMA OLAYI
+    // ANA TIKLAMA OLAYI (Kesin Mobil Çözümü - playVideo doğrudan çağrılır)
     lovePageBody.onclick = function(){
       if(isAnimationPlaying) return; 
       hint.classList.add('hidden-hint');
@@ -599,43 +612,45 @@
       var playerState = ytPlayerInstance.getPlayerState();
       
       if(playerState === YT.PlayerState.PLAYING || playerState === YT.PlayerState.BUFFERING) {
-        if(!ytPlayerInstance.isMuted()) ytPlayerInstance.pauseVideo();
+         ytPlayerInstance.pauseVideo();
       } else {
-        ytPlayerInstance.playVideo();
-      }
+        if(!isFirstPlayDone) {
+          isAnimationPlaying = true; isFirstPlayDone = true;
+          
+          // Mobil güvenlik engelini aşmak için TIKLAMA ANINDA doğrudan müziği başlatıyoruz
+          ytPlayerInstance.playVideo(); 
 
-      if(!isFirstPlayDone) {
-        isAnimationPlaying = true; isFirstPlayDone = true;
-        
-        ytPlayerInstance.unMute();
-        ytPlayerInstance.seekTo(0);
-        ytPlayerInstance.playVideo();
-
-        handIcon.classList.add('show-hand');
-        setTimeout(function(){
-          tonearm.classList.add('playing');
+          handIcon.classList.add('show-hand');
           setTimeout(function(){
-              handIcon.classList.remove('show-hand'); handIcon.classList.add('hidden-hand');
-              vinyl.classList.add('playing');
-              setTimeout(function(){
-                playerWrapper.classList.add('faded');
+            tonearm.classList.add('playing');
+            setTimeout(function(){
+                handIcon.classList.remove('show-hand'); handIcon.classList.add('hidden-hand');
+                vinyl.classList.add('playing');
                 setTimeout(function(){
-                    triggerHeartsExplosion();
-                    setTimeout(function(){
-                      msgEl.classList.remove('hidden'); startTypewriter(state.msg, msgEl); makeHeartsFloat();
-                      isAnimationPlaying = false;
-
-                      var typingDurationMs = state.msg.length * 55;
+                  playerWrapper.classList.add('faded');
+                  setTimeout(function(){
+                      triggerHeartsExplosion();
                       setTimeout(function(){
-                          document.getElementById('textWrapper').classList.add('centered');
-                          msgEl.classList.add('shrunk');
-                      }, typingDurationMs + 10000);
+                        msgEl.classList.remove('hidden'); 
+                        startTypewriter(state.msg, msgEl); 
+                        makeHeartsFloat();
+                        isAnimationPlaying = false;
 
-                    }, 1600); 
-                }, 800); 
-              }, 1200); 
-          }, 600); 
-        }, 400); 
+                        // Daktilo bittikten 10 Saniye Sonra Ekranı Ortalama Animasyonu
+                        var typingDurationMs = state.msg.length * 55;
+                        setTimeout(function(){
+                            document.getElementById('textWrapper').classList.add('centered');
+                            msgEl.classList.add('shrunk');
+                        }, typingDurationMs + 10000);
+
+                      }, 1600); 
+                  }, 800); 
+                }, 1200); 
+            }, 600); 
+          }, 400); 
+        } else {
+          ytPlayerInstance.playVideo();
+        }
       }
     };
     show(views.lovepage);
@@ -645,13 +660,11 @@
   async function boot(){
     var hash = location.hash;
 
-    // Gizli Yönetim Paneli Girişi
     if(hash === '#bydpanel' || hash === '#yonetim') {
       show(views.builder);
       return;
     }
 
-    // Müşteri Linkine Tıklandığında
     if(hash && hash.length > 1){
       show(views.loading); 
       var docId = hash.slice(1);
@@ -660,14 +673,13 @@
         if (docSnap.exists()) {
           renderLovePage(docSnap.data());
         } else {
-          show(views.landing); // Hatalı/Eski Linkse vitrine at
+          show(views.landing); 
         }
       } catch (error) {
         console.error("Veri çekilemedi:", error);
         show(views.landing);
       }
     } else {
-      // Normal Giriş (www.sevgilimeozel.com.tr) -> Tanıtım Vitrini
       show(views.landing);
     }
   }
