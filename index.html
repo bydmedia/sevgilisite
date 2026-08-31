@@ -136,31 +136,46 @@
   @keyframes slowZoom { 0% { transform: scale(1); } 100% { transform: scale(1.04); } }
   #lovepage .veil{ position:absolute;inset:0; z-index: 1; background:linear-gradient(180deg, rgba(28,12,18,.5) 0%, rgba(28,12,18,.35) 40%, rgba(28,12,18,.95) 100%); }
   
-  /* Bir Kere Patlayan ve Kaybolan Kalpler */
+  /* Kalplerin Tek Seferlik Patlayıp Ekrandan Çıkması */
   .hearts-container { position: absolute; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
   .heart-particle { position: absolute; bottom: -50px; opacity: 0; }
   @keyframes flyUp {
     0% { bottom: -50px; opacity: 0; transform: scale(0.5) rotate(0deg); }
-    15% { opacity: 1; transform: scale(1.2) rotate(15deg); }
+    10% { opacity: 1; transform: scale(1.2) rotate(15deg); }
     100% { bottom: 110vh; opacity: 0; transform: scale(1) rotate(-20deg); }
   }
 
   .love-inner{ position:relative; z-index:2; width:100%; max-width:560px; padding:32px 22px 50px; display:flex; flex-direction:column; align-items:center; text-align:center; }
   
-  /* METİN VE İSİM ALANI */
-  .text-wrapper { display: flex; flex-direction: column; align-items: center; transition: transform 1.8s cubic-bezier(0.4, 0, 0.2, 1); transform: translateY(0); }
-  .names{ font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:600; font-size:clamp(32px,8vw,48px); color:var(--cream-100); margin:0 0 4px; text-shadow:0 6px 24px rgba(0,0,0,.6); transition: all 1.8s ease; }
-  .since{ font-size:14px; letter-spacing:.02em; color:var(--rose-300); margin-bottom:10px; text-shadow:0 2px 8px rgba(0,0,0,0.5); transition: all 1.8s ease; }
+  /* METİN VE İSİM ALANI (Sabit Kalması İçin Relative Kapsayıcı) */
+  .text-wrapper { position: relative; display: flex; flex-direction: column; align-items: center; transition: transform 1.8s cubic-bezier(0.4, 0, 0.2, 1); transform: translateY(0); z-index: 5; }
+  .names{ font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:600; font-size:clamp(32px,8vw,48px); color:var(--cream-100); margin:0 0 4px; text-shadow:0 6px 24px rgba(0,0,0,.6); }
+  .since{ font-size:14px; letter-spacing:.02em; color:var(--rose-300); margin-bottom:10px; text-shadow:0 2px 8px rgba(0,0,0,0.5); }
   .since b{color:var(--cream-100);font-weight:700;}
 
-  /* Ortalanma Efekti Sınıfları */
-  .text-wrapper.centered { transform: translateY(26vh); }
-  .special-message { margin-top: 25px; font-family: 'Dancing Script', cursive; font-size: clamp(28px, 7vw, 36px); color: #fcebd5; text-shadow: 0 4px 15px rgba(0,0,0,0.9); line-height: 1.35; padding: 0 15px; opacity: 0.95; min-height: 100px; transition: all 1.8s cubic-bezier(0.4, 0, 0.2, 1); }
-  .special-message.shrunk { font-size: clamp(20px, 5vw, 24px); margin-top: 50px; opacity: 0.85; }
+  /* İsimlerin Zıplamasını Önleyen Bağımsız (Absolute) Mesaj Kapsayıcısı */
+  .message-container {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90vw;
+    max-width: 560px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none; /* Tıklamaları engellemesin diye */
+  }
 
-  /* FOTOĞRAFLARA ÖZEL NOT GÖSTERİMİ (Daktilo Efekti + Opacity) */
-  .photo-note-display { margin-top: 15px; font-family: 'Dancing Script', cursive; font-size: clamp(24px, 6vw, 30px); color: var(--gold-300); text-shadow: 0 4px 15px rgba(0,0,0,0.9); opacity: 1; transition: opacity 0.5s ease; padding: 0 15px; min-height: 40px; }
-  .photo-note-display.hidden { opacity: 0; pointer-events: none; }
+  /* 10 Saniye Sonrası İsimler ve Metnin Hep Birlikte Aşağı Ortalanması */
+  .text-wrapper.centered { transform: translateY(26vh); }
+  
+  .photo-note-display { margin-top: 15px; font-family: 'Dancing Script', cursive; font-size: clamp(24px, 6vw, 30px); color: var(--gold-300); text-shadow: 0 4px 15px rgba(0,0,0,0.9); opacity: 1; transform: translateY(0); transition: opacity 0.6s ease, transform 0.6s ease; width: 100%; }
+  .photo-note-display.hidden { opacity: 0; transform: translateY(10px); }
+  
+  .special-message { margin-top: 25px; font-family: 'Dancing Script', cursive; font-size: clamp(28px, 7vw, 36px); color: #fcebd5; text-shadow: 0 4px 15px rgba(0,0,0,0.9); line-height: 1.35; opacity: 0.95; transition: all 1.8s cubic-bezier(0.4, 0, 0.2, 1); width: 100%; }
+  .special-message.hidden { opacity: 0; display: none; }
+  .special-message.shrunk { font-size: clamp(20px, 5vw, 24px); margin-top: 45px; opacity: 0.85; }
 
   /* ÇİÇEKLİ PLAK VE KAYBOLMA (FADE) ANİMASYONU */
   .player-wrapper { position: relative; height: 180px; margin-top: 15px; margin-bottom: 5px; transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1); opacity: 1; transform: scale(1) translateY(0); }
@@ -210,6 +225,7 @@
       <li>Ekrana dokunulduğunda başlayan animasyonlu kalp şöleni</li>
     </ul>
 
+    <!-- Whatsapp Numaranız -->
     <a href="https://wa.me/905437677317?text=Merhaba, sevgiliye özel site hizmetiniz hakkında bilgi almak istiyorum." class="whatsapp-btn" target="_blank">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
       WhatsApp'tan Sipariş Ver
@@ -306,7 +322,7 @@
 </div>
 
 <!-- ================= LOADING EKRANI (Varsayılan Açılış) ================= -->
-<div id="loading" class="hidden">
+<div id="loading">
   <div class="spinner"></div>
   <p>Aşk Hikayeniz Yükleniyor...</p>
 </div>
@@ -339,10 +355,14 @@
     <div class="text-wrapper" id="textWrapper">
       <div class="names" id="lpNames"></div>
       <div class="since" id="lpSince"></div>
-      <!-- Slaytlara özel notlar ilk başta burada çıkar -->
-      <div class="photo-note-display hidden" id="photoNoteDisplay"></div>
-      <!-- Ana Mesaj (Daktilo) -->
-      <div class="special-message hidden" id="lpMessage"></div>
+      
+      <!-- İsimlerin zıplamasını engelleyen sabit (absolute) metin katmanı -->
+      <div class="message-container">
+        <!-- Fotoğraf Slayt Notları (Daktilo + Fade Animasyonuyla) -->
+        <div class="photo-note-display hidden" id="photoNoteDisplay"></div>
+        <!-- Final Ana Mesajı -->
+        <div class="special-message hidden" id="lpMessage"></div>
+      </div>
     </div>
     
     <!-- YOUTUBE PLAYER -->
@@ -553,7 +573,7 @@
     });
   }
 
-  // Kalp Patlaması ve Sonrasında Tamamen Silinmesi
+  // Kalp Patlaması ve Ekrandan Tamamen Silinmesi
   function triggerHeartsExplosion() {
     var container = document.getElementById('heartsContainer');
     container.innerHTML = '';
@@ -564,16 +584,16 @@
         h.innerHTML = '<svg viewBox="0 0 32 29.6" width="'+size+'" height="'+size+'" fill="var(--rose-300)"><path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/></svg>';
         h.style.left = (Math.random() * 90 + 5) + 'vw';
         
-        var duration = Math.random() * 2 + 2.5; 
-        var delay = Math.random() * 0.5;
-        h.style.animation = 'flyUp ' + duration + 's ease-in-out ' + delay + 's forwards';
+        var duration = Math.random() * 1.5 + 1.5; 
+        var delay = Math.random() * 0.3;
+        h.style.animation = 'flyUp ' + duration + 's ease-in ' + delay + 's forwards';
         container.appendChild(h);
     }
-    // Tüm kalpler uçtuktan sonra kapsayıcıyı temizle
-    setTimeout(() => { container.innerHTML = ''; }, 5500);
+    // Tüm kalpler uçtuktan sonra tamamen ekrandan (DOM'dan) silinir
+    setTimeout(() => { container.innerHTML = ''; }, 3500);
   }
 
-  // Çoklu Element İçin Ortak Daktilo Efekti
+  // Daktilo Efekti
   function startTypewriter(text, el, speed = 55) {
     if(el.twTimeout) clearTimeout(el.twTimeout);
     var i = 0; 
@@ -642,23 +662,26 @@
     playerWrapper.classList.remove('faded'); vinyl.classList.remove('playing'); tonearm.classList.remove('playing'); handIcon.classList.remove('show-hand', 'hidden-hand');
     hint.classList.remove('hidden-hint'); hint.textContent = 'Müzik için plağa dokun';
 
+    // Ana Final Mesajı ve Ortalama
     function triggerMainMessage() {
         pNoteEl.classList.add('hidden'); 
         if(pNoteEl.twTimeout) clearTimeout(pNoteEl.twTimeout);
 
         msgEl.classList.remove('hidden'); 
+        msgEl.style.display = 'block';
         startTypewriter(state.msg, msgEl); 
         isAnimationPlaying = false;
 
         var typingDurationMs = state.msg.length * 55;
         setTimeout(function(){
+            // Metin bittikten 10 saniye sonra isimler ve mesaj hep birlikte kusursuzca ortalanır
             document.getElementById('textWrapper').classList.add('centered');
             msgEl.classList.add('shrunk');
         }, typingDurationMs + 10000);
     }
 
     function startSlideshowAnimations() {
-       let mainMessageTriggered = false; // Ana mesajın sadece 1 kere tetiklenmesi için
+       let mainMessageTriggered = false; 
 
        if(slidesData[0].note) {
           pNoteEl.classList.remove('hidden');
@@ -670,44 +693,45 @@
           let loopCount = 0;
           
           slideshowInterval = setInterval(() => {
-             // Notu yavaşça gizle ve yazmayı durdur
+             // 1. Ekranda not varsa önce onu karart (fade-out) ve daktiloyu durdur
              pNoteEl.classList.add('hidden');
              if(pNoteEl.twTimeout) clearTimeout(pNoteEl.twTimeout);
              
-             let next = (currentSlide + 1) % slidesData.length;
-             let slides = container.querySelectorAll('.slide');
-             
-             slides[currentSlide].classList.remove('active');
-             slides[currentSlide].classList.add('last-active');
-             slides[next].classList.add('active');
-             
-             let prev = currentSlide;
-             setTimeout(() => { slides[prev].classList.remove('last-active'); }, 1000);
-
-             currentSlide = next;
-             if (currentSlide === 0) { loopCount++; }
-
-             // Yeni Fotoğrafa Geçince Yeni Notu Daktilo ile Yazdır
+             // 2. Notun silinmesi için 600ms bekle, SONRA kusursuz fotoğraf geçişini başlat
              setTimeout(() => {
-                 if (loopCount === 0) {
-                    if(slidesData[currentSlide].note) {
-                       pNoteEl.classList.remove('hidden');
-                       startTypewriter(slidesData[currentSlide].note, pNoteEl);
-                    }
-                 } else if (loopCount === 1 && !mainMessageTriggered) {
-                    // Sadece ilk tur bittiğinde ana mesajı 1 kere tetikle
-                    triggerMainMessage();
-                    mainMessageTriggered = true;
-                    // Döngü burada durdurulmuyor (clearInterval kaldırıldı), 
-                    // fotoğraflar sonsuza kadar dönmeye devam edecek.
-                 }
-             }, 800);
-          }, 3500); // 3.5 Saniye Bekleme Süresi
+                 let next = (currentSlide + 1) % slidesData.length;
+                 let slides = container.querySelectorAll('.slide');
+                 
+                 slides[currentSlide].classList.remove('active');
+                 slides[currentSlide].classList.add('last-active');
+                 slides[next].classList.add('active');
+                 
+                 let prev = currentSlide;
+                 setTimeout(() => { slides[prev].classList.remove('last-active'); }, 1000);
+
+                 currentSlide = next;
+                 if (currentSlide === 0) { loopCount++; }
+
+                 // 3. Fotoğraf yerleştikten (800ms) sonra yeni notu yazdır veya final mesajına geç
+                 setTimeout(() => {
+                     if (loopCount === 0) {
+                        if(slidesData[currentSlide].note) {
+                           pNoteEl.classList.remove('hidden');
+                           startTypewriter(slidesData[currentSlide].note, pNoteEl);
+                        }
+                     } else if (loopCount === 1 && !mainMessageTriggered) {
+                        triggerMainMessage();
+                        mainMessageTriggered = true;
+                     }
+                 }, 800);
+             }, 600); // Fade-out (Kararma) bitiş süresi
+
+          }, 4500); // Her fotoğraf 3.5 sn + 1 sn geçiş
        } else {
           setTimeout(() => {
               pNoteEl.classList.add('hidden');
               if(pNoteEl.twTimeout) clearTimeout(pNoteEl.twTimeout);
-              setTimeout(() => { triggerMainMessage(); }, 800);
+              setTimeout(() => { triggerMainMessage(); }, 600);
           }, 3500);
        }
     }
@@ -732,8 +756,11 @@
               setTimeout(function(){
                 playerWrapper.classList.add('faded');
                 setTimeout(function(){
-                    triggerHeartsExplosion(); // Kalpler anında patlar
-                    startSlideshowAnimations(); // Animasyon biter bitmez slaytlar döner
+                    triggerHeartsExplosion(); 
+                    // Kalpler uçmaya başlar, 2.5 saniye sonra ekran temizlenmeye başlarken slaytlar girer
+                    setTimeout(function(){
+                        startSlideshowAnimations(); 
+                    }, 2500);
                 }, 800); 
               }, 1200); 
           }, 600); 
