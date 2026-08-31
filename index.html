@@ -35,10 +35,7 @@
 
   /* ---------- BUILDER (FORM) VIEW ---------- */
   #builder{
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
     padding:48px 20px;
     background:
       radial-gradient(1100px 600px at 15% -10%, rgba(201,161,90,.10), transparent 60%),
@@ -46,318 +43,138 @@
       var(--wine-950);
   }
   .builder-wrap{width:100%;max-width:560px;}
-  .eyebrow{
-    font-size:13px;
-    letter-spacing:.03em;
-    color:var(--gold-300);
-    margin:0 0 10px;
-  }
-  h1.title{
-    font-family:'Cormorant Garamond',serif;
-    font-weight:600;
-    font-size:clamp(34px,6vw,46px);
-    line-height:1.08;
-    margin:0 0 14px;
-    color:var(--cream-100);
-  }
+  .eyebrow{ font-size:13px; letter-spacing:.03em; color:var(--gold-300); margin:0 0 10px; }
+  h1.title{ font-family:'Cormorant Garamond',serif; font-weight:600; font-size:clamp(34px,6vw,46px); line-height:1.08; margin:0 0 14px; color:var(--cream-100); }
   h1.title em{font-style:italic;color:var(--rose-300);}
-  .lede{
-    color:var(--ink-muted);
-    font-size:15.5px;
-    line-height:1.6;
-    margin:0 0 34px;
-    max-width:46ch;
-  }
-  form.card{
-    background:linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.015));
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:18px;
-    padding:30px;
-    box-shadow:var(--shadow-deep);
-  }
+  .lede{ color:var(--ink-muted); font-size:15.5px; line-height:1.6; margin:0 0 34px; max-width:46ch; }
+  form.card{ background:linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.015)); border:1px solid rgba(255,255,255,.08); border-radius:18px; padding:30px; box-shadow:var(--shadow-deep); }
   .field{margin-bottom:20px;}
-  .field label{
-    display:block;
-    font-size:13px;
-    font-weight:600;
-    color:var(--gold-300);
-    margin-bottom:8px;
-  }
-  .field .hint{
-    display:block;
-    font-weight:400;
-    color:var(--ink-muted);
-    font-size:12px;
-    margin-top:5px;
-  }
+  .field label{ display:block; font-size:13px; font-weight:600; color:var(--gold-300); margin-bottom:8px; }
+  .field .hint{ display:block; font-weight:400; color:var(--ink-muted); font-size:12px; margin-top:5px; }
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
   input[type=text], input[type=date], input[type=url], textarea{
-    width:100%;
-    padding:12px 14px;
-    background:rgba(0,0,0,.22);
-    border:1px solid rgba(255,255,255,.12);
-    border-radius:10px;
-    color:var(--cream-100);
-    font-family:'Manrope',sans-serif;
-    font-size:14.5px;
-    outline:none;
-    transition:border-color .15s ease;
+    width:100%; padding:12px 14px; background:rgba(0,0,0,.22); border:1px solid rgba(255,255,255,.12);
+    border-radius:10px; color:var(--cream-100); font-family:'Manrope',sans-serif; font-size:14.5px; outline:none; transition:border-color .15s ease;
   }
   textarea{ resize:vertical; min-height:80px; }
   input::placeholder, textarea::placeholder{color:rgba(246,236,223,.35);}
   input:focus, textarea:focus{border-color:var(--gold-400);}
   
   .file-drop{
-    border:1.5px dashed rgba(255,255,255,.18);
-    border-radius:12px;
-    padding:16px;
-    text-align:center;
-    cursor:pointer;
-    color:var(--ink-muted);
-    font-size:13.5px;
-    background:rgba(0,0,0,.15);
-    transition:all .15s ease;
-    position:relative;
-    display:block;
+    border:1.5px dashed rgba(255,255,255,.18); border-radius:12px; padding:16px; text-align:center;
+    cursor:pointer; color:var(--ink-muted); font-size:13.5px; background:rgba(0,0,0,.15); transition:all .15s ease; position:relative; display:block;
   }
   .file-drop:hover{border-color:var(--gold-400);color:var(--cream-200);}
   .file-drop input[type=file]{ position:absolute;inset:0;opacity:0;cursor:pointer; }
   .file-drop.has-file{border-style:solid;border-color:var(--gold-400);color:var(--cream-100); background:rgba(201,161,90,0.1);}
   
-  .submit-btn{
-    width:100%; padding:15px; margin-top:6px; border:none; border-radius:12px;
-    background:linear-gradient(180deg, var(--gold-300), var(--gold-400));
-    color:#241019; font-family:'Manrope',sans-serif; font-weight:700; font-size:15px;
-    cursor:pointer; letter-spacing:.01em;
-  }
+  /* ALBÜM GALERİSİ */
+  #photoGallery { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
+  .thumb-item { width: 65px; height: 65px; border-radius: 8px; background-size: cover; background-position: center; position: relative; border: 2px solid rgba(255,255,255,0.1); }
+  .thumb-delete { position: absolute; top: -6px; right: -6px; background: #e8b4b8; color: #1c0c12; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+  
+  .submit-btn{ width:100%; padding:15px; margin-top:6px; border:none; border-radius:12px; background:linear-gradient(180deg, var(--gold-300), var(--gold-400)); color:#241019; font-family:'Manrope',sans-serif; font-weight:700; font-size:15px; cursor:pointer; letter-spacing:.01em; }
   .submit-btn:disabled{opacity:.6;cursor:wait;}
   .submit-btn:hover{filter:brightness(1.04);}
   .err{ color:#f0a3a3; font-size:12.5px; margin-top:6px; display:none; }
   .err.show{display:block;}
 
   /* ---------- CROPPER MODAL ---------- */
-  #cropModal{
-    position:fixed; inset:0; background:rgba(0,0,0,0.98); z-index:9999;
-    display:flex; flex-direction:column;
-  }
-  .cropper-header {
-    background: #1c0c12; padding: 20px 15px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);
-  }
-  .cropper-title {
-    display: block; color: var(--gold-300); font-size: 14px; font-weight: 600; margin-bottom: 12px;
-  }
-  .cropper-ratios {
-    display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;
-  }
-  .cropper-ratios button {
-    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15);
-    color: var(--cream-100); padding: 8px 14px; border-radius: 8px;
-    font-family: 'Manrope', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s ease;
-  }
-  .cropper-ratios button.active {
-    background: rgba(201,161,90,0.15); border-color: var(--gold-400); color: var(--gold-400); font-weight:700;
-  }
+  #cropModal{ position:fixed; inset:0; background:rgba(0,0,0,0.98); z-index:9999; display:flex; flex-direction:column; }
+  .cropper-header { background: #1c0c12; padding: 20px 15px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .cropper-title { display: block; color: var(--gold-300); font-size: 14px; font-weight: 600; margin-bottom: 12px; }
+  .cropper-ratios { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .cropper-ratios button { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: var(--cream-100); padding: 8px 14px; border-radius: 8px; font-family: 'Manrope', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s ease; }
+  .cropper-ratios button.active { background: rgba(201,161,90,0.15); border-color: var(--gold-400); color: var(--gold-400); font-weight:700; }
   .cropper-area{ flex:1; min-height:0; display:flex; align-items:center; justify-content:center; }
   .cropper-area img{ max-width:100%; max-height:100%; display:block; }
-  .cropper-actions{
-    padding:20px; background:#1c0c12; display:flex; gap:12px; border-top:1px solid rgba(255,255,255,0.1);
-  }
-  .cropper-actions button{
-    flex:1; padding:15px; border-radius:10px; border:none; font-family:'Manrope',sans-serif;
-    font-weight:700; font-size:15px; cursor:pointer;
-  }
+  .cropper-actions{ padding:20px; background:#1c0c12; display:flex; gap:12px; border-top:1px solid rgba(255,255,255,0.1); }
+  .cropper-actions button{ flex:1; padding:15px; border-radius:10px; border:none; font-family:'Manrope',sans-serif; font-weight:700; font-size:15px; cursor:pointer; }
   #cropCancel{ background:rgba(255,255,255,0.1); color:#fff; }
   #cropConfirm{ background:linear-gradient(180deg, var(--gold-300), var(--gold-400)); color:#1c0c12; }
 
-  /* ---------- RESULT VIEW (Link Ekranı) ---------- */
+  /* ---------- RESULT VIEW ---------- */
   #result{ min-height:100vh; display:flex; align-items:center; justify-content:center; padding:48px 20px; }
-  .result-card{
-    max-width:480px;width:100%;
-    background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015));
-    border:1px solid rgba(255,255,255,.08); border-radius:18px; padding:34px; text-align:center;
-    box-shadow:var(--shadow-deep);
-  }
-  .result-card .stamp{
-    width:52px;height:52px;border-radius:50%; margin:0 auto 18px;
-    background:radial-gradient(circle at 35% 35%, var(--gold-300), var(--gold-400) 60%, #8a6a2c 100%);
-    display:flex;align-items:center;justify-content:center; font-size:22px;
-  }
-  .link-box{
-    margin-top:22px; background:rgba(0,0,0,.25); border:1px solid rgba(255,255,255,.12);
-    border-radius:10px; padding:15px 14px; font-size:13.5px; color:var(--cream-200);
-    word-break:break-all; text-align:center; font-weight:700; user-select:all;
-  }
+  .result-card{ max-width:480px;width:100%; background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015)); border:1px solid rgba(255,255,255,.08); border-radius:18px; padding:34px; text-align:center; box-shadow:var(--shadow-deep); }
+  .result-card .stamp{ width:52px;height:52px;border-radius:50%; margin:0 auto 18px; background:radial-gradient(circle at 35% 35%, var(--gold-300), var(--gold-400) 60%, #8a6a2c 100%); display:flex;align-items:center;justify-content:center; font-size:22px; }
+  .link-box{ margin-top:22px; background:rgba(0,0,0,.25); border:1px solid rgba(255,255,255,.12); border-radius:10px; padding:15px 14px; font-size:13.5px; color:var(--cream-200); word-break:break-all; text-align:center; font-weight:700; user-select:all; }
   .btn-row{display:flex;gap:10px;margin-top:16px;}
-  .btn-row button{
-    flex:1; padding:15px; border-radius:12px; border:none; font-family:'Manrope',sans-serif;
-    font-weight:700; font-size:15px; cursor:pointer;
-  }
+  .btn-row button{ flex:1; padding:15px; border-radius:12px; border:none; font-family:'Manrope',sans-serif; font-weight:700; font-size:15px; cursor:pointer; }
   .btn-primary{background:linear-gradient(180deg, var(--gold-300), var(--gold-400));color:#241019;}
   .btn-secondary{background:rgba(255,255,255,.08);color:var(--cream-100);border:1px solid rgba(255,255,255,.14);}
   .back-link{display:inline-block;margin-top:22px;color:var(--ink-muted);font-size:13px;text-decoration:underline;cursor:pointer;background:none;border:none;font-family:'Manrope',sans-serif;}
 
   /* ---------- LOADING EKRANI ---------- */
-  #loading{
-    min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
-  }
-  #loading .spinner {
-    width: 40px; height: 40px; border-radius: 50%;
-    border: 3px solid rgba(201,161,90, 0.2);
-    border-top-color: var(--gold-400);
-    animation: spin 1s linear infinite; margin-bottom: 20px;
-  }
-  #loading p {
-    font-family: 'Cormorant Garamond', serif; font-style: italic;
-    color: var(--gold-300); font-size: 22px; letter-spacing: 0.05em;
-  }
+  #loading{ min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  #loading .spinner { width: 40px; height: 40px; border-radius: 50%; border: 3px solid rgba(201,161,90, 0.2); border-top-color: var(--gold-400); animation: spin 1s linear infinite; margin-bottom: 20px; }
+  #loading p { font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--gold-300); font-size: 22px; letter-spacing: 0.05em; }
 
   /* ---------- LOVE PAGE & ANİMASYONLAR ---------- */
-  #lovepage{
-    min-height:100vh; position:relative; overflow:hidden;
-    display:flex; align-items:center; justify-content:center;
-    cursor: pointer; 
-  }
-  #lovepage .bg{
-    position:absolute; inset:0; 
-    background-size:cover; background-position:center;
-    filter:blur(2px) brightness(0.6) saturate(1.1);
-    animation: slowZoom 30s infinite alternate ease-in-out;
-    transform-origin: center center;
-  }
-  @keyframes slowZoom {
-    0% { transform: scale(1); }
-    100% { transform: scale(1.04); }
-  }
-  #lovepage .veil{
-    position:absolute;inset:0;
-    background:linear-gradient(180deg, rgba(28,12,18,.5) 0%, rgba(28,12,18,.35) 40%, rgba(28,12,18,.95) 100%);
-  }
+  #lovepage{ min-height:100vh; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; cursor: pointer; background: var(--wine-950); }
+  
+  /* Arka Plan Slayt Gösterisi İçin Alan */
+  #bgSlideshow { position: absolute; inset: 0; z-index: 0; }
+  .slide { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: opacity 2.5s ease-in-out; filter: blur(2px) brightness(0.6) saturate(1.1); animation: slowZoom 30s infinite alternate ease-in-out; transform-origin: center center; }
+  .slide.active { opacity: 1; z-index: 1; }
+  
+  @keyframes slowZoom { 0% { transform: scale(1); } 100% { transform: scale(1.04); } }
+  #lovepage .veil{ position:absolute;inset:0; z-index: 1; background:linear-gradient(180deg, rgba(28,12,18,.5) 0%, rgba(28,12,18,.35) 40%, rgba(28,12,18,.95) 100%); }
   
   /* Kalplerin Uçuştuğu Alan */
-  .hearts-container {
-    position: absolute; inset: 0; pointer-events: none; z-index: 1; overflow: hidden;
-  }
-  .heart-particle {
-    position: absolute; bottom: -50px; opacity: 0; transform: rotate(0deg) scale(0.5);
-    transition: bottom 1.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.8s ease, transform 1.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-  .heart-particle.freeze {
-    bottom: var(--target-bottom); opacity: 0.85; transform: rotate(var(--rot)) scale(1);
-  }
-  .heart-particle.float {
-    bottom: 120vh !important; opacity: 0.15 !important; transform: rotate(var(--rot)) scale(1);
-  }
+  .hearts-container { position: absolute; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+  .heart-particle { position: absolute; bottom: -50px; opacity: 0; transform: rotate(0deg) scale(0.5); transition: bottom 1.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.8s ease, transform 1.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .heart-particle.freeze { bottom: var(--target-bottom); opacity: 0.85; transform: rotate(var(--rot)) scale(1); }
+  .heart-particle.float { bottom: 120vh !important; opacity: 0.15 !important; transform: rotate(var(--rot)) scale(1); }
 
-  .love-inner{
-    position:relative; z-index:2; width:100%; max-width:560px;
-    padding:32px 22px 50px; display:flex; flex-direction:column; align-items:center; text-align:center;
-  }
-
-  .text-wrapper {
-    display: flex; flex-direction: column; align-items: center;
-    transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-    transform: translateY(0);
-  }
-  
-  .names{
-    font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:600;
-    font-size:clamp(32px,8vw,48px); color:var(--cream-100);
-    margin:0 0 4px; text-shadow:0 6px 24px rgba(0,0,0,.6);
-  }
+  .love-inner{ position:relative; z-index:2; width:100%; max-width:560px; padding:32px 22px 50px; display:flex; flex-direction:column; align-items:center; text-align:center; }
+  .text-wrapper { display: flex; flex-direction: column; align-items: center; transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1); transform: translateY(0); }
+  .names{ font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:600; font-size:clamp(32px,8vw,48px); color:var(--cream-100); margin:0 0 4px; text-shadow:0 6px 24px rgba(0,0,0,.6); }
   .since{ font-size:14px; letter-spacing:.02em; color:var(--rose-300); margin-bottom:10px; text-shadow:0 2px 8px rgba(0,0,0,0.5); }
   .since b{color:var(--cream-100);font-weight:700;}
 
   /* ÇİÇEKLİ PLAK VE KAYBOLMA (FADE) ANİMASYONU */
-  .player-wrapper {
-    position: relative; height: 180px; margin-top: 15px; margin-bottom: 5px;
-    transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-    opacity: 1; transform: scale(1) translateY(0);
-  }
-  .player-wrapper.faded {
-    opacity: 0; height: 0; margin-top: 0; margin-bottom: 0;
-    transform: scale(0.2) translateY(-100px); pointer-events: none;
-  }
-
-  .player{
-    position:relative; width:min(45vw, 170px); height:min(45vw, 170px);
-    display:flex;align-items:center;justify-content:center;
-    transition: transform 0.2s ease;
-  }
+  .player-wrapper { position: relative; height: 180px; margin-top: 15px; margin-bottom: 5px; transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1); opacity: 1; transform: scale(1) translateY(0); }
+  .player-wrapper.faded { opacity: 0; height: 0; margin-top: 0; margin-bottom: 0; transform: scale(0.2) translateY(-100px); pointer-events: none; }
+  .player{ position:relative; width:min(45vw, 170px); height:min(45vw, 170px); display:flex;align-items:center;justify-content:center; transition: transform 0.2s ease; }
   
-  .play-hint {
-    position:absolute; top:-35px; font-size:13px; color:var(--gold-300);
-    animation: bounce 2s infinite; font-weight:600; text-shadow:0 2px 5px rgba(0,0,0,0.8);
-    pointer-events:none; white-space: nowrap;
-    transition: opacity 0.5s ease, visibility 0.5s;
-    opacity: 1; visibility: visible;
-  }
+  .play-hint { position:absolute; top:-35px; font-size:13px; color:var(--gold-300); animation: bounce 2s infinite; font-weight:600; text-shadow:0 2px 5px rgba(0,0,0,0.8); pointer-events:none; white-space: nowrap; transition: opacity 0.5s ease, visibility 0.5s; opacity: 1; visibility: visible; }
   .play-hint.hidden-hint { opacity: 0; visibility: hidden; }
-  @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
-  }
+  @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 
   .vinyl{
     width:100%;height:100%;border-radius:50%;
-    /* Romantik çiçekli plak yüzeyi */
-    background: 
-      radial-gradient(circle at center, rgba(28,12,18,0.1) 0%, rgba(28,12,18,0.85) 100%),
-      url('https://images.unsplash.com/photo-1551024739-78e9d60c45bc?q=80&w=400&auto=format&fit=crop') center/cover;
+    background: radial-gradient(circle at center, rgba(28,12,18,0.1) 0%, rgba(28,12,18,0.85) 100%), url('https://images.unsplash.com/photo-1551024739-78e9d60c45bc?q=80&w=400&auto=format&fit=crop') center/cover;
     box-shadow: 0 20px 45px -10px rgba(0,0,0,.9), inset 0 0 0 2px rgba(255,255,255,.15);
-    display:flex;align-items:center;justify-content:center;
-    animation:spin 5s linear infinite; animation-play-state:paused;
+    display:flex;align-items:center;justify-content:center; animation:spin 5s linear infinite; animation-play-state:paused;
   }
-  .vinyl.playing{
-    animation-play-state:running;
-    box-shadow: 0 15px 40px -5px rgba(0,0,0,.8), 0 0 50px rgba(201,161,90,.3), inset 0 0 0 1px rgba(255,255,255,.1);
-  }
-  .vinyl .label{
-    width:34%;height:34%;border-radius:50%;
-    background:radial-gradient(circle at 35% 30%, var(--gold-300), var(--gold-400) 55%, #7d5c26 100%);
-    display:flex;align-items:center;justify-content:center; box-shadow:inset 0 0 0 2px rgba(0,0,0,.5);
-  }
+  .vinyl.playing{ animation-play-state:running; box-shadow: 0 15px 40px -5px rgba(0,0,0,.8), 0 0 50px rgba(201,161,90,.3), inset 0 0 0 1px rgba(255,255,255,.1); }
+  .vinyl .label{ width:34%;height:34%;border-radius:50%; background:radial-gradient(circle at 35% 30%, var(--gold-300), var(--gold-400) 55%, #7d5c26 100%); display:flex;align-items:center;justify-content:center; box-shadow:inset 0 0 0 2px rgba(0,0,0,.5); }
   .vinyl .label span{ width:10px;height:10px;border-radius:50%;background:#1c0c12; }
   
-  .tonearm{
-    position:absolute;top:-5px;right:2%; width:75px;height:75px;
-    transform-origin:88% 12%; transform:rotate(-24deg);
-    transition:transform .5s cubic-bezier(.4,0,.2,1); pointer-events:none;
-  }
+  .tonearm{ position:absolute;top:-5px;right:2%; width:75px;height:75px; transform-origin:88% 12%; transform:rotate(-24deg); transition:transform .5s cubic-bezier(.4,0,.2,1); pointer-events:none; }
   .tonearm.playing{transform:rotate(4deg);}
   .tonearm svg{width:100%;height:100%;overflow:visible;}
 
   /* GİZLİ EL (POINTER) ANİMASYONU */
-  .hand-icon {
-    position: absolute; bottom: -5px; left: -15px; width: 40px; height: 40px;
-    opacity: 0; transform: translate(-30px, 30px);
-    transition: all 0.3s ease; z-index: 10;
-    filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.6));
-  }
+  .hand-icon { position: absolute; bottom: -5px; left: -15px; width: 40px; height: 40px; opacity: 0; transform: translate(-30px, 30px); transition: all 0.3s ease; z-index: 10; filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.6)); }
   .hand-icon.show-hand { opacity: 1; transform: translate(0, 0); }
   .hand-icon.hidden-hand { opacity: 0; transform: translate(-20px, 20px) scale(0.8); }
 
   /* DAKTİLO MESAJ ALANI */
-  .special-message{
-    margin-top: 25px; font-family: 'Dancing Script', cursive;
-    font-size: clamp(28px, 7vw, 36px); color: #fcebd5;
-    text-shadow: 0 4px 15px rgba(0,0,0,0.9); line-height: 1.35;
-    padding: 0 15px; opacity: 0.95; min-height: 100px; 
-  }
+  .special-message{ margin-top: 25px; font-family: 'Dancing Script', cursive; font-size: clamp(28px, 7vw, 36px); color: #fcebd5; text-shadow: 0 4px 15px rgba(0,0,0,0.9); line-height: 1.35; padding: 0 15px; opacity: 0.95; min-height: 100px; }
   .tw-cursor { font-weight: 300; color: var(--gold-300); animation: blink 1s infinite; }
   .fade-out-cursor { display: none; }
   @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-  .made-with{
-    position:absolute;bottom:14px;left:0;right:0; text-align:center;z-index:2;
-    font-size:11px;color:rgba(246,236,223,.3);
-  }
+  .made-with{ position:absolute;bottom:14px;left:0;right:0; text-align:center;z-index:2; font-size:11px;color:rgba(246,236,223,.3); }
   @keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
 </style>
 </head>
 <body>
 
 <!-- ================= BUILDER ================= -->
-<div id="builder">
+<!-- Form başlangıçta "hidden" sınıfına sahiptir, böylece ekranda anlık (FOUC) görünmez -->
+<div id="builder" class="hidden">
   <div class="builder-wrap">
     <p class="eyebrow">SEVGİLİYE ÖZEL MÜŞTERİ PANELİ</p>
     <h1 class="title">İki isim, <em>bir şarkı</em><br>ve dönen bir plak.</h1>
@@ -378,11 +195,13 @@
       </div>
 
       <div class="field">
-        <label>Arka plan fotoğrafı</label>
+        <label>Arka Plan Fotoğrafları (Albüm)</label>
+        <div id="photoGallery"></div> <!-- Eklenen fotolar burada toplanır -->
         <label class="file-drop" id="photoDrop">
-          <span id="photoLabel">Fotoğraf seçmek için tıklayın</span>
-          <input type="file" id="photoInput" accept="image/*" required>
+          <span id="photoLabel">Yeni Fotoğraf Ekle (Sınırsız)</span>
+          <input type="file" id="photoInput" accept="image/*">
         </label>
+        <span class="hint">Birden fazla fotoğraf eklerseniz, arka planda romantik bir geçiş efektiyle yavaşça dönecektir.</span>
       </div>
 
       <div class="field">
@@ -415,7 +234,7 @@
   <div class="cropper-area"><img id="cropImage" src=""></div>
   <div class="cropper-actions">
     <button id="cropCancel">İptal</button>
-    <button id="cropConfirm">Kırp ve Onayla</button>
+    <button id="cropConfirm">Kırp ve Albüme Ekle</button>
   </div>
 </div>
 
@@ -436,15 +255,16 @@
   </div>
 </div>
 
-<!-- ================= LOADING EKRANI ================= -->
-<div id="loading" class="hidden">
+<!-- ================= LOADING EKRANI (Varsayılan Açılış) ================= -->
+<div id="loading">
   <div class="spinner"></div>
   <p>Aşk Hikayeniz Yükleniyor...</p>
 </div>
 
 <!-- ================= GENERATED LOVE PAGE ================= -->
 <div id="lovepage" class="hidden">
-  <div class="bg" id="lpBg"></div>
+  
+  <div id="bgSlideshow"></div> <!-- Dinamik slayt resimleri buraya gelir -->
   <div class="veil"></div>
   
   <div class="hearts-container" id="heartsContainer"></div>
@@ -489,7 +309,6 @@
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-  // Müşterinin Verdiği Firebase Config
   const firebaseConfig = {
     apiKey: "AIzaSyCF53nWPE-q2gpA2kaGZr1KCcdjZ3JYfao",
     authDomain: "sevgilisite-3d949.firebaseapp.com",
@@ -503,10 +322,9 @@
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
-
   const IMGBB_API_KEY = "db68f588bc4c15f9146ffc8bf98db703"; 
 
-  // Temiz Link (Slug) Oluşturucu
+  // ----- YARDIMCI FONKSİYONLAR -----
   function createCleanSlug(n1, n2, date) {
     function trToEn(str) {
       return str.replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's').replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ç/g, 'c')
@@ -531,11 +349,31 @@
   var views = { builder: document.getElementById('builder'), result: document.getElementById('result'), lovepage: document.getElementById('lovepage'), loading: document.getElementById('loading') };
   function show(view){ Object.keys(views).forEach(function(k){ views[k].classList.toggle('hidden', views[k] !== view); }); }
 
-  // ---------- Kırpma (Cropper) ----------
+  // ---------- ALBÜM VE KIRPMA (CROPPER) İŞLEMLERİ ----------
   var photoInput = document.getElementById('photoInput');
-  var photoLabel = document.getElementById('photoLabel');
-  var photoDrop = document.getElementById('photoDrop');
-  var cropper = null; var croppedPhotoData = null; 
+  var cropper = null; 
+  var uploadedPhotosBase64 = []; // Birden fazla fotoğrafı burada tutacağız
+
+  function renderGallery() {
+    var gallery = document.getElementById('photoGallery');
+    gallery.innerHTML = '';
+    uploadedPhotosBase64.forEach((b64, index) => {
+      var thumb = document.createElement('div');
+      thumb.className = 'thumb-item';
+      thumb.style.backgroundImage = `url(${b64})`;
+      
+      var delBtn = document.createElement('div');
+      delBtn.className = 'thumb-delete';
+      delBtn.innerHTML = '×';
+      delBtn.onclick = function() {
+        uploadedPhotosBase64.splice(index, 1);
+        renderGallery();
+      };
+      
+      thumb.appendChild(delBtn);
+      gallery.appendChild(thumb);
+    });
+  }
 
   var ratioBtns = document.querySelectorAll('.cropper-ratios button');
   ratioBtns.forEach(function(btn){
@@ -562,21 +400,23 @@
 
   document.getElementById('cropCancel').addEventListener('click', function(e){
     e.preventDefault(); document.getElementById('cropModal').classList.add('hidden');
-    photoInput.value = ''; photoLabel.textContent = 'Fotoğraf seçmek için tıklayın'; photoDrop.classList.remove('has-file');
-    if(cropper){ cropper.destroy(); cropper = null; } croppedPhotoData = null;
+    photoInput.value = ''; 
+    if(cropper){ cropper.destroy(); cropper = null; }
   });
 
   document.getElementById('cropConfirm').addEventListener('click', function(e){
     e.preventDefault();
     if(cropper){
-      croppedPhotoData = cropper.getCroppedCanvas({ maxWidth: 1200, maxHeight: 1200 }).toDataURL('image/jpeg', 0.8);
-      photoLabel.textContent = 'Fotoğraf ayarlandı ✓'; photoDrop.classList.add('has-file');
+      var b64 = cropper.getCroppedCanvas({ maxWidth: 1200, maxHeight: 1200 }).toDataURL('image/jpeg', 0.8);
+      uploadedPhotosBase64.push(b64);
+      renderGallery();
       document.getElementById('cropModal').classList.add('hidden');
       cropper.destroy(); cropper = null;
+      photoInput.value = '';
     }
   });
 
-  // ---------- Form Gönderimi (Firebase & ImgBB) ----------
+  // ---------- FORM GÖNDERİMİ (Sıralı Fotoğraf Yükleme & Firebase Kaydı) ----------
   var form = document.getElementById('loveForm');
   var submitBtn = document.getElementById('submitBtn');
   var formErr = document.getElementById('formErr');
@@ -590,25 +430,29 @@
     var ytId = getYTVideoId(document.getElementById('songUrl').value.trim());
 
     if(!name1 || !name2 || !startDate || !messageText){ formErr.textContent = 'Tüm alanları doldurun.'; formErr.classList.add('show'); return; }
-    if(!croppedPhotoData){ formErr.textContent = 'Fotoğraf seçip kırpın.'; formErr.classList.add('show'); return; }
+    if(uploadedPhotosBase64.length === 0){ formErr.textContent = 'En az 1 fotoğraf eklemelisiniz.'; formErr.classList.add('show'); return; }
     if(!ytId){ formErr.textContent = 'Geçerli bir YouTube linki girin.'; formErr.classList.add('show'); return; }
 
-    submitBtn.disabled = true; submitBtn.textContent = '1/2: Fotoğraf Buluta Yükleniyor...';
-
-    var formData = new FormData(); formData.append("image", croppedPhotoData.split(',')[1]);
-
+    submitBtn.disabled = true; 
+    
     try {
-      const imgRes = await fetch("https://api.imgbb.com/1/upload?key=" + IMGBB_API_KEY, { method: "POST", body: formData });
-      const imgData = await imgRes.json();
+      var cloudImgUrls = [];
+      // Fotoğraflar sırasıyla ImgBB bulutuna yüklenir
+      for (let i = 0; i < uploadedPhotosBase64.length; i++) {
+        submitBtn.textContent = `Buluta Yükleniyor (${i + 1}/${uploadedPhotosBase64.length})...`;
+        var formData = new FormData(); 
+        formData.append("image", uploadedPhotosBase64[i].split(',')[1]);
+        const imgRes = await fetch("https://api.imgbb.com/1/upload?key=" + IMGBB_API_KEY, { method: "POST", body: formData });
+        const imgData = await imgRes.json();
+        if(!imgData.success) throw new Error('Resim yüklenemedi.');
+        cloudImgUrls.push(imgData.data.url);
+      }
       
-      if(!imgData.success) throw new Error('Resim yüklenemedi.');
-      var imageUrl = imgData.data.url; 
-      
-      submitBtn.textContent = '2/2: Veritabanına Kaydediliyor...';
-      
+      submitBtn.textContent = 'Veritabanına Kaydediliyor...';
       const documentId = createCleanSlug(name1, name2, startDate);
-      const stateToSave = { n1: name1, n2: name2, d: startDate, img: imageUrl, yt: ytId, msg: messageText };
       
+      // Artık img değişkeni bir URL Listesi (Array) tutuyor
+      const stateToSave = { n1: name1, n2: name2, d: startDate, img: cloudImgUrls, yt: ytId, msg: messageText };
       await setDoc(doc(db, "couples", documentId), stateToSave);
 
       var finalUrl = location.origin + location.pathname + '#' + documentId;
@@ -622,18 +466,20 @@
       };
       
       document.getElementById('previewBtn').onclick = function(){ location.hash = documentId; boot(); };
-      submitBtn.disabled = false; submitBtn.textContent = 'Müşteriye Özel Link Oluştur'; show(views.result);
+      
+      submitBtn.disabled = false; submitBtn.textContent = 'Müşteriye Özel Link Oluştur'; 
+      show(views.result);
 
     } catch (error) {
       console.error(error);
-      formErr.textContent = 'Bir hata oluştu. İnternetinizi ve veritabanı ayarlarını kontrol edin.'; formErr.classList.add('show');
+      formErr.textContent = 'Bir hata oluştu. İnternetinizi kontrol edin.'; formErr.classList.add('show');
       submitBtn.disabled = false; submitBtn.textContent = 'Müşteriye Özel Link Oluştur';
     }
   });
 
   document.getElementById('backBtn').addEventListener('click', function(){ location.hash = ''; show(views.builder); });
 
-  /* ---------- YOUTUBE API & ANİMASYONLAR ---------- */
+  /* ---------- YOUTUBE API, SLAYT (ALBÜM) VE ANİMASYONLAR ---------- */
   var ytPlayerInstance;
   var isAnimationPlaying = false; 
   var isFirstPlayDone = false;
@@ -651,8 +497,41 @@
     var container = document.getElementById('ytplayer-hidden'); container.innerHTML = ''; 
     var newDiv = document.createElement('div'); newDiv.id = 'yt-iframe-placeholder'; container.appendChild(newDiv);
     ytPlayerInstance = new YT.Player('yt-iframe-placeholder', {
-      height: '0', width: '0', videoId: videoId, playerVars: { 'autoplay': 0, 'controls': 0, 'loop': 1, 'playlist': videoId, 'origin': window.location.origin }
+      height: '0', width: '0', videoId: videoId, 
+      // Mobil Otomatik Oynatma Engelini Aşmak İçin: mute:1
+      playerVars: { 'autoplay': 1, 'controls': 0, 'loop': 1, 'playlist': videoId, 'origin': window.location.origin, 'playsinline': 1, 'mute': 1 },
+      events: {
+        'onReady': function(event) {
+          event.target.playVideo(); // Sayfa yüklendiğinde tamamen sessiz başlar (mobil izin verir)
+        }
+      }
     });
+  }
+  
+  function initSlideshow(imagesArray) {
+    var container = document.getElementById('bgSlideshow');
+    container.innerHTML = '';
+    
+    // Geriye dönük uyumluluk (Eski veriler tek string olabilir)
+    if (!Array.isArray(imagesArray)) imagesArray = [imagesArray];
+    
+    imagesArray.forEach((src, index) => {
+      var slide = document.createElement('div');
+      slide.className = 'slide' + (index === 0 ? ' active' : '');
+      slide.style.backgroundImage = `url('${src}')`;
+      container.appendChild(slide);
+    });
+
+    // Eğer birden fazla fotoğraf varsa her 4.5 saniyede bir geçiş (crossfade) yap
+    if(imagesArray.length > 1) {
+      let current = 0;
+      setInterval(() => {
+        let slides = container.querySelectorAll('.slide');
+        slides[current].classList.remove('active');
+        current = (current + 1) % slides.length;
+        slides[current].classList.add('active');
+      }, 4500); 
+    }
   }
 
   function triggerHeartsExplosion() {
@@ -701,7 +580,8 @@
   }
 
   function renderLovePage(state){
-    document.getElementById('lpBg').style.backgroundImage = "url('" + state.img + "')";
+    initSlideshow(state.img); // Arka Plan Slayt Gösterisi Başlar
+    
     document.getElementById('lpNames').textContent = state.n1 + ' & ' + state.n2;
     var days = daysBetween(state.d); document.getElementById('lpSince').innerHTML = (days >= 0 ? ('<b>' + days + '</b> gündür birlikte') : 'yakında birlikte');
     
@@ -720,7 +600,7 @@
     playerWrapper.classList.remove('faded'); vinyl.classList.remove('playing'); tonearm.classList.remove('playing'); handIcon.classList.remove('show-hand', 'hidden-hand');
     hint.classList.remove('hidden-hint'); hint.textContent = 'Müzik için plağa dokun';
 
-    // ANA TIKLAMA OLAYI (Mobil Ses Kısıtlamasını Kırma)
+    // ANA TIKLAMA OLAYI
     lovePageBody.onclick = function(){
       if(isAnimationPlaying) return; 
       hint.classList.add('hidden-hint');
@@ -729,35 +609,41 @@
       var playerState = ytPlayerInstance.getPlayerState();
       
       if(playerState === YT.PlayerState.PLAYING || playerState === YT.PlayerState.BUFFERING) {
-        ytPlayerInstance.pauseVideo();
-      } else {
-        if(!isFirstPlayDone) {
-          isAnimationPlaying = true; isFirstPlayDone = true;
-          
-          // GÜNCELLEME: Müziği tam burada, kullanıcı tıkladığı saniyede başlatarak mobil engeli aşıyoruz.
-          ytPlayerInstance.playVideo(); 
-
-          handIcon.classList.add('show-hand');
-          setTimeout(function(){
-            tonearm.classList.add('playing');
-            setTimeout(function(){
-               handIcon.classList.remove('show-hand'); handIcon.classList.add('hidden-hand');
-               vinyl.classList.add('playing');
-               setTimeout(function(){
-                  playerWrapper.classList.add('faded');
-                  setTimeout(function(){
-                     triggerHeartsExplosion();
-                     setTimeout(function(){
-                        msgEl.classList.remove('hidden'); startTypewriter(state.msg, msgEl); makeHeartsFloat();
-                        isAnimationPlaying = false;
-                     }, 1600); 
-                  }, 800); 
-               }, 1200); 
-            }, 600); 
-          }, 400); 
-        } else {
-          ytPlayerInstance.playVideo();
+        // Eğer ses açıksa veya oynuyorsa durdur.
+        if(!ytPlayerInstance.isMuted()) {
+          ytPlayerInstance.pauseVideo();
         }
+      } else {
+        ytPlayerInstance.playVideo();
+      }
+
+      if(!isFirstPlayDone) {
+        isAnimationPlaying = true; isFirstPlayDone = true;
+        
+        // --- MOBİL ÇÖZÜMÜ ---
+        // Video arkada sessiz oynuyordu. Kullanıcı ekrana dokunduğu an sesi açılır ve başa sarar.
+        ytPlayerInstance.unMute();
+        ytPlayerInstance.seekTo(0);
+        ytPlayerInstance.playVideo();
+
+        handIcon.classList.add('show-hand');
+        setTimeout(function(){
+          tonearm.classList.add('playing');
+          setTimeout(function(){
+              handIcon.classList.remove('show-hand'); handIcon.classList.add('hidden-hand');
+              vinyl.classList.add('playing');
+              setTimeout(function(){
+                playerWrapper.classList.add('faded');
+                setTimeout(function(){
+                    triggerHeartsExplosion();
+                    setTimeout(function(){
+                      msgEl.classList.remove('hidden'); startTypewriter(state.msg, msgEl); makeHeartsFloat();
+                      isAnimationPlaying = false;
+                    }, 1600); 
+                }, 800); 
+              }, 1200); 
+          }, 600); 
+        }, 400); 
       }
     };
     show(views.lovepage);
@@ -767,7 +653,7 @@
   async function boot(){
     var hash = location.hash;
     if(hash && hash.length > 1){
-      show(views.loading); 
+      show(views.loading); // Link geldiğinde varsayılan olarak loading gösterilir
       var docId = hash.slice(1);
       try {
         const docSnap = await getDoc(doc(db, "couples", docId));
