@@ -121,12 +121,13 @@
   #loading .spinner { width: 40px; height: 40px; border-radius: 50%; border: 3px solid rgba(201,161,90, 0.2); border-top-color: var(--gold-400); animation: spin 1s linear infinite; margin-bottom: 20px; }
   #loading p { font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--gold-300); font-size: 22px; letter-spacing: 0.05em; }
 
-  /* ---------- YOUTUBE GİZLİ OYNATICI ---------- */
+  /* ---------- YOUTUBE GİZLİ OYNATICI (MOBİL ÇÖZÜMÜ) ---------- */
   #ytplayer-hidden { position: absolute; top: -9999px; left: -9999px; width: 100px; height: 100px; opacity: 0.01; pointer-events: none; }
 
   /* ---------- LOVE PAGE & ANİMASYONLAR ---------- */
   #lovepage{ min-height:100vh; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; cursor: pointer; background: var(--wine-950); }
   
+  /* Arka Plan KUSURSUZ Slayt Geçişi */
   #bgSlideshow { position: absolute; inset: 0; z-index: 0; }
   .slide { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: opacity 1s ease-in-out; filter: blur(2px) brightness(0.6) saturate(1.1); animation: slowZoom 30s infinite alternate ease-in-out; z-index: 0; }
   .slide.active { opacity: 1; z-index: 2; }
@@ -135,13 +136,18 @@
   @keyframes slowZoom { 0% { transform: scale(1); } 100% { transform: scale(1.04); } }
   #lovepage .veil{ position:absolute;inset:0; z-index: 1; background:linear-gradient(180deg, rgba(28,12,18,.5) 0%, rgba(28,12,18,.35) 40%, rgba(28,12,18,.95) 100%); }
   
-  /* Kalplerin Tek Seferlik Patlama Alanı */
+  /* Bir Kere Patlayan ve Kaybolan Kalpler */
   .hearts-container { position: absolute; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
-  .heart-particle { position: absolute; bottom: -50px; opacity: 1; transform: rotate(0deg) scale(0.5); transition: bottom 3s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 2.5s ease-in, transform 3s ease; }
-  .heart-particle.explode { bottom: 120vh; opacity: 0; transform: rotate(var(--rot)) scale(1.2); }
+  .heart-particle { position: absolute; bottom: -50px; opacity: 0; }
+  @keyframes flyUp {
+    0% { bottom: -50px; opacity: 0; transform: scale(0.5) rotate(0deg); }
+    15% { opacity: 1; transform: scale(1.2) rotate(15deg); }
+    100% { bottom: 110vh; opacity: 0; transform: scale(1) rotate(-20deg); }
+  }
 
   .love-inner{ position:relative; z-index:2; width:100%; max-width:560px; padding:32px 22px 50px; display:flex; flex-direction:column; align-items:center; text-align:center; }
   
+  /* METİN VE İSİM ALANI */
   .text-wrapper { display: flex; flex-direction: column; align-items: center; transition: transform 1.8s cubic-bezier(0.4, 0, 0.2, 1); transform: translateY(0); }
   .names{ font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:600; font-size:clamp(32px,8vw,48px); color:var(--cream-100); margin:0 0 4px; text-shadow:0 6px 24px rgba(0,0,0,.6); transition: all 1.8s ease; }
   .since{ font-size:14px; letter-spacing:.02em; color:var(--rose-300); margin-bottom:10px; text-shadow:0 2px 8px rgba(0,0,0,0.5); transition: all 1.8s ease; }
@@ -152,10 +158,11 @@
   .special-message { margin-top: 25px; font-family: 'Dancing Script', cursive; font-size: clamp(28px, 7vw, 36px); color: #fcebd5; text-shadow: 0 4px 15px rgba(0,0,0,0.9); line-height: 1.35; padding: 0 15px; opacity: 0.95; min-height: 100px; transition: all 1.8s cubic-bezier(0.4, 0, 0.2, 1); }
   .special-message.shrunk { font-size: clamp(20px, 5vw, 24px); margin-top: 50px; opacity: 0.85; }
 
-  /* FOTOĞRAFLARA ÖZEL NOT GÖSTERİMİ (Aşağıdan Kayarak Gelir) */
-  .photo-note-display { margin-top: 15px; font-family: 'Dancing Script', cursive; font-size: clamp(24px, 6vw, 30px); color: var(--gold-300); text-shadow: 0 4px 15px rgba(0,0,0,0.9); opacity: 1; transform: translateY(0); transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); padding: 0 15px; min-height: 40px; }
-  .photo-note-display.hidden { opacity: 0; transform: translateY(15px); pointer-events: none; }
+  /* FOTOĞRAFLARA ÖZEL NOT GÖSTERİMİ (Aşağıdan Kayarak Gelir ve Gider) */
+  .photo-note-display { margin-top: 15px; font-family: 'Dancing Script', cursive; font-size: clamp(24px, 6vw, 30px); color: var(--gold-300); text-shadow: 0 4px 15px rgba(0,0,0,0.9); opacity: 1; transform: translateY(0); transition: all 0.8s ease; padding: 0 15px; min-height: 40px; }
+  .photo-note-display.hidden { opacity: 0; transform: translateY(20px); pointer-events: none; }
 
+  /* ÇİÇEKLİ PLAK VE KAYBOLMA (FADE) ANİMASYONU */
   .player-wrapper { position: relative; height: 180px; margin-top: 15px; margin-bottom: 5px; transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1); opacity: 1; transform: scale(1) translateY(0); }
   .player-wrapper.faded { opacity: 0; height: 0; margin-top: 0; margin-bottom: 0; transform: scale(0.2) translateY(-100px); pointer-events: none; }
   .player{ position:relative; width:min(45vw, 170px); height:min(45vw, 170px); display:flex;align-items:center;justify-content:center; transition: transform 0.2s ease; }
@@ -203,6 +210,7 @@
       <li>Ekrana dokunulduğunda başlayan animasyonlu kalp şöleni</li>
     </ul>
 
+    <!-- Whatsapp Numaranızı Buraya Ekleyin -->
     <a href="https://wa.me/905437677317?text=Merhaba, sevgiliye özel site hizmetiniz hakkında bilgi almak istiyorum." class="whatsapp-btn" target="_blank">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
       WhatsApp'tan Sipariş Ver
@@ -299,7 +307,7 @@
 </div>
 
 <!-- ================= LOADING EKRANI (Varsayılan Açılış) ================= -->
-<div id="loading">
+<div id="loading" class="hidden">
   <div class="spinner"></div>
   <p>Aşk Hikayeniz Yükleniyor...</p>
 </div>
@@ -338,12 +346,15 @@
       <div class="special-message hidden" id="lpMessage"></div>
     </div>
     
+    <!-- YOUTUBE PLAYER (Görünmez alan) -->
     <div id="ytplayer-hidden"></div>
   </div>
 </div>
 
+<!-- Cropper.js Kütüphanesi -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
 
+<!-- Firebase SDK & Ana Kod -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -388,10 +399,9 @@
   var views = { landing: document.getElementById('landing'), builder: document.getElementById('builder'), result: document.getElementById('result'), lovepage: document.getElementById('lovepage'), loading: document.getElementById('loading') };
   function show(view){ Object.keys(views).forEach(function(k){ views[k].classList.toggle('hidden', views[k] !== view); }); }
 
-  // ---------- ALBÜM VE KIRPMA İŞLEMLERİ ----------
+  // ---------- ALBÜM VE KIRPMA (CROPPER) İŞLEMLERİ ----------
   var photoInput = document.getElementById('photoInput');
-  var cropper = null; 
-  var uploadedPhotos = []; 
+  var cropper = null; var uploadedPhotos = []; 
 
   function renderGallery() {
     var gallery = document.getElementById('photoGallery');
@@ -526,7 +536,6 @@
   var ytPlayerInstance;
   var isAnimationPlaying = false; 
   var isFirstPlayDone = false;
-  var activeHearts = [];
   var slideshowInterval;
 
   function initYouTube(videoId) {
@@ -546,20 +555,24 @@
     });
   }
 
+  // Kalp Patlaması ve Sonrasında Tamamen Silinmesi
   function triggerHeartsExplosion() {
     var container = document.getElementById('heartsContainer');
+    container.innerHTML = '';
     var heartCount = window.innerWidth > 600 ? 50 : 35;
     for(var i=0; i<heartCount; i++) {
         var h = document.createElement('div'); h.className = 'heart-particle';
-        var size = Math.random() * 15 + 15;
+        var size = Math.random() * 20 + 15;
         h.innerHTML = '<svg viewBox="0 0 32 29.6" width="'+size+'" height="'+size+'" fill="var(--rose-300)"><path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/></svg>';
         h.style.left = (Math.random() * 90 + 5) + 'vw';
-        h.style.setProperty('--rot', (Math.random() * 120 - 60) + 'deg');
-        container.appendChild(h);
         
-        setTimeout((function(el) { return function() { el.classList.add('explode'); }; })(h), 50);
+        var duration = Math.random() * 2 + 2.5; 
+        var delay = Math.random() * 0.5;
+        h.style.animation = 'flyUp ' + duration + 's ease-in-out ' + delay + 's forwards';
+        container.appendChild(h);
     }
-    setTimeout(() => { container.innerHTML = ''; }, 3500);
+    // Tüm kalpler uçtuktan sonra kapsayıcıyı temizle
+    setTimeout(() => { container.innerHTML = ''; }, 5500);
   }
 
   function startTypewriter(text, el) {
@@ -599,7 +612,7 @@
     document.getElementById('lpNames').textContent = state.n1 + ' & ' + state.n2;
     var days = daysBetween(state.d); document.getElementById('lpSince').innerHTML = (days >= 0 ? ('<b>' + days + '</b> gündür birlikte') : 'yakında birlikte');
     
-    isAnimationPlaying = false; isFirstPlayDone = false; activeHearts = [];
+    isAnimationPlaying = false; isFirstPlayDone = false; 
     document.getElementById('heartsContainer').innerHTML = '';
     var msgEl = document.getElementById('lpMessage'); msgEl.innerHTML = ''; msgEl.classList.add('hidden'); msgEl.classList.remove('shrunk');
     document.getElementById('textWrapper').classList.remove('centered');
@@ -643,6 +656,7 @@
           let loopCount = 0;
           
           slideshowInterval = setInterval(() => {
+             // Notu yavaşça gizle
              pNoteEl.classList.add('hidden');
              
              let next = (currentSlide + 1) % slidesData.length;
@@ -658,6 +672,7 @@
              currentSlide = next;
              if (currentSlide === 0) { loopCount++; }
 
+             // 800ms bekleyip yeni notu yavaşça göster
              setTimeout(() => {
                  if (loopCount === 0) {
                     if(slidesData[currentSlide].note) {
@@ -667,16 +682,17 @@
                  } else if (loopCount === 1 && currentSlide === 0) {
                     triggerMainMessage();
                  }
-             }, 600);
-          }, 4500); 
+             }, 800);
+          }, 3500); // Slayt Süresi: 3.5 saniye
        } else {
           setTimeout(() => {
               pNoteEl.classList.add('hidden');
-              setTimeout(() => { triggerMainMessage(); }, 600);
+              setTimeout(() => { triggerMainMessage(); }, 800);
           }, 3500);
        }
     }
 
+    // ANA TIKLAMA OLAYI
     lovePageBody.onclick = function(){
       if(isAnimationPlaying) return; 
       hint.classList.add('hidden-hint');
@@ -685,6 +701,7 @@
       if(!isFirstPlayDone) {
         isAnimationPlaying = true; isFirstPlayDone = true;
         
+        // Müzik anında başlar
         ytPlayerInstance.playVideo(); 
 
         handIcon.classList.add('show-hand');
@@ -696,10 +713,8 @@
               setTimeout(function(){
                 playerWrapper.classList.add('faded');
                 setTimeout(function(){
-                    triggerHeartsExplosion();
-                    setTimeout(function(){
-                        startSlideshowAnimations(); 
-                    }, 800);
+                    triggerHeartsExplosion(); // Kalpler patlar
+                    startSlideshowAnimations(); // Animasyon biter bitmez slaytlar döner
                 }, 800); 
               }, 1200); 
           }, 600); 
@@ -717,16 +732,19 @@
     show(views.lovepage);
   }
 
+  // ---------- Routing & Yönlendirme Kontrolü ----------
   async function boot(){
     var hash = location.hash;
 
+    // Gizli Yönetim Paneli Girişi
     if(hash === '#bydpanel' || hash === '#yonetim') {
       show(views.builder);
       return;
     }
 
+    // Müşteri Linkine Tıklandığında
     if(hash && hash.length > 1){
-      show(views.loading); 
+      show(views.loading); // Form FOUC (Kayma) sorununu çözer
       var docId = hash.slice(1);
       try {
         const docSnap = await getDoc(doc(db, "couples", docId));
