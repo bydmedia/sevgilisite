@@ -243,6 +243,12 @@
     position:absolute; top:-35px; font-size:13px; color:var(--gold-300);
     animation: bounce 2s infinite; font-weight:600; text-shadow:0 2px 5px rgba(0,0,0,0.8);
     pointer-events:none; white-space: nowrap;
+    transition: opacity 0.5s ease, visibility 0.5s;
+    opacity: 1; visibility: visible;
+  }
+  .play-hint.hidden-hint {
+    opacity: 0;
+    visibility: hidden;
   }
   @keyframes bounce {
     0%, 100% { transform: translateY(0); }
@@ -383,7 +389,7 @@
     <div class="since" id="lpSince"></div>
 
     <div class="player" id="vinylPlayerBtn">
-      <div class="play-hint" id="playHint">Müziği başlatmak için plağa dokun</div>
+      <div class="play-hint" id="playHint">Müzik için plağa dokun</div>
       <div class="vinyl" id="vinyl">
         <div class="label"><span></span></div>
       </div>
@@ -405,21 +411,51 @@
 <script>
 (function(){
   // !!! DİKKAT: BURAYA KENDİ IMGBB API ANAHTARINIZI YAPIŞTIRIN !!!
-  // api.imgbb.com adresinden ücretsiz alabilirsiniz.
   const IMGBB_API_KEY = "db68f588bc4c15f9146ffc8bf98db703"; 
   
-  // ---------- Yardımcı Fonksiyonlar ----------
-  function encodeState(obj){
-    return btoa(unescape(encodeURIComponent(JSON.stringify(obj))));
+  // ---------- Şık ve Temiz URL Encode/Decode İşlemleri ----------
+  function encodeState(state){
+    // İsimleri URL'in başına okunaklı olarak ekliyoruz (örn: #Ahmet-Ayse)
+    var names = encodeURIComponent(state.n1) + '-' + encodeURIComponent(state.n2);
+    
+    // Diğer verileri kısa parametreler olarak URL'ye ekliyoruz
+    var params = new URLSearchParams();
+    params.set('d', state.d);
+    params.set('i', state.img);
+    params.set('y', state.yt);
+    params.set('m', state.msg); // UTF-8 (boşluk/emoji) sorunsuz taşınır
+    
+    return names + '?' + params.toString();
   }
-  function decodeState(str){
-    return JSON.parse(decodeURIComponent(escape(atob(str))));
+
+  function decodeState(hashString){
+    // hashString formatı: "Ahmet-Ayse?d=...&i=...&y=...&m=..."
+    var qIndex = hashString.indexOf('?');
+    var namesPart = qIndex !== -1 ? hashString.substring(0, qIndex) : hashString;
+    var queryPart = qIndex !== -1 ? hashString.substring(qIndex + 1) : "";
+    
+    var nameTokens = namesPart.split('-');
+    var n1 = decodeURIComponent(nameTokens[0] || 'Sen');
+    // Eğer ikinci isimde tire varsa parçalanmasın diye birleştiriyoruz
+    var n2 = decodeURIComponent(nameTokens.slice(1).join('-') || 'Ben');
+    
+    var params = new URLSearchParams(queryPart);
+    return {
+      n1: n1,
+      n2: n2,
+      d: params.get('d'),
+      img: params.get('i'),
+      yt: params.get('y'),
+      msg: params.get('m')
+    };
   }
+
   function daysBetween(dateStr){
     var start = new Date(dateStr + 'T00:00:00');
     var now = new Date();
     return Math.floor((now - start) / (1000*60*60*24));
   }
+
   function getYTVideoId(url) {
     var match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})/);
     return (match && match[1]) ? match[1] : null;
@@ -480,7 +516,7 @@
   document.getElementById('cropConfirm').addEventListener('click', function(e){
     e.preventDefault();
     if(cropper){
-      var canvas = cropper.getCroppedCanvas({ maxWidth: 1200, maxHeight: 1200 }); // Bulut upload için ideal boyut
+      var canvas = cropper.getCroppedCanvas({ maxWidth: 1200, maxHeight: 1200 }); // Bulut upload için ideal
       croppedPhotoData = canvas.toDataURL('image/jpeg', 0.8);
       photoLabel.textContent = 'Fotoğraf ayarlandı ✓';
       photoDrop.classList.add('has-file');
@@ -522,12 +558,10 @@
     submitBtn.disabled = true;
     submitBtn.textContent = 'Fotoğraf Buluta Yükleniyor... Lütfen bekleyin.';
 
-    // Base64 verisinin başındaki tanımlayıcı kısmı temizle
     var base64Image = croppedPhotoData.split(',')[1];
     var formData = new FormData();
     formData.append("image", base64Image);
 
-    // Resim ImgBB'ye yükleniyor
     fetch("https://api.imgbb.com/1/upload?key=" + IMGBB_API_KEY, {
       method: "POST",
       body: formData
@@ -535,13 +569,13 @@
     .then(response => response.json())
     .then(data => {
       if(data.success) {
-        var imageUrl = data.data.url; // ImgBB'den dönen kısa link
+        var imageUrl = data.data.url; 
         
         var state = { n1: name1, n2: name2, d: startDate, img: imageUrl, yt: ytId, msg: messageText };
         var encodedHash = encodeState(state);
         
-        // Sitenin temiz linkini oluştur
-        var finalUrl = location.origin + location.pathname + '#s=' + encodedHash;
+        // Yeni, temiz isimli link yapısı
+        var finalUrl = location.origin + location.pathname + '#' + encodedHash;
         
         document.getElementById('generatedLink').textContent = finalUrl;
         
@@ -553,8 +587,8 @@
         };
         
         document.getElementById('previewBtn').onclick = function(){
-          location.hash = 's=' + encodedHash;
-          boot(); // Sayfayı yenilemeden yeni state'i yükle
+          location.hash = encodedHash; // Preview işlemi için URL'i güncelle
+          boot();
         };
 
         submitBtn.disabled = false;
@@ -594,7 +628,6 @@
   }
 
   function createPlayer(videoId) {
-    // Varsa eskisini temizle
     var container = document.getElementById('ytplayer-hidden');
     container.innerHTML = ''; 
     var newDiv = document.createElement('div');
@@ -618,54 +651,57 @@
       msgEl.innerText = state.msg; msgEl.classList.remove('hidden');
     }
 
-    // YouTube kurulumu
     initYouTube(state.yt);
 
-    // Buton ve animasyon atamaları
     var playerBtn = document.getElementById('vinylPlayerBtn');
     var vinyl = document.getElementById('vinyl');
     var tonearm = document.getElementById('tonearm');
     var hint = document.getElementById('playHint');
 
-    // Eski tıklamaları temizle
     playerBtn.replaceWith(playerBtn.cloneNode(true));
     playerBtn = document.getElementById('vinylPlayerBtn');
     
-    // Her renderda resetle
+    // Her render edildiğinde CSS'leri sıfırla
     vinyl.classList.remove('playing');
     tonearm.classList.remove('playing');
-    hint.textContent = 'Müziği başlatmak için plağa dokun';
+    hint.classList.remove('hidden-hint');
+    hint.textContent = 'Müzik için plağa dokun';
 
     playerBtn.addEventListener('click', function(){
+      // Tıklandığı an yazıyı yavaşça kaybet (Bir daha görünmez)
+      hint.classList.add('hidden-hint');
+
       if(!ytPlayerInstance || typeof ytPlayerInstance.getPlayerState !== 'function') {
-        hint.textContent = "Bağlantı kuruluyor, bekleyin...";
-        return;
+        return; // YT API henüz yüklenmediyse bekle
       }
+
       var playerState = ytPlayerInstance.getPlayerState();
-      
       if(playerState === YT.PlayerState.PLAYING || playerState === YT.PlayerState.BUFFERING) {
         ytPlayerInstance.pauseVideo();
         vinyl.classList.remove('playing');
         tonearm.classList.remove('playing');
-        hint.textContent = 'Müziği başlatmak için plağa dokun';
       } else {
         ytPlayerInstance.playVideo();
         vinyl.classList.add('playing');
         tonearm.classList.add('playing');
-        hint.textContent = 'Duraklatmak için dokun';
       }
     });
 
     show(views.lovepage);
   }
 
-  // ---------- Boot (Routing Sistemi) ----------
+  // ---------- Routing Sistemi ----------
   function boot(){
     var hash = location.hash;
-    if(hash && hash.indexOf('#s=') === 0){
+    // URL'de bir data varsa okumaya çalış (eski #s= takısı yok artık)
+    if(hash && hash.length > 1){
       try{
-        var state = decodeState(hash.slice(3));
-        renderLovePage(state);
+        var state = decodeState(hash.slice(1)); // '#' işaretini at
+        if(state.n1 && state.img && state.yt) {
+          renderLovePage(state);
+        } else {
+          show(views.builder);
+        }
       }catch(e){
         show(views.builder);
       }
@@ -674,10 +710,7 @@
     }
   }
 
-  // Tarayıcı geri-ileri oklarına basıldığında sayfanın güncellenmesi için
   window.addEventListener('hashchange', boot);
-
-  // Başlangıç
   boot();
 })();
 </script>
