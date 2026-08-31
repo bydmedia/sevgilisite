@@ -67,7 +67,7 @@
   .field label{ display:block; font-size:13px; font-weight:600; color:var(--gold-300); margin-bottom:8px; }
   .field .hint{ display:block; font-weight:400; color:var(--ink-muted); font-size:12px; margin-top:5px; }
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-  input[type=text], input[type=date], input[type=url], textarea{ width:100%; padding:12px 14px; background:rgba(0,0,0,.22); border:1px solid rgba(255,255,255,.12); border-radius:10px; color:var(--cream-100); font-family:'Manrope',sans-serif; font-size:14.5px; outline:none; transition:border-color .15s ease; }
+  input[type=text], input[type=number], input[type=date], input[type=url], textarea{ width:100%; padding:12px 14px; background:rgba(0,0,0,.22); border:1px solid rgba(255,255,255,.12); border-radius:10px; color:var(--cream-100); font-family:'Manrope',sans-serif; font-size:14.5px; outline:none; transition:border-color .15s ease; }
   textarea{ resize:vertical; min-height:80px; }
   input::placeholder, textarea::placeholder{color:rgba(246,236,223,.35);}
   input:focus, textarea:focus{border-color:var(--gold-400);}
@@ -152,24 +152,17 @@
 
   .love-inner{ position:relative; z-index:2; width:100%; max-width:560px; padding:32px 22px 50px; display:flex; flex-direction:column; align-items:center; text-align:center; }
   
-  /* METİN VE İSİM ALANI (Sabit Kalması İçin Relative Kapsayıcı) */
+  /* METİN VE İSİM ALANI */
   .text-wrapper { position: relative; display: flex; flex-direction: column; align-items: center; transition: transform 1.8s cubic-bezier(0.4, 0, 0.2, 1); transform: translateY(0); z-index: 5; }
   .names{ font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:600; font-size:clamp(32px,8vw,48px); color:var(--cream-100); margin:0 0 4px; text-shadow:0 6px 24px rgba(0,0,0,.6); }
   .since{ font-size:14px; letter-spacing:.02em; color:var(--rose-300); margin-bottom:10px; text-shadow:0 2px 8px rgba(0,0,0,0.5); }
   .since b{color:var(--cream-100);font-weight:700;}
 
-  /* İsimlerin Zıplamasını Önleyen Bağımsız (Absolute) Mesaj Kapsayıcısı */
+  /* İsimlerin Zıplamasını Önleyen Bağımsız Mesaj Kapsayıcısı */
   .message-container {
     position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90vw;
-    max-width: 560px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    pointer-events: none;
+    top: 100%; left: 50%; transform: translateX(-50%);
+    width: 90vw; max-width: 560px; display: flex; flex-direction: column; align-items: center; pointer-events: none;
   }
 
   /* 10 Saniye Sonrası İsimler ve Metnin Hep Birlikte Aşağı Ortalanması */
@@ -230,6 +223,7 @@
       <li>Ekrana dokunulduğunda başlayan animasyonlu kalp şöleni</li>
     </ul>
 
+    <!-- Whatsapp Numarası Güncellendi -->
     <a href="https://wa.me/905437677317?text=Merhaba, sevgiliye özel site hizmetiniz hakkında bilgi almak istiyorum." class="whatsapp-btn" target="_blank">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
       WhatsApp'tan Sipariş Ver
@@ -266,7 +260,11 @@
           </label>
           <label class="radio-label">
             <input type="radio" name="dateMode" value="date"> 
-            Başlangıç Tarihini Göster (Örn: 15 Mayıs 2026'dan beri)
+            Tarih ve Metin Göster (Örn: 15 Mayıs 2026'dan beri birlikte)
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="dateMode" value="exact"> 
+            Sadece Tarihi Göster (Örn: 03.09.2026)
           </label>
         </div>
       </div>
@@ -290,9 +288,23 @@
         <textarea id="messageText" placeholder="Fotoğraf döngüsü bittikten sonra daktilo efektiyle çıkacak ana mesaj..." maxlength="250" required></textarea>
       </div>
 
+      <!-- Müzik Döngü Ayarları -->
       <div class="field">
         <label>Arka Planda Çalacak Şarkı (YouTube Linki)</label>
         <input type="url" id="songUrl" placeholder="https://www.youtube.com/watch?v=..." required>
+      </div>
+      
+      <div class="field row2">
+        <div>
+          <label>Şarkı Başlangıç Saniyesi</label>
+          <input type="number" id="songStart" placeholder="Örn: 45 (Boşsa 0)" min="0">
+          <span class="hint" style="font-size:11px;">Müzik kaçıncı saniyeden başlasın?</span>
+        </div>
+        <div>
+          <label>Çalma Süresi (Saniye)</label>
+          <input type="number" id="songDuration" placeholder="Örn: 30 (Boşsa tümü)" min="1">
+          <span class="hint" style="font-size:11px;">Belirtilen saniye çalıp başa döner.</span>
+        </div>
       </div>
 
       <p class="err" id="formErr"></p>
@@ -419,11 +431,18 @@
     return Math.floor((now - start) / (1000*60*60*24));
   }
 
-  // Tarihi güzel bir Türkçe formata çeviren yardımcı fonksiyon
   function formatDateTr(dateStr) {
      var date = new Date(dateStr + 'T00:00:00');
      var months = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
      return date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear();
+  }
+
+  function formatDateSimple(dateStr) {
+     var date = new Date(dateStr + 'T00:00:00');
+     var d = String(date.getDate()).padStart(2, '0');
+     var m = String(date.getMonth() + 1).padStart(2, '0');
+     var y = date.getFullYear();
+     return d + "." + m + "." + y;
   }
 
   function getYTVideoId(url) {
@@ -510,7 +529,7 @@
     }
   });
 
-  // ---------- FORM GÖNDERİMİ ----------
+  // ---------- FORM GÖNDERİMİ VE KAYIT ----------
   var form = document.getElementById('loveForm');
   var submitBtn = document.getElementById('submitBtn');
   var formErr = document.getElementById('formErr');
@@ -522,7 +541,11 @@
     var startDate = document.getElementById('startDate').value;
     var messageText = document.getElementById('messageText').value.trim();
     var ytId = getYTVideoId(document.getElementById('songUrl').value.trim());
-    var dateMode = document.querySelector('input[name="dateMode"]:checked').value; // Tarih seçimini al
+    var dateMode = document.querySelector('input[name="dateMode"]:checked').value; 
+
+    // Yeni Müzik Döngü Değerleri
+    var ytStart = parseInt(document.getElementById('songStart').value) || 0;
+    var ytDur = parseInt(document.getElementById('songDuration').value) || 0;
 
     if(!name1 || !name2 || !startDate || !messageText){ formErr.textContent = 'Tüm alanları doldurun.'; formErr.classList.add('show'); return; }
     if(uploadedPhotos.length === 0){ formErr.textContent = 'En az 1 fotoğraf eklemelisiniz.'; formErr.classList.add('show'); return; }
@@ -543,8 +566,10 @@
       submitBtn.textContent = 'Veritabanına Kaydediliyor...';
       const documentId = createCleanSlug(name1, name2, startDate);
       
-      // mode verisini de Firebase'e gönderiyoruz
-      const stateToSave = { n1: name1, n2: name2, d: startDate, mode: dateMode, img: cloudImgData, yt: ytId, msg: messageText };
+      const stateToSave = { 
+        n1: name1, n2: name2, d: startDate, mode: dateMode, 
+        img: cloudImgData, yt: ytId, ytStart: ytStart, ytDur: ytDur, msg: messageText 
+      };
       
       await setDoc(doc(db, "couples", documentId), stateToSave);
 
@@ -570,29 +595,41 @@
 
   document.getElementById('backBtn').addEventListener('click', function(){ location.hash = '#bydpanel'; show(views.builder); });
 
-  /* ---------- YOUTUBE API VE ANİMASYONLAR ---------- */
+  /* ---------- YOUTUBE API VE MÜZİK DÖNGÜ (LOOP) SİSTEMİ ---------- */
   var ytPlayerInstance;
   var isAnimationPlaying = false; 
   var isFirstPlayDone = false;
   var slideshowInterval;
 
-  function initYouTube(videoId) {
-    if (window.YT && window.YT.Player) { createPlayer(videoId); } else {
-       window.onYouTubeIframeAPIReady = function() { createPlayer(videoId); };
+  function initYouTube(state) {
+    if (window.YT && window.YT.Player) { createPlayer(state); } else {
+       window.onYouTubeIframeAPIReady = function() { createPlayer(state); };
        var tag = document.createElement('script'); tag.src = "https://www.youtube.com/iframe_api";
        document.getElementsByTagName('script')[0].parentNode.insertBefore(tag, document.getElementsByTagName('script')[0]);
     }
   }
 
-  function createPlayer(videoId) {
+  function createPlayer(state) {
     var container = document.getElementById('ytplayer-hidden'); container.innerHTML = ''; 
     var newDiv = document.createElement('div'); newDiv.id = 'yt-iframe-placeholder'; container.appendChild(newDiv);
+    var sTime = parseInt(state.ytStart) || 0;
+    
     ytPlayerInstance = new YT.Player('yt-iframe-placeholder', {
-      height: '100', width: '100', videoId: videoId, 
-      playerVars: { 'autoplay': 0, 'controls': 0, 'loop': 1, 'playlist': videoId, 'origin': window.location.origin, 'playsinline': 1 }
+      height: '100', width: '100', videoId: state.yt, 
+      playerVars: { 'autoplay': 0, 'controls': 0, 'origin': window.location.origin, 'playsinline': 1, 'start': sTime },
+      events: {
+         'onStateChange': function(event) {
+            // Şarkı kendi sonuna ulaşırsa başa (belirlenen saniyeye) sar.
+            if (event.data === YT.PlayerState.ENDED) {
+               event.target.seekTo(sTime);
+               event.target.playVideo();
+            }
+         }
+      }
     });
   }
 
+  // Kalp Patlaması ve Ekrandan Tamamen Silinmesi
   function triggerHeartsExplosion() {
     var container = document.getElementById('heartsContainer');
     container.innerHTML = '';
@@ -611,6 +648,7 @@
     setTimeout(() => { container.innerHTML = ''; }, 3500);
   }
 
+  // Çoklu Element İçin Ortak Daktilo Efekti
   function startTypewriter(text, el, speed = 55) {
     if(el.twTimeout) clearTimeout(el.twTimeout);
     var i = 0; 
@@ -631,6 +669,7 @@
 
   function renderLovePage(state){
     clearInterval(slideshowInterval); 
+    if(window.ytLoopInterval) clearInterval(window.ytLoopInterval); // Müzik tarama döngüsünü sıfırla
     
     var slidesData = [];
     if (!Array.isArray(state.img)) {
@@ -653,10 +692,11 @@
     
     document.getElementById('lpNames').textContent = state.n1 + ' & ' + state.n2;
     
-    // Veritabanından gelen Mode seçimine göre tarihi göster
-    var dateMode = state.mode || 'days'; // Eski veriler için varsayılan gün sayısı
+    var dateMode = state.mode || 'days'; 
     if (dateMode === 'date') {
        document.getElementById('lpSince').innerHTML = '<b>' + formatDateTr(state.d) + "</b>'dan beri birlikte";
+    } else if (dateMode === 'exact') {
+       document.getElementById('lpSince').innerHTML = '<b>' + formatDateSimple(state.d) + '</b>';
     } else {
        var days = daysBetween(state.d); 
        document.getElementById('lpSince').innerHTML = (days >= 0 ? ('<b>' + days + '</b> gündür birlikte') : 'yakında birlikte');
@@ -675,7 +715,7 @@
     pNoteEl.innerHTML = ''; pNoteEl.classList.add('hidden');
     if(pNoteEl.twTimeout) clearTimeout(pNoteEl.twTimeout);
 
-    initYouTube(state.yt);
+    initYouTube(state); // Oynatıcıyı durumu ile (süre bilgileriyle) başlat
 
     var lovePageBody = document.getElementById('lovepage');
     var playerWrapper = document.getElementById('playerWrapper');
@@ -686,6 +726,19 @@
     
     playerWrapper.classList.remove('faded'); vinyl.classList.remove('playing'); tonearm.classList.remove('playing'); handIcon.classList.remove('show-hand', 'hidden-hand');
     hint.classList.remove('hidden-hint'); hint.textContent = 'Müzik için plağa dokun';
+
+    // Salise Salise Müzik Limit Kontrolü
+    window.ytLoopInterval = setInterval(() => {
+       if(ytPlayerInstance && typeof ytPlayerInstance.getCurrentTime === 'function') {
+          var cTime = ytPlayerInstance.getCurrentTime();
+          var sTime = parseInt(state.ytStart) || 0;
+          var dTime = parseInt(state.ytDur) || 0;
+          
+          if (dTime > 0 && cTime >= (sTime + dTime) - 0.2) {
+             ytPlayerInstance.seekTo(sTime);
+          }
+       }
+    }, 250);
 
     function triggerMainMessage() {
         pNoteEl.classList.add('hidden'); 
@@ -716,9 +769,11 @@
           let loopCount = 0;
           
           slideshowInterval = setInterval(() => {
+             // Notu yavaşça karartarak (fade-out) gizle
              pNoteEl.classList.add('hidden');
              if(pNoteEl.twTimeout) clearTimeout(pNoteEl.twTimeout);
              
+             // Not tamamen silindikten (600ms) sonra pürüzsüz slayt geçişini başlat
              setTimeout(() => {
                  let next = (currentSlide + 1) % slidesData.length;
                  let slides = container.querySelectorAll('.slide');
@@ -733,6 +788,7 @@
                  currentSlide = next;
                  if (currentSlide === 0) { loopCount++; }
 
+                 // Geçiş oturduktan (800ms) sonra yeni notu Daktilo ile başlat
                  setTimeout(() => {
                      if (loopCount === 0) {
                         if(slidesData[currentSlide].note) {
@@ -756,6 +812,7 @@
        }
     }
 
+    // ANA TIKLAMA OLAYI
     lovePageBody.onclick = function(){
       if(isAnimationPlaying) return; 
       hint.classList.add('hidden-hint');
@@ -764,6 +821,7 @@
       if(!isFirstPlayDone) {
         isAnimationPlaying = true; isFirstPlayDone = true;
         
+        ytPlayerInstance.seekTo(parseInt(state.ytStart) || 0); // Tam başlama saniyesine oturtur
         ytPlayerInstance.playVideo(); 
 
         handIcon.classList.add('show-hand');
@@ -775,9 +833,9 @@
               setTimeout(function(){
                 playerWrapper.classList.add('faded');
                 setTimeout(function(){
-                    triggerHeartsExplosion(); 
+                    triggerHeartsExplosion(); // Kalpler anında patlar
                     setTimeout(function(){
-                        startSlideshowAnimations(); 
+                        startSlideshowAnimations(); // Kalpler kaybolduktan sonra temiz ekranda başlar
                     }, 2500);
                 }, 800); 
               }, 1200); 
@@ -796,7 +854,6 @@
     show(views.lovepage);
   }
 
-  // ---------- Routing & Yönlendirme Kontrolü ----------
   async function boot(){
     var hash = location.hash;
 
