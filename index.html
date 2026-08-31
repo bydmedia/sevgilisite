@@ -72,14 +72,19 @@
   input::placeholder, textarea::placeholder{color:rgba(246,236,223,.35);}
   input:focus, textarea:focus{border-color:var(--gold-400);}
   
-  .file-drop{ border:1.5px dashed rgba(255,255,255,.18); border-radius:12px; padding:16px; text-align:center; cursor:pointer; color:var(--ink-muted); font-size:13.5px; background:rgba(0,0,0,.15); transition:all .15s ease; position:relative; display:block; }
+  .file-drop{ border:1.5px dashed rgba(255,255,255,.18); border-radius:12px; padding:16px; text-align:center; cursor:pointer; color:var(--ink-muted); font-size:13.5px; background:rgba(0,0,0,.15); transition:all .15s ease; position:relative; display:block; margin-top: 10px; }
   .file-drop:hover{border-color:var(--gold-400);color:var(--cream-200);}
   .file-drop input[type=file]{ position:absolute;inset:0;opacity:0;cursor:pointer; }
   .file-drop.has-file{border-style:solid;border-color:var(--gold-400);color:var(--cream-100); background:rgba(201,161,90,0.1);}
   
-  #photoGallery { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
-  .thumb-item { width: 65px; height: 65px; border-radius: 8px; background-size: cover; background-position: center; position: relative; border: 2px solid rgba(255,255,255,0.1); }
-  .thumb-delete { position: absolute; top: -6px; right: -6px; background: #e8b4b8; color: #1c0c12; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+  /* ALBÜM GALERİSİ VE NOT GİRİŞLERİ */
+  #photoGallery { display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; }
+  .gallery-item { display: flex; align-items: center; gap: 12px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
+  .thumb-item { width: 60px; height: 60px; border-radius: 8px; background-size: cover; background-position: center; position: relative; border: 2px solid rgba(255,255,255,0.1); flex-shrink: 0; }
+  .thumb-delete { position: absolute; top: -6px; right: -6px; background: #e8b4b8; color: #1c0c12; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.5); z-index: 10; }
+  .photo-note-input { display: none; flex: 1; padding: 10px 12px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: var(--cream-100); font-family: 'Manrope', sans-serif; font-size: 13px; outline: none; }
+  .photo-note-input:focus { border-color: var(--gold-400); }
+  #photoGallery.show-notes .photo-note-input { display: block; }
   
   .submit-btn{ width:100%; padding:15px; margin-top:6px; border:none; border-radius:12px; background:linear-gradient(180deg, var(--gold-300), var(--gold-400)); color:#241019; font-family:'Manrope',sans-serif; font-weight:700; font-size:15px; cursor:pointer; letter-spacing:.01em; }
   .submit-btn:disabled{opacity:.6;cursor:wait;}
@@ -117,26 +122,21 @@
   #loading p { font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--gold-300); font-size: 22px; letter-spacing: 0.05em; }
 
   /* ---------- YOUTUBE GİZLİ OYNATICI (MOBİL ÇÖZÜMÜ) ---------- */
-  #ytplayer-hidden {
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
-    width: 100px;
-    height: 100px;
-    opacity: 0.01;
-    pointer-events: none;
-  }
+  #ytplayer-hidden { position: absolute; top: -9999px; left: -9999px; width: 100px; height: 100px; opacity: 0.01; pointer-events: none; }
 
   /* ---------- LOVE PAGE & ANİMASYONLAR ---------- */
   #lovepage{ min-height:100vh; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; cursor: pointer; background: var(--wine-950); }
   
+  /* Arka Plan KUSURSUZ Slayt Geçişi */
   #bgSlideshow { position: absolute; inset: 0; z-index: 0; }
-  .slide { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: opacity 2.5s ease-in-out; filter: blur(2px) brightness(0.6) saturate(1.1); animation: slowZoom 30s infinite alternate ease-in-out; transform-origin: center center; }
-  .slide.active { opacity: 1; z-index: 1; }
+  .slide { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: opacity 1s ease-in-out; filter: blur(2px) brightness(0.6) saturate(1.1); animation: slowZoom 30s infinite alternate ease-in-out; z-index: 0; }
+  .slide.active { opacity: 1; z-index: 2; }
+  .slide.last-active { opacity: 1; z-index: 1; } /* Atlama yapmaması için eski fotoğrafı arkada tutar */
   
   @keyframes slowZoom { 0% { transform: scale(1); } 100% { transform: scale(1.04); } }
   #lovepage .veil{ position:absolute;inset:0; z-index: 1; background:linear-gradient(180deg, rgba(28,12,18,.5) 0%, rgba(28,12,18,.35) 40%, rgba(28,12,18,.95) 100%); }
   
+  /* Kalpler */
   .hearts-container { position: absolute; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
   .heart-particle { position: absolute; bottom: -50px; opacity: 0; transform: rotate(0deg) scale(0.5); transition: bottom 1.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.8s ease, transform 1.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
   .heart-particle.freeze { bottom: var(--target-bottom); opacity: 0.85; transform: rotate(var(--rot)) scale(1); }
@@ -144,16 +144,22 @@
 
   .love-inner{ position:relative; z-index:2; width:100%; max-width:560px; padding:32px 22px 50px; display:flex; flex-direction:column; align-items:center; text-align:center; }
   
+  /* METİN VE İSİM ALANI */
   .text-wrapper { display: flex; flex-direction: column; align-items: center; transition: transform 1.8s cubic-bezier(0.4, 0, 0.2, 1); transform: translateY(0); }
   .names{ font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:600; font-size:clamp(32px,8vw,48px); color:var(--cream-100); margin:0 0 4px; text-shadow:0 6px 24px rgba(0,0,0,.6); transition: all 1.8s ease; }
   .since{ font-size:14px; letter-spacing:.02em; color:var(--rose-300); margin-bottom:10px; text-shadow:0 2px 8px rgba(0,0,0,0.5); transition: all 1.8s ease; }
   .since b{color:var(--cream-100);font-weight:700;}
 
-  /* 10 Saniye Sonrası Ortalanma Efekti */
-  .text-wrapper.centered { transform: translateY(28vh); }
+  /* 10 Saniye Sonrası Ortalanma Efekti Sınıfları */
+  .text-wrapper.centered { transform: translateY(26vh); }
   .special-message { margin-top: 25px; font-family: 'Dancing Script', cursive; font-size: clamp(28px, 7vw, 36px); color: #fcebd5; text-shadow: 0 4px 15px rgba(0,0,0,0.9); line-height: 1.35; padding: 0 15px; opacity: 0.95; min-height: 100px; transition: all 1.8s cubic-bezier(0.4, 0, 0.2, 1); }
   .special-message.shrunk { font-size: clamp(20px, 5vw, 24px); margin-top: 50px; opacity: 0.85; }
 
+  /* FOTOĞRAFLARA ÖZEL NOT GÖSTERİMİ */
+  .photo-note-display { margin-top: 15px; font-family: 'Dancing Script', cursive; font-size: clamp(24px, 6vw, 30px); color: var(--gold-300); text-shadow: 0 4px 15px rgba(0,0,0,0.9); opacity: 1; transition: opacity 0.5s ease; padding: 0 15px; min-height: 40px; }
+  .photo-note-display.hidden { opacity: 0; pointer-events: none; }
+
+  /* ÇİÇEKLİ PLAK VE KAYBOLMA (FADE) ANİMASYONU */
   .player-wrapper { position: relative; height: 180px; margin-top: 15px; margin-bottom: 5px; transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1); opacity: 1; transform: scale(1) translateY(0); }
   .player-wrapper.faded { opacity: 0; height: 0; margin-top: 0; margin-bottom: 0; transform: scale(0.2) translateY(-100px); pointer-events: none; }
   .player{ position:relative; width:min(45vw, 170px); height:min(45vw, 170px); display:flex;align-items:center;justify-content:center; transition: transform 0.2s ease; }
@@ -162,12 +168,7 @@
   .play-hint.hidden-hint { opacity: 0; visibility: hidden; }
   @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 
-  .vinyl{
-    width:100%;height:100%;border-radius:50%;
-    background: radial-gradient(circle at center, rgba(28,12,18,0.1) 0%, rgba(28,12,18,0.85) 100%), url('https://images.unsplash.com/photo-1551024739-78e9d60c45bc?q=80&w=400&auto=format&fit=crop') center/cover;
-    box-shadow: 0 20px 45px -10px rgba(0,0,0,.9), inset 0 0 0 2px rgba(255,255,255,.15);
-    display:flex;align-items:center;justify-content:center; animation:spin 5s linear infinite; animation-play-state:paused;
-  }
+  .vinyl{ width:100%;height:100%;border-radius:50%; background: radial-gradient(circle at center, rgba(28,12,18,0.1) 0%, rgba(28,12,18,0.85) 100%), url('https://images.unsplash.com/photo-1551024739-78e9d60c45bc?q=80&w=400&auto=format&fit=crop') center/cover; box-shadow: 0 20px 45px -10px rgba(0,0,0,.9), inset 0 0 0 2px rgba(255,255,255,.15); display:flex;align-items:center;justify-content:center; animation:spin 5s linear infinite; animation-play-state:paused; }
   .vinyl.playing{ animation-play-state:running; box-shadow: 0 15px 40px -5px rgba(0,0,0,.8), 0 0 50px rgba(201,161,90,.3), inset 0 0 0 1px rgba(255,255,255,.1); }
   .vinyl .label{ width:34%;height:34%;border-radius:50%; background:radial-gradient(circle at 35% 30%, var(--gold-300), var(--gold-400) 55%, #7d5c26 100%); display:flex;align-items:center;justify-content:center; box-shadow:inset 0 0 0 2px rgba(0,0,0,.5); }
   .vinyl .label span{ width:10px;height:10px;border-radius:50%;background:#1c0c12; }
@@ -239,6 +240,11 @@
 
       <div class="field">
         <label>Arka Plan Fotoğrafları (Albüm)</label>
+        <div style="margin-bottom: 15px;">
+           <label style="display:flex; align-items:center; gap:8px; font-size:13px; font-weight:normal; cursor:pointer; color: var(--cream-200);">
+             <input type="checkbox" id="enableNotesCb"> Her fotoğraf için ayrı bir kısa not eklemek istiyorum
+           </label>
+        </div>
         <div id="photoGallery"></div> 
         <label class="file-drop" id="photoDrop">
           <span id="photoLabel">Yeni Fotoğraf Ekle (Sınırsız)</span>
@@ -247,7 +253,7 @@
       </div>
 
       <div class="field">
-        <label>Özel Mesaj</label>
+        <label>Asıl Ana Mesaj (Daktilo Efekti İçin)</label>
         <textarea id="messageText" placeholder="Plak kaybolduktan sonra daktilo efektiyle çıkacak mesaj..." maxlength="250" required></textarea>
       </div>
 
@@ -297,8 +303,8 @@
   </div>
 </div>
 
-<!-- ================= LOADING EKRANI ================= -->
-<div id="loading" class="hidden">
+<!-- ================= LOADING EKRANI (Varsayılan Açılış) ================= -->
+<div id="loading">
   <div class="spinner"></div>
   <p>Aşk Hikayeniz Yükleniyor...</p>
 </div>
@@ -331,10 +337,13 @@
     <div class="text-wrapper" id="textWrapper">
       <div class="names" id="lpNames"></div>
       <div class="since" id="lpSince"></div>
+      <!-- Slaytlara özel notlar ilk başta burada çıkar -->
+      <div class="photo-note-display hidden" id="photoNoteDisplay"></div>
+      <!-- Ana Mesaj (Daktilo) -->
       <div class="special-message hidden" id="lpMessage"></div>
     </div>
     
-    <!-- YOUTUBE PLAYER (Görünmez alan) -->
+    <!-- YOUTUBE PLAYER (Görünmez alan, boyutları mobil onayı için 100x100 yapıldı) -->
     <div id="ytplayer-hidden"></div>
   </div>
 </div>
@@ -387,20 +396,42 @@
   var views = { landing: document.getElementById('landing'), builder: document.getElementById('builder'), result: document.getElementById('result'), lovepage: document.getElementById('lovepage'), loading: document.getElementById('loading') };
   function show(view){ Object.keys(views).forEach(function(k){ views[k].classList.toggle('hidden', views[k] !== view); }); }
 
-  // ---------- ALBÜM VE KIRPMA (CROPPER) İŞLEMLERİ ----------
+  // ---------- ALBÜM VE KIRPMA İŞLEMLERİ (Fotoğraf Başına Not Özelliği) ----------
   var photoInput = document.getElementById('photoInput');
-  var cropper = null; var uploadedPhotosBase64 = []; 
+  var cropper = null; 
+  var uploadedPhotos = []; 
 
   function renderGallery() {
     var gallery = document.getElementById('photoGallery');
     gallery.innerHTML = '';
-    uploadedPhotosBase64.forEach((b64, index) => {
-      var thumb = document.createElement('div'); thumb.className = 'thumb-item'; thumb.style.backgroundImage = `url(${b64})`;
+    var showNotes = document.getElementById('enableNotesCb').checked;
+    
+    uploadedPhotos.forEach((item, index) => {
+      var wrapper = document.createElement('div');
+      wrapper.className = 'gallery-item';
+      
+      var thumb = document.createElement('div'); thumb.className = 'thumb-item'; thumb.style.backgroundImage = `url(${item.b64})`;
       var delBtn = document.createElement('div'); delBtn.className = 'thumb-delete'; delBtn.innerHTML = '×';
-      delBtn.onclick = function() { uploadedPhotosBase64.splice(index, 1); renderGallery(); };
-      thumb.appendChild(delBtn); gallery.appendChild(thumb);
+      delBtn.onclick = function() { uploadedPhotos.splice(index, 1); renderGallery(); };
+      thumb.appendChild(delBtn); wrapper.appendChild(thumb);
+      
+      if(showNotes) {
+         var inp = document.createElement('input');
+         inp.type = 'text'; inp.className = 'photo-note-input';
+         inp.placeholder = (index + 1) + '. fotoğraf için kısa not...';
+         inp.value = item.text || "";
+         inp.oninput = function() { item.text = this.value; };
+         wrapper.appendChild(inp);
+      }
+      
+      gallery.appendChild(wrapper);
     });
   }
+  
+  document.getElementById('enableNotesCb').addEventListener('change', function(e) {
+     document.getElementById('photoGallery').classList.toggle('show-notes', e.target.checked);
+     renderGallery();
+  });
 
   var ratioBtns = document.querySelectorAll('.cropper-ratios button');
   ratioBtns.forEach(function(btn){
@@ -433,7 +464,10 @@
   document.getElementById('cropConfirm').addEventListener('click', function(e){
     e.preventDefault();
     if(cropper){
-      uploadedPhotosBase64.push(cropper.getCroppedCanvas({ maxWidth: 1200, maxHeight: 1200 }).toDataURL('image/jpeg', 0.8));
+      uploadedPhotos.push({
+         b64: cropper.getCroppedCanvas({ maxWidth: 1200, maxHeight: 1200 }).toDataURL('image/jpeg', 0.8),
+         text: ""
+      });
       renderGallery(); document.getElementById('cropModal').classList.add('hidden');
       cropper.destroy(); cropper = null; photoInput.value = '';
     }
@@ -453,24 +487,26 @@
     var ytId = getYTVideoId(document.getElementById('songUrl').value.trim());
 
     if(!name1 || !name2 || !startDate || !messageText){ formErr.textContent = 'Tüm alanları doldurun.'; formErr.classList.add('show'); return; }
-    if(uploadedPhotosBase64.length === 0){ formErr.textContent = 'En az 1 fotoğraf eklemelisiniz.'; formErr.classList.add('show'); return; }
+    if(uploadedPhotos.length === 0){ formErr.textContent = 'En az 1 fotoğraf eklemelisiniz.'; formErr.classList.add('show'); return; }
     if(!ytId){ formErr.textContent = 'Geçerli bir YouTube linki girin.'; formErr.classList.add('show'); return; }
 
     submitBtn.disabled = true; 
     try {
-      var cloudImgUrls = [];
-      for (let i = 0; i < uploadedPhotosBase64.length; i++) {
-        submitBtn.textContent = `Buluta Yükleniyor (${i + 1}/${uploadedPhotosBase64.length})...`;
-        var formData = new FormData(); formData.append("image", uploadedPhotosBase64[i].split(',')[1]);
+      var cloudImgData = [];
+      for (let i = 0; i < uploadedPhotos.length; i++) {
+        submitBtn.textContent = `Buluta Yükleniyor (${i + 1}/${uploadedPhotos.length})...`;
+        var formData = new FormData(); formData.append("image", uploadedPhotos[i].b64.split(',')[1]);
         const imgRes = await fetch("https://api.imgbb.com/1/upload?key=" + IMGBB_API_KEY, { method: "POST", body: formData });
         const imgData = await imgRes.json();
         if(!imgData.success) throw new Error('Resim yüklenemedi.');
-        cloudImgUrls.push(imgData.data.url);
+        
+        // Fotoğrafın kısa URL'sini ve kullanıcının yazdığı notu birlikte kaydediyoruz
+        cloudImgData.push({ url: imgData.data.url, note: uploadedPhotos[i].text });
       }
       
       submitBtn.textContent = 'Veritabanına Kaydediliyor...';
       const documentId = createCleanSlug(name1, name2, startDate);
-      const stateToSave = { n1: name1, n2: name2, d: startDate, img: cloudImgUrls, yt: ytId, msg: messageText };
+      const stateToSave = { n1: name1, n2: name2, d: startDate, img: cloudImgData, yt: ytId, msg: messageText };
       
       await setDoc(doc(db, "couples", documentId), stateToSave);
 
@@ -496,11 +532,12 @@
 
   document.getElementById('backBtn').addEventListener('click', function(){ location.hash = '#bydpanel'; show(views.builder); });
 
-  /* ---------- YOUTUBE API, SLAYT VE ANİMASYONLAR ---------- */
+  /* ---------- YOUTUBE API VE AŞK SAYFASI ANİMASYONLARI ---------- */
   var ytPlayerInstance;
   var isAnimationPlaying = false; 
   var isFirstPlayDone = false;
   var activeHearts = [];
+  var slideshowInterval;
 
   function initYouTube(videoId) {
     if (window.YT && window.YT.Player) { createPlayer(videoId); } else {
@@ -518,23 +555,8 @@
       playerVars: { 'autoplay': 0, 'controls': 0, 'loop': 1, 'playlist': videoId, 'origin': window.location.origin, 'playsinline': 1 }
     });
   }
-  
-  function initSlideshow(imagesArray) {
-    var container = document.getElementById('bgSlideshow'); container.innerHTML = '';
-    if (!Array.isArray(imagesArray)) imagesArray = [imagesArray];
-    imagesArray.forEach((src, index) => {
-      var slide = document.createElement('div'); slide.className = 'slide' + (index === 0 ? ' active' : '');
-      slide.style.backgroundImage = `url('${src}')`; container.appendChild(slide);
-    });
-    if(imagesArray.length > 1) {
-      let current = 0;
-      setInterval(() => {
-        let slides = container.querySelectorAll('.slide'); slides[current].classList.remove('active');
-        current = (current + 1) % slides.length; slides[current].classList.add('active');
-      }, 4500); 
-    }
-  }
 
+  // Kalp Patlaması
   function triggerHeartsExplosion() {
     var container = document.getElementById('heartsContainer');
     var heartCount = window.innerWidth > 600 ? 45 : 35;
@@ -581,7 +603,27 @@
   }
 
   function renderLovePage(state){
-    initSlideshow(state.img); 
+    clearInterval(slideshowInterval); // Eski zamanlayıcıyı temizle
+    
+    // Geçmişe dönük uyumluluk (Sadece string olan eski verileri objeye çevirir)
+    var slidesData = [];
+    if (!Array.isArray(state.img)) {
+       slidesData.push({ url: state.img, note: "" });
+    } else {
+       state.img.forEach(item => {
+          if (typeof item === 'string') slidesData.push({ url: item, note: "" });
+          else slidesData.push({ url: item.url, note: item.note || "" });
+       });
+    }
+
+    var container = document.getElementById('bgSlideshow'); 
+    container.innerHTML = '';
+    slidesData.forEach((slideItem, index) => {
+      var slide = document.createElement('div'); 
+      slide.className = 'slide' + (index === 0 ? ' active' : '');
+      slide.style.backgroundImage = `url('${slideItem.url}')`; 
+      container.appendChild(slide);
+    });
     
     document.getElementById('lpNames').textContent = state.n1 + ' & ' + state.n2;
     var days = daysBetween(state.d); document.getElementById('lpSince').innerHTML = (days >= 0 ? ('<b>' + days + '</b> gündür birlikte') : 'yakında birlikte');
@@ -590,6 +632,9 @@
     document.getElementById('heartsContainer').innerHTML = '';
     var msgEl = document.getElementById('lpMessage'); msgEl.innerHTML = ''; msgEl.classList.add('hidden'); msgEl.classList.remove('shrunk');
     document.getElementById('textWrapper').classList.remove('centered');
+    
+    var pNoteEl = document.getElementById('photoNoteDisplay');
+    pNoteEl.innerHTML = ''; pNoteEl.classList.add('hidden');
 
     initYouTube(state.yt);
 
@@ -603,54 +648,104 @@
     playerWrapper.classList.remove('faded'); vinyl.classList.remove('playing'); tonearm.classList.remove('playing'); handIcon.classList.remove('show-hand', 'hidden-hand');
     hint.classList.remove('hidden-hint'); hint.textContent = 'Müzik için plağa dokun';
 
-    // ANA TIKLAMA OLAYI (Kesin Mobil Çözümü - playVideo doğrudan çağrılır)
+    // Ana Mesaja Geçiş Fonksiyonu
+    function triggerMainMessage() {
+        pNoteEl.classList.add('hidden'); 
+        msgEl.classList.remove('hidden'); 
+        startTypewriter(state.msg, msgEl); 
+        makeHeartsFloat();
+        isAnimationPlaying = false;
+
+        var typingDurationMs = state.msg.length * 55;
+        setTimeout(function(){
+            document.getElementById('textWrapper').classList.add('centered');
+            msgEl.classList.add('shrunk');
+        }, typingDurationMs + 10000);
+    }
+
+    // Kusursuz Atlamasız Slayt Gösterisi ve Fotoğraf Notları
+    function startSlideshowAnimations() {
+       if(slidesData[0].note) {
+          pNoteEl.innerText = slidesData[0].note;
+          pNoteEl.classList.remove('hidden');
+       }
+
+       if(slidesData.length > 1) {
+          let currentSlide = 0;
+          let loopCount = 0;
+          
+          slideshowInterval = setInterval(() => {
+             let next = (currentSlide + 1) % slidesData.length;
+             let slides = container.querySelectorAll('.slide');
+             
+             // Kusursuz Crossfade İşlemi
+             slides[currentSlide].classList.remove('active');
+             slides[currentSlide].classList.add('last-active');
+             slides[next].classList.add('active');
+             
+             let prev = currentSlide;
+             setTimeout(() => { slides[prev].classList.remove('last-active'); }, 1000);
+
+             currentSlide = next;
+
+             if (currentSlide === 0) { loopCount++; }
+
+             // Eğer hala ilk turdaysak Notları Göster
+             if (loopCount === 0) {
+                if(slidesData[currentSlide].note) {
+                   pNoteEl.innerText = slidesData[currentSlide].note;
+                   pNoteEl.classList.remove('hidden');
+                } else {
+                   pNoteEl.classList.add('hidden');
+                }
+             } 
+             // Eğer 1 tur tamamen döndüyse notları gizle ve Daktiloyu başlat
+             else if (loopCount === 1 && currentSlide === 0) {
+                triggerMainMessage();
+             }
+          }, 3000); // Toplam 2 sn net kalma, 1 saniye yumuşak geçiş
+       } else {
+          // Eğer Sadece 1 fotoğraf eklendiyse, 3 saniye sonra doğrudan ana mesaj başlar
+          setTimeout(() => { triggerMainMessage(); }, 3000);
+       }
+    }
+
+    // ANA TIKLAMA OLAYI
     lovePageBody.onclick = function(){
       if(isAnimationPlaying) return; 
       hint.classList.add('hidden-hint');
       if(!ytPlayerInstance || typeof ytPlayerInstance.getPlayerState !== 'function') return; 
 
+      // İLK AÇILIŞ - GÖRSEL ŞÖLEN (Müzik Doğrudan Tetiklenir)
+      if(!isFirstPlayDone) {
+        isAnimationPlaying = true; isFirstPlayDone = true;
+        
+        ytPlayerInstance.playVideo(); // Mobil için doğrudan tıklama olayının içinde tetiklenir
+
+        handIcon.classList.add('show-hand');
+        setTimeout(function(){
+          tonearm.classList.add('playing');
+          setTimeout(function(){
+              handIcon.classList.remove('show-hand'); handIcon.classList.add('hidden-hand');
+              vinyl.classList.add('playing');
+              setTimeout(function(){
+                playerWrapper.classList.add('faded');
+                setTimeout(function(){
+                    triggerHeartsExplosion();
+                    startSlideshowAnimations(); // Animasyonlar biter bitmez slayt ve notlar başlar
+                }, 800); 
+              }, 1200); 
+          }, 600); 
+        }, 400); 
+        return; // İşlem burada kesilir, aşağıdaki duraklatma koduna girmemesi için.
+      }
+
+      // Normal Müzik Durdurma / Başlatma İşlemleri (İkinci tık ve sonrası için)
       var playerState = ytPlayerInstance.getPlayerState();
-      
       if(playerState === YT.PlayerState.PLAYING || playerState === YT.PlayerState.BUFFERING) {
          ytPlayerInstance.pauseVideo();
       } else {
-        if(!isFirstPlayDone) {
-          isAnimationPlaying = true; isFirstPlayDone = true;
-          
-          // Mobil güvenlik engelini aşmak için TIKLAMA ANINDA doğrudan müziği başlatıyoruz
-          ytPlayerInstance.playVideo(); 
-
-          handIcon.classList.add('show-hand');
-          setTimeout(function(){
-            tonearm.classList.add('playing');
-            setTimeout(function(){
-                handIcon.classList.remove('show-hand'); handIcon.classList.add('hidden-hand');
-                vinyl.classList.add('playing');
-                setTimeout(function(){
-                  playerWrapper.classList.add('faded');
-                  setTimeout(function(){
-                      triggerHeartsExplosion();
-                      setTimeout(function(){
-                        msgEl.classList.remove('hidden'); 
-                        startTypewriter(state.msg, msgEl); 
-                        makeHeartsFloat();
-                        isAnimationPlaying = false;
-
-                        // Daktilo bittikten 10 Saniye Sonra Ekranı Ortalama Animasyonu
-                        var typingDurationMs = state.msg.length * 55;
-                        setTimeout(function(){
-                            document.getElementById('textWrapper').classList.add('centered');
-                            msgEl.classList.add('shrunk');
-                        }, typingDurationMs + 10000);
-
-                      }, 1600); 
-                  }, 800); 
-                }, 1200); 
-            }, 600); 
-          }, 400); 
-        } else {
-          ytPlayerInstance.playVideo();
-        }
+        ytPlayerInstance.playVideo();
       }
     };
     show(views.lovepage);
@@ -660,11 +755,13 @@
   async function boot(){
     var hash = location.hash;
 
+    // Gizli Yönetim Paneli Girişi
     if(hash === '#bydpanel' || hash === '#yonetim') {
       show(views.builder);
       return;
     }
 
+    // Müşteri Linkine Tıklandığında
     if(hash && hash.length > 1){
       show(views.loading); 
       var docId = hash.slice(1);
@@ -680,6 +777,7 @@
         show(views.landing);
       }
     } else {
+      // Normal Giriş (www.sevgilimeozel.com.tr) -> Tanıtım Vitrini
       show(views.landing);
     }
   }
