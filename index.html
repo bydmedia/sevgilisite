@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sevgiliye Özel — Kişiye Özel Aşk Sitesi</title>
+<title>Sevgiliye Özel — Unutulmaz Bir Dijital Hediye</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Dancing+Script:wght@600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -25,22 +25,37 @@
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
-    font-family:'Manrope',sans-serif;
-    background:var(--wine-950);
-    color:var(--cream-100);
-    min-height:100vh;
-    -webkit-font-smoothing:antialiased;
+    font-family:'Manrope',sans-serif; background:var(--wine-950); color:var(--cream-100);
+    min-height:100vh; -webkit-font-smoothing:antialiased;
   }
   .hidden{display:none !important;}
 
+  /* ---------- TANITIM VİTRİNİ (LANDING PAGE) ---------- */
+  #landing {
+    min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 40px 20px; text-align: center;
+    background: radial-gradient(circle at top, rgba(201,161,90,.15), transparent 60%), var(--wine-950);
+  }
+  .landing-wrapper { max-width: 600px; }
+  .landing-eyebrow { font-size: 14px; letter-spacing: 0.1em; color: var(--gold-300); font-weight: 600; text-transform: uppercase; margin-bottom: 15px; }
+  .landing-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(38px, 8vw, 56px); line-height: 1.1; margin: 0 0 20px; }
+  .landing-title em { color: var(--rose-300); font-style: italic; }
+  .landing-desc { font-size: 16px; color: var(--ink-muted); line-height: 1.7; margin-bottom: 35px; }
+  .features { display: flex; flex-direction: column; gap: 15px; text-align: left; background: rgba(0,0,0,0.2); padding: 25px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 35px; }
+  .features li { display: flex; align-items: center; gap: 10px; font-size: 15px; color: var(--cream-200); }
+  .features li::before { content: '✨'; font-size: 18px; }
+  .whatsapp-btn {
+    display: inline-flex; align-items: center; gap: 10px; background: #25D366; color: #fff; text-decoration: none;
+    padding: 16px 32px; border-radius: 99px; font-weight: 700; font-size: 16px; transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 10px 25px -5px rgba(37, 211, 102, 0.4);
+  }
+  .whatsapp-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px -5px rgba(37, 211, 102, 0.5); }
+  .landing-footer { margin-top: 50px; font-size: 12px; color: rgba(255,255,255,0.2); }
+
   /* ---------- BUILDER (FORM) VIEW ---------- */
   #builder{
-    min-height:100vh; display:flex; align-items:center; justify-content:center;
-    padding:48px 20px;
-    background:
-      radial-gradient(1100px 600px at 15% -10%, rgba(201,161,90,.10), transparent 60%),
-      radial-gradient(900px 500px at 100% 110%, rgba(232,180,184,.10), transparent 55%),
-      var(--wine-950);
+    min-height:100vh; display:flex; align-items:center; justify-content:center; padding:48px 20px;
+    background: radial-gradient(1100px 600px at 15% -10%, rgba(201,161,90,.10), transparent 60%), radial-gradient(900px 500px at 100% 110%, rgba(232,180,184,.10), transparent 55%), var(--wine-950);
   }
   .builder-wrap{width:100%;max-width:560px;}
   .eyebrow{ font-size:13px; letter-spacing:.03em; color:var(--gold-300); margin:0 0 10px; }
@@ -52,30 +67,22 @@
   .field label{ display:block; font-size:13px; font-weight:600; color:var(--gold-300); margin-bottom:8px; }
   .field .hint{ display:block; font-weight:400; color:var(--ink-muted); font-size:12px; margin-top:5px; }
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-  input[type=text], input[type=date], input[type=url], textarea{
-    width:100%; padding:12px 14px; background:rgba(0,0,0,.22); border:1px solid rgba(255,255,255,.12);
-    border-radius:10px; color:var(--cream-100); font-family:'Manrope',sans-serif; font-size:14.5px; outline:none; transition:border-color .15s ease;
-  }
+  input[type=text], input[type=date], input[type=url], textarea{ width:100%; padding:12px 14px; background:rgba(0,0,0,.22); border:1px solid rgba(255,255,255,.12); border-radius:10px; color:var(--cream-100); font-family:'Manrope',sans-serif; font-size:14.5px; outline:none; transition:border-color .15s ease; }
   textarea{ resize:vertical; min-height:80px; }
   input::placeholder, textarea::placeholder{color:rgba(246,236,223,.35);}
   input:focus, textarea:focus{border-color:var(--gold-400);}
   
-  .file-drop{
-    border:1.5px dashed rgba(255,255,255,.18); border-radius:12px; padding:16px; text-align:center;
-    cursor:pointer; color:var(--ink-muted); font-size:13.5px; background:rgba(0,0,0,.15); transition:all .15s ease; position:relative; display:block;
-  }
+  .file-drop{ border:1.5px dashed rgba(255,255,255,.18); border-radius:12px; padding:16px; text-align:center; cursor:pointer; color:var(--ink-muted); font-size:13.5px; background:rgba(0,0,0,.15); transition:all .15s ease; position:relative; display:block; }
   .file-drop:hover{border-color:var(--gold-400);color:var(--cream-200);}
   .file-drop input[type=file]{ position:absolute;inset:0;opacity:0;cursor:pointer; }
   .file-drop.has-file{border-style:solid;border-color:var(--gold-400);color:var(--cream-100); background:rgba(201,161,90,0.1);}
   
-  /* ALBÜM GALERİSİ */
   #photoGallery { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
   .thumb-item { width: 65px; height: 65px; border-radius: 8px; background-size: cover; background-position: center; position: relative; border: 2px solid rgba(255,255,255,0.1); }
   .thumb-delete { position: absolute; top: -6px; right: -6px; background: #e8b4b8; color: #1c0c12; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
   
   .submit-btn{ width:100%; padding:15px; margin-top:6px; border:none; border-radius:12px; background:linear-gradient(180deg, var(--gold-300), var(--gold-400)); color:#241019; font-family:'Manrope',sans-serif; font-weight:700; font-size:15px; cursor:pointer; letter-spacing:.01em; }
   .submit-btn:disabled{opacity:.6;cursor:wait;}
-  .submit-btn:hover{filter:brightness(1.04);}
   .err{ color:#f0a3a3; font-size:12.5px; margin-top:6px; display:none; }
   .err.show{display:block;}
 
@@ -93,7 +100,7 @@
   #cropCancel{ background:rgba(255,255,255,0.1); color:#fff; }
   #cropConfirm{ background:linear-gradient(180deg, var(--gold-300), var(--gold-400)); color:#1c0c12; }
 
-  /* ---------- RESULT VIEW ---------- */
+  /* ---------- RESULT VIEW (Link Ekranı) ---------- */
   #result{ min-height:100vh; display:flex; align-items:center; justify-content:center; padding:48px 20px; }
   .result-card{ max-width:480px;width:100%; background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015)); border:1px solid rgba(255,255,255,.08); border-radius:18px; padding:34px; text-align:center; box-shadow:var(--shadow-deep); }
   .result-card .stamp{ width:52px;height:52px;border-radius:50%; margin:0 auto 18px; background:radial-gradient(circle at 35% 35%, var(--gold-300), var(--gold-400) 60%, #8a6a2c 100%); display:flex;align-items:center;justify-content:center; font-size:22px; }
@@ -112,7 +119,6 @@
   /* ---------- LOVE PAGE & ANİMASYONLAR ---------- */
   #lovepage{ min-height:100vh; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; cursor: pointer; background: var(--wine-950); }
   
-  /* Arka Plan Slayt Gösterisi İçin Alan */
   #bgSlideshow { position: absolute; inset: 0; z-index: 0; }
   .slide { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: opacity 2.5s ease-in-out; filter: blur(2px) brightness(0.6) saturate(1.1); animation: slowZoom 30s infinite alternate ease-in-out; transform-origin: center center; }
   .slide.active { opacity: 1; z-index: 1; }
@@ -120,7 +126,6 @@
   @keyframes slowZoom { 0% { transform: scale(1); } 100% { transform: scale(1.04); } }
   #lovepage .veil{ position:absolute;inset:0; z-index: 1; background:linear-gradient(180deg, rgba(28,12,18,.5) 0%, rgba(28,12,18,.35) 40%, rgba(28,12,18,.95) 100%); }
   
-  /* Kalplerin Uçuştuğu Alan */
   .hearts-container { position: absolute; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
   .heart-particle { position: absolute; bottom: -50px; opacity: 0; transform: rotate(0deg) scale(0.5); transition: bottom 1.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.8s ease, transform 1.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
   .heart-particle.freeze { bottom: var(--target-bottom); opacity: 0.85; transform: rotate(var(--rot)) scale(1); }
@@ -128,18 +133,15 @@
 
   .love-inner{ position:relative; z-index:2; width:100%; max-width:560px; padding:32px 22px 50px; display:flex; flex-direction:column; align-items:center; text-align:center; }
   
-  /* METİN VE İSİM ALANI */
   .text-wrapper { display: flex; flex-direction: column; align-items: center; transition: transform 1.8s cubic-bezier(0.4, 0, 0.2, 1); transform: translateY(0); }
   .names{ font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:600; font-size:clamp(32px,8vw,48px); color:var(--cream-100); margin:0 0 4px; text-shadow:0 6px 24px rgba(0,0,0,.6); transition: all 1.8s ease; }
   .since{ font-size:14px; letter-spacing:.02em; color:var(--rose-300); margin-bottom:10px; text-shadow:0 2px 8px rgba(0,0,0,0.5); transition: all 1.8s ease; }
   .since b{color:var(--cream-100);font-weight:700;}
 
-  /* 10 Saniye Sonrası Ortalanma Efekti Sınıfları */
-  .text-wrapper.centered { transform: translateY(28vh); /* İsimleri sayfanın ortasına iter */ }
+  .text-wrapper.centered { transform: translateY(28vh); }
   .special-message { margin-top: 25px; font-family: 'Dancing Script', cursive; font-size: clamp(28px, 7vw, 36px); color: #fcebd5; text-shadow: 0 4px 15px rgba(0,0,0,0.9); line-height: 1.35; padding: 0 15px; opacity: 0.95; min-height: 100px; transition: all 1.8s cubic-bezier(0.4, 0, 0.2, 1); }
   .special-message.shrunk { font-size: clamp(20px, 5vw, 24px); margin-top: 50px; opacity: 0.85; }
 
-  /* ÇİÇEKLİ PLAK VE KAYBOLMA (FADE) ANİMASYONU */
   .player-wrapper { position: relative; height: 180px; margin-top: 15px; margin-bottom: 5px; transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1); opacity: 1; transform: scale(1) translateY(0); }
   .player-wrapper.faded { opacity: 0; height: 0; margin-top: 0; margin-bottom: 0; transform: scale(0.2) translateY(-100px); pointer-events: none; }
   .player{ position:relative; width:min(45vw, 170px); height:min(45vw, 170px); display:flex;align-items:center;justify-content:center; transition: transform 0.2s ease; }
@@ -162,12 +164,10 @@
   .tonearm.playing{transform:rotate(4deg);}
   .tonearm svg{width:100%;height:100%;overflow:visible;}
 
-  /* GİZLİ EL (POINTER) ANİMASYONU */
   .hand-icon { position: absolute; bottom: -5px; left: -15px; width: 40px; height: 40px; opacity: 0; transform: translate(-30px, 30px); transition: all 0.3s ease; z-index: 10; filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.6)); }
   .hand-icon.show-hand { opacity: 1; transform: translate(0, 0); }
   .hand-icon.hidden-hand { opacity: 0; transform: translate(-20px, 20px) scale(0.8); }
 
-  /* DAKTİLO İMLECİ */
   .tw-cursor { font-weight: 300; color: var(--gold-300); animation: blink 1s infinite; }
   .fade-out-cursor { display: none; }
   @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
@@ -178,7 +178,33 @@
 </head>
 <body>
 
-<!-- ================= BUILDER ================= -->
+<!-- ================= 1. VİTRİN / TANITIM EKRANI (Ana Sayfa) ================= -->
+<div id="landing" class="hidden">
+  <div class="landing-wrapper">
+    <div class="landing-eyebrow">SEVGİLİYE ÖZEL TASARIM</div>
+    <h1 class="landing-title">Aşkınızı <em>Dijital</em> Bir Eserle Ölümsüzleştirin.</h1>
+    <p class="landing-desc">
+      Sadece size özel hazırlanan, arkada en sevdiğiniz şarkının çaldığı, kalplerin uçuştuğu ve özel mesajınızın daktilo efektiyle yazıldığı unutulmaz bir hatıra sayfası tasarlıyoruz.
+    </p>
+    
+    <ul class="features">
+      <li>Size özel kısa ve kalıcı web bağlantısı (örn: Ahmet-Ayse)</li>
+      <li>Arka planda dilediğiniz fotoğraflardan oluşan slayt gösterisi</li>
+      <li>YouTube entegreli, reklamsız otomatik çalan "Sizin Şarkınız"</li>
+      <li>Ekrana dokunulduğunda başlayan animasyonlu kalp şöleni</li>
+    </ul>
+
+    <!-- Whatsapp numaranızı "905551234567" formatında güncelleyin -->
+    <a href="https://wa.me/905550000000?text=Merhaba, sevgiliye özel site hizmetiniz hakkında bilgi almak istiyorum." class="whatsapp-btn" target="_blank">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+      WhatsApp'tan Sipariş Ver
+    </a>
+    
+    <div class="landing-footer">© 2026 Byd Media Ajans Hizmetidir. Tüm hakları saklıdır.</div>
+  </div>
+</div>
+
+<!-- ================= 2. BUILDER / YÖNETİM PANELİ EKRANI ================= -->
 <div id="builder" class="hidden">
   <div class="builder-wrap">
     <p class="eyebrow">SEVGİLİYE ÖZEL MÜŞTERİ PANELİ</p>
@@ -206,7 +232,6 @@
           <span id="photoLabel">Yeni Fotoğraf Ekle (Sınırsız)</span>
           <input type="file" id="photoInput" accept="image/*">
         </label>
-        <span class="hint">Birden fazla fotoğraf eklerseniz, arka planda romantik bir geçiş efektiyle yavaşça dönecektir.</span>
       </div>
 
       <div class="field">
@@ -225,7 +250,7 @@
   </div>
 </div>
 
-<!-- ================= CROPPER MODAL ================= -->
+<!-- CROPPER MODAL -->
 <div id="cropModal" class="hidden">
   <div class="cropper-header">
     <span class="cropper-title">Ekran Oranını Seçin</span>
@@ -243,7 +268,7 @@
   </div>
 </div>
 
-<!-- ================= RESULT (LINK EKRANI) ================= -->
+<!-- RESULT (LINK EKRANI) -->
 <div id="result" class="hidden">
   <div class="result-card">
     <div class="stamp">🔗</div>
@@ -260,22 +285,19 @@
   </div>
 </div>
 
-<!-- ================= LOADING EKRANI (Varsayılan Açılış) ================= -->
-<div id="loading">
+<!-- ================= LOADING EKRANI ================= -->
+<div id="loading" class="hidden">
   <div class="spinner"></div>
   <p>Aşk Hikayeniz Yükleniyor...</p>
 </div>
 
-<!-- ================= GENERATED LOVE PAGE ================= -->
+<!-- ================= 3. TESLİMAT EKRANI (AŞK SAYFASI) ================= -->
 <div id="lovepage" class="hidden">
-  
   <div id="bgSlideshow"></div> 
   <div class="veil"></div>
-  
   <div class="hearts-container" id="heartsContainer"></div>
   
   <div class="love-inner" id="loveInnerContainer">
-    
     <div class="player-wrapper" id="playerWrapper">
       <div class="player" id="vinylPlayerBtn">
         <div class="play-hint" id="playHint">Müzik için plağa dokun</div>
@@ -302,14 +324,12 @@
     
     <div id="ytplayer-hidden"></div>
   </div>
-  
-  <div class="made-with">sevgiliye özel hazırlandı</div>
 </div>
 
 <!-- Cropper.js Kütüphanesi -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
 
-<!-- Firebase SDK & Ana Kod (Modüler Yapı) -->
+<!-- Firebase SDK & Ana Kod -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -351,32 +371,21 @@
     return (match && match[1]) ? match[1] : null;
   }
 
-  var views = { builder: document.getElementById('builder'), result: document.getElementById('result'), lovepage: document.getElementById('lovepage'), loading: document.getElementById('loading') };
+  var views = { landing: document.getElementById('landing'), builder: document.getElementById('builder'), result: document.getElementById('result'), lovepage: document.getElementById('lovepage'), loading: document.getElementById('loading') };
   function show(view){ Object.keys(views).forEach(function(k){ views[k].classList.toggle('hidden', views[k] !== view); }); }
 
   // ---------- ALBÜM VE KIRPMA (CROPPER) İŞLEMLERİ ----------
   var photoInput = document.getElementById('photoInput');
-  var cropper = null; 
-  var uploadedPhotosBase64 = []; 
+  var cropper = null; var uploadedPhotosBase64 = []; 
 
   function renderGallery() {
     var gallery = document.getElementById('photoGallery');
     gallery.innerHTML = '';
     uploadedPhotosBase64.forEach((b64, index) => {
-      var thumb = document.createElement('div');
-      thumb.className = 'thumb-item';
-      thumb.style.backgroundImage = `url(${b64})`;
-      
-      var delBtn = document.createElement('div');
-      delBtn.className = 'thumb-delete';
-      delBtn.innerHTML = '×';
-      delBtn.onclick = function() {
-        uploadedPhotosBase64.splice(index, 1);
-        renderGallery();
-      };
-      
-      thumb.appendChild(delBtn);
-      gallery.appendChild(thumb);
+      var thumb = document.createElement('div'); thumb.className = 'thumb-item'; thumb.style.backgroundImage = `url(${b64})`;
+      var delBtn = document.createElement('div'); delBtn.className = 'thumb-delete'; delBtn.innerHTML = '×';
+      delBtn.onclick = function() { uploadedPhotosBase64.splice(index, 1); renderGallery(); };
+      thumb.appendChild(delBtn); gallery.appendChild(thumb);
     });
   }
 
@@ -405,19 +414,15 @@
 
   document.getElementById('cropCancel').addEventListener('click', function(e){
     e.preventDefault(); document.getElementById('cropModal').classList.add('hidden');
-    photoInput.value = ''; 
-    if(cropper){ cropper.destroy(); cropper = null; }
+    photoInput.value = ''; if(cropper){ cropper.destroy(); cropper = null; }
   });
 
   document.getElementById('cropConfirm').addEventListener('click', function(e){
     e.preventDefault();
     if(cropper){
-      var b64 = cropper.getCroppedCanvas({ maxWidth: 1200, maxHeight: 1200 }).toDataURL('image/jpeg', 0.8);
-      uploadedPhotosBase64.push(b64);
-      renderGallery();
-      document.getElementById('cropModal').classList.add('hidden');
-      cropper.destroy(); cropper = null;
-      photoInput.value = '';
+      uploadedPhotosBase64.push(cropper.getCroppedCanvas({ maxWidth: 1200, maxHeight: 1200 }).toDataURL('image/jpeg', 0.8));
+      renderGallery(); document.getElementById('cropModal').classList.add('hidden');
+      cropper.destroy(); cropper = null; photoInput.value = '';
     }
   });
 
@@ -439,13 +444,11 @@
     if(!ytId){ formErr.textContent = 'Geçerli bir YouTube linki girin.'; formErr.classList.add('show'); return; }
 
     submitBtn.disabled = true; 
-    
     try {
       var cloudImgUrls = [];
       for (let i = 0; i < uploadedPhotosBase64.length; i++) {
         submitBtn.textContent = `Buluta Yükleniyor (${i + 1}/${uploadedPhotosBase64.length})...`;
-        var formData = new FormData(); 
-        formData.append("image", uploadedPhotosBase64[i].split(',')[1]);
+        var formData = new FormData(); formData.append("image", uploadedPhotosBase64[i].split(',')[1]);
         const imgRes = await fetch("https://api.imgbb.com/1/upload?key=" + IMGBB_API_KEY, { method: "POST", body: formData });
         const imgData = await imgRes.json();
         if(!imgData.success) throw new Error('Resim yüklenemedi.');
@@ -454,8 +457,8 @@
       
       submitBtn.textContent = 'Veritabanına Kaydediliyor...';
       const documentId = createCleanSlug(name1, name2, startDate);
-      
       const stateToSave = { n1: name1, n2: name2, d: startDate, img: cloudImgUrls, yt: ytId, msg: messageText };
+      
       await setDoc(doc(db, "couples", documentId), stateToSave);
 
       var finalUrl = location.origin + location.pathname + '#' + documentId;
@@ -470,17 +473,15 @@
       
       document.getElementById('previewBtn').onclick = function(){ location.hash = documentId; boot(); };
       
-      submitBtn.disabled = false; submitBtn.textContent = 'Müşteriye Özel Link Oluştur'; 
-      show(views.result);
+      submitBtn.disabled = false; submitBtn.textContent = 'Müşteriye Özel Link Oluştur'; show(views.result);
 
     } catch (error) {
-      console.error(error);
-      formErr.textContent = 'Bir hata oluştu. İnternetinizi kontrol edin.'; formErr.classList.add('show');
+      console.error(error); formErr.textContent = 'Bir hata oluştu. İnternetinizi kontrol edin.'; formErr.classList.add('show');
       submitBtn.disabled = false; submitBtn.textContent = 'Müşteriye Özel Link Oluştur';
     }
   });
 
-  document.getElementById('backBtn').addEventListener('click', function(){ location.hash = ''; show(views.builder); });
+  document.getElementById('backBtn').addEventListener('click', function(){ location.hash = '#bydpanel'; show(views.builder); });
 
   /* ---------- YOUTUBE API, SLAYT (ALBÜM) VE ANİMASYONLAR ---------- */
   var ytPlayerInstance;
@@ -501,30 +502,23 @@
     var newDiv = document.createElement('div'); newDiv.id = 'yt-iframe-placeholder'; container.appendChild(newDiv);
     ytPlayerInstance = new YT.Player('yt-iframe-placeholder', {
       height: '0', width: '0', videoId: videoId, 
-      playerVars: { 'autoplay': 0, 'controls': 0, 'loop': 1, 'playlist': videoId, 'origin': window.location.origin, 'playsinline': 1 }
+      playerVars: { 'autoplay': 1, 'controls': 0, 'loop': 1, 'playlist': videoId, 'origin': window.location.origin, 'playsinline': 1, 'mute': 1 },
+      events: { 'onReady': function(event) { event.target.playVideo(); } }
     });
   }
   
   function initSlideshow(imagesArray) {
-    var container = document.getElementById('bgSlideshow');
-    container.innerHTML = '';
-    
+    var container = document.getElementById('bgSlideshow'); container.innerHTML = '';
     if (!Array.isArray(imagesArray)) imagesArray = [imagesArray];
-    
     imagesArray.forEach((src, index) => {
-      var slide = document.createElement('div');
-      slide.className = 'slide' + (index === 0 ? ' active' : '');
-      slide.style.backgroundImage = `url('${src}')`;
-      container.appendChild(slide);
+      var slide = document.createElement('div'); slide.className = 'slide' + (index === 0 ? ' active' : '');
+      slide.style.backgroundImage = `url('${src}')`; container.appendChild(slide);
     });
-
     if(imagesArray.length > 1) {
       let current = 0;
       setInterval(() => {
-        let slides = container.querySelectorAll('.slide');
-        slides[current].classList.remove('active');
-        current = (current + 1) % slides.length;
-        slides[current].classList.add('active');
+        let slides = container.querySelectorAll('.slide'); slides[current].classList.remove('active');
+        current = (current + 1) % slides.length; slides[current].classList.add('active');
       }, 4500); 
     }
   }
@@ -536,8 +530,7 @@
         var h = document.createElement('div'); h.className = 'heart-particle';
         var size = Math.random() * 15 + 15;
         h.innerHTML = '<svg viewBox="0 0 32 29.6" width="'+size+'" height="'+size+'" fill="var(--rose-300)"><path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/></svg>';
-        h.style.left = (Math.random() * 90 + 5) + 'vw';
-        h.style.setProperty('--target-bottom', (Math.random() * 75 + 10) + 'vh');
+        h.style.left = (Math.random() * 90 + 5) + 'vw'; h.style.setProperty('--target-bottom', (Math.random() * 75 + 10) + 'vh');
         h.style.setProperty('--rot', (Math.random() * 60 - 30) + 'deg');
         container.appendChild(h); activeHearts.push(h);
     }
@@ -582,8 +575,7 @@
     
     isAnimationPlaying = false; isFirstPlayDone = false; activeHearts = [];
     document.getElementById('heartsContainer').innerHTML = '';
-    var msgEl = document.getElementById('lpMessage'); msgEl.innerHTML = ''; msgEl.classList.add('hidden');
-    msgEl.classList.remove('shrunk');
+    var msgEl = document.getElementById('lpMessage'); msgEl.innerHTML = ''; msgEl.classList.add('hidden'); msgEl.classList.remove('shrunk');
     document.getElementById('textWrapper').classList.remove('centered');
 
     initYouTube(state.yt);
@@ -598,7 +590,7 @@
     playerWrapper.classList.remove('faded'); vinyl.classList.remove('playing'); tonearm.classList.remove('playing'); handIcon.classList.remove('show-hand', 'hidden-hand');
     hint.classList.remove('hidden-hint'); hint.textContent = 'Müzik için plağa dokun';
 
-    // ANA TIKLAMA OLAYI (Kesin Mobil Çözümü)
+    // ANA TIKLAMA OLAYI
     lovePageBody.onclick = function(){
       if(isAnimationPlaying) return; 
       hint.classList.add('hidden-hint');
@@ -607,53 +599,59 @@
       var playerState = ytPlayerInstance.getPlayerState();
       
       if(playerState === YT.PlayerState.PLAYING || playerState === YT.PlayerState.BUFFERING) {
-        ytPlayerInstance.pauseVideo();
+        if(!ytPlayerInstance.isMuted()) ytPlayerInstance.pauseVideo();
       } else {
-        if(!isFirstPlayDone) {
-          isAnimationPlaying = true; isFirstPlayDone = true;
-          
-          // Mobil güvenlik engelini aşmak için TIKLAMA ANINDA doğrudan müziği başlatıyoruz
-          ytPlayerInstance.playVideo(); 
+        ytPlayerInstance.playVideo();
+      }
 
-          handIcon.classList.add('show-hand');
+      if(!isFirstPlayDone) {
+        isAnimationPlaying = true; isFirstPlayDone = true;
+        
+        ytPlayerInstance.unMute();
+        ytPlayerInstance.seekTo(0);
+        ytPlayerInstance.playVideo();
+
+        handIcon.classList.add('show-hand');
+        setTimeout(function(){
+          tonearm.classList.add('playing');
           setTimeout(function(){
-            tonearm.classList.add('playing');
-            setTimeout(function(){
-                handIcon.classList.remove('show-hand'); handIcon.classList.add('hidden-hand');
-                vinyl.classList.add('playing');
+              handIcon.classList.remove('show-hand'); handIcon.classList.add('hidden-hand');
+              vinyl.classList.add('playing');
+              setTimeout(function(){
+                playerWrapper.classList.add('faded');
                 setTimeout(function(){
-                  playerWrapper.classList.add('faded');
-                  setTimeout(function(){
-                      triggerHeartsExplosion();
+                    triggerHeartsExplosion();
+                    setTimeout(function(){
+                      msgEl.classList.remove('hidden'); startTypewriter(state.msg, msgEl); makeHeartsFloat();
+                      isAnimationPlaying = false;
+
+                      var typingDurationMs = state.msg.length * 55;
                       setTimeout(function(){
-                        msgEl.classList.remove('hidden'); 
-                        startTypewriter(state.msg, msgEl); 
-                        makeHeartsFloat();
-                        isAnimationPlaying = false;
+                          document.getElementById('textWrapper').classList.add('centered');
+                          msgEl.classList.add('shrunk');
+                      }, typingDurationMs + 10000);
 
-                        // Daktilo bittikten 10 Saniye Sonra Ekranı Ortalama Animasyonu
-                        var typingDurationMs = state.msg.length * 55;
-                        setTimeout(function(){
-                            document.getElementById('textWrapper').classList.add('centered');
-                            msgEl.classList.add('shrunk');
-                        }, typingDurationMs + 10000);
-
-                      }, 1600); 
-                  }, 800); 
-                }, 1200); 
-            }, 600); 
-          }, 400); 
-        } else {
-          ytPlayerInstance.playVideo();
-        }
+                    }, 1600); 
+                }, 800); 
+              }, 1200); 
+          }, 600); 
+        }, 400); 
       }
     };
     show(views.lovepage);
   }
 
-  // ---------- Routing & Veritabanı Okuma ----------
+  // ---------- Routing & Yönlendirme Kontrolü ----------
   async function boot(){
     var hash = location.hash;
+
+    // Gizli Yönetim Paneli Girişi
+    if(hash === '#bydpanel' || hash === '#yonetim') {
+      show(views.builder);
+      return;
+    }
+
+    // Müşteri Linkine Tıklandığında
     if(hash && hash.length > 1){
       show(views.loading); 
       var docId = hash.slice(1);
@@ -662,14 +660,15 @@
         if (docSnap.exists()) {
           renderLovePage(docSnap.data());
         } else {
-          show(views.builder); 
+          show(views.landing); // Hatalı/Eski Linkse vitrine at
         }
       } catch (error) {
         console.error("Veri çekilemedi:", error);
-        show(views.builder);
+        show(views.landing);
       }
     } else {
-      show(views.builder);
+      // Normal Giriş (www.sevgilimeozel.com.tr) -> Tanıtım Vitrini
+      show(views.landing);
     }
   }
 
