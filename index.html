@@ -305,7 +305,7 @@
   </div>
 </div>
 
-<!-- ================= LOADING EKRANI ================= -->
+<!-- ================= LOADING EKRANI (Varsayılan Açılış) ================= -->
 <div id="loading" class="hidden">
   <div class="spinner"></div>
   <p>Aşk Hikayeniz Yükleniyor...</p>
@@ -658,6 +658,8 @@
     }
 
     function startSlideshowAnimations() {
+       let mainMessageTriggered = false; // Ana mesajın sadece 1 kere tetiklenmesi için
+
        if(slidesData[0].note) {
           pNoteEl.classList.remove('hidden');
           startTypewriter(slidesData[0].note, pNoteEl);
@@ -692,9 +694,12 @@
                        pNoteEl.classList.remove('hidden');
                        startTypewriter(slidesData[currentSlide].note, pNoteEl);
                     }
-                 } else if (loopCount === 1 && currentSlide === 0) {
+                 } else if (loopCount === 1 && !mainMessageTriggered) {
+                    // Sadece ilk tur bittiğinde ana mesajı 1 kere tetikle
                     triggerMainMessage();
-                    clearInterval(slideshowInterval); // Döngü bitti
+                    mainMessageTriggered = true;
+                    // Döngü burada durdurulmuyor (clearInterval kaldırıldı), 
+                    // fotoğraflar sonsuza kadar dönmeye devam edecek.
                  }
              }, 800);
           }, 3500); // 3.5 Saniye Bekleme Süresi
