@@ -86,6 +86,11 @@
   .photo-note-input:focus { border-color: var(--gold-400); }
   #photoGallery.show-notes .photo-note-input { display: block; }
   
+  /* TARİH TERCİHİ GÖRÜNÜMÜ */
+  .radio-group { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+  .radio-label { display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: var(--cream-200); cursor: pointer; }
+  .radio-label input[type="radio"] { width: auto; margin: 0; cursor: pointer; accent-color: var(--gold-400); }
+
   .submit-btn{ width:100%; padding:15px; margin-top:6px; border:none; border-radius:12px; background:linear-gradient(180deg, var(--gold-300), var(--gold-400)); color:#241019; font-family:'Manrope',sans-serif; font-weight:700; font-size:15px; cursor:pointer; letter-spacing:.01em; }
   .submit-btn:disabled{opacity:.6;cursor:wait;}
   .err{ color:#f0a3a3; font-size:12.5px; margin-top:6px; display:none; }
@@ -164,7 +169,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    pointer-events: none; /* Tıklamaları engellemesin diye */
+    pointer-events: none;
   }
 
   /* 10 Saniye Sonrası İsimler ve Metnin Hep Birlikte Aşağı Ortalanması */
@@ -225,7 +230,6 @@
       <li>Ekrana dokunulduğunda başlayan animasyonlu kalp şöleni</li>
     </ul>
 
-    <!-- Whatsapp Numaranız -->
     <a href="https://wa.me/905437677317?text=Merhaba, sevgiliye özel site hizmetiniz hakkında bilgi almak istiyorum." class="whatsapp-btn" target="_blank">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
       WhatsApp'tan Sipariş Ver
@@ -252,8 +256,19 @@
       </div>
 
       <div class="field">
-        <label>Başlangıç tarihi</label>
+        <label>Başlangıç Tarihi ve Gösterimi</label>
         <input type="date" id="startDate" required>
+        <!-- Tarih Gösterim Şekli Seçimi -->
+        <div class="radio-group">
+          <label class="radio-label">
+            <input type="radio" name="dateMode" value="days" checked> 
+            Geçen Gün Sayısını Göster (Örn: 150 gündür birlikte)
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="dateMode" value="date"> 
+            Başlangıç Tarihini Göster (Örn: 15 Mayıs 2026'dan beri)
+          </label>
+        </div>
       </div>
 
       <div class="field">
@@ -358,22 +373,17 @@
       
       <!-- İsimlerin zıplamasını engelleyen sabit (absolute) metin katmanı -->
       <div class="message-container">
-        <!-- Fotoğraf Slayt Notları (Daktilo + Fade Animasyonuyla) -->
         <div class="photo-note-display hidden" id="photoNoteDisplay"></div>
-        <!-- Final Ana Mesajı -->
         <div class="special-message hidden" id="lpMessage"></div>
       </div>
     </div>
     
-    <!-- YOUTUBE PLAYER -->
     <div id="ytplayer-hidden"></div>
   </div>
 </div>
 
-<!-- Cropper.js Kütüphanesi -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
 
-<!-- Firebase SDK & Ana Kod -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -407,6 +417,13 @@
     var start = new Date(dateStr + 'T00:00:00');
     var now = new Date();
     return Math.floor((now - start) / (1000*60*60*24));
+  }
+
+  // Tarihi güzel bir Türkçe formata çeviren yardımcı fonksiyon
+  function formatDateTr(dateStr) {
+     var date = new Date(dateStr + 'T00:00:00');
+     var months = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+     return date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear();
   }
 
   function getYTVideoId(url) {
@@ -505,6 +522,7 @@
     var startDate = document.getElementById('startDate').value;
     var messageText = document.getElementById('messageText').value.trim();
     var ytId = getYTVideoId(document.getElementById('songUrl').value.trim());
+    var dateMode = document.querySelector('input[name="dateMode"]:checked').value; // Tarih seçimini al
 
     if(!name1 || !name2 || !startDate || !messageText){ formErr.textContent = 'Tüm alanları doldurun.'; formErr.classList.add('show'); return; }
     if(uploadedPhotos.length === 0){ formErr.textContent = 'En az 1 fotoğraf eklemelisiniz.'; formErr.classList.add('show'); return; }
@@ -524,7 +542,9 @@
       
       submitBtn.textContent = 'Veritabanına Kaydediliyor...';
       const documentId = createCleanSlug(name1, name2, startDate);
-      const stateToSave = { n1: name1, n2: name2, d: startDate, img: cloudImgData, yt: ytId, msg: messageText };
+      
+      // mode verisini de Firebase'e gönderiyoruz
+      const stateToSave = { n1: name1, n2: name2, d: startDate, mode: dateMode, img: cloudImgData, yt: ytId, msg: messageText };
       
       await setDoc(doc(db, "couples", documentId), stateToSave);
 
@@ -573,7 +593,6 @@
     });
   }
 
-  // Kalp Patlaması ve Ekrandan Tamamen Silinmesi
   function triggerHeartsExplosion() {
     var container = document.getElementById('heartsContainer');
     container.innerHTML = '';
@@ -589,11 +608,9 @@
         h.style.animation = 'flyUp ' + duration + 's ease-in ' + delay + 's forwards';
         container.appendChild(h);
     }
-    // Tüm kalpler uçtuktan sonra tamamen ekrandan (DOM'dan) silinir
     setTimeout(() => { container.innerHTML = ''; }, 3500);
   }
 
-  // Daktilo Efekti
   function startTypewriter(text, el, speed = 55) {
     if(el.twTimeout) clearTimeout(el.twTimeout);
     var i = 0; 
@@ -635,7 +652,15 @@
     });
     
     document.getElementById('lpNames').textContent = state.n1 + ' & ' + state.n2;
-    var days = daysBetween(state.d); document.getElementById('lpSince').innerHTML = (days >= 0 ? ('<b>' + days + '</b> gündür birlikte') : 'yakında birlikte');
+    
+    // Veritabanından gelen Mode seçimine göre tarihi göster
+    var dateMode = state.mode || 'days'; // Eski veriler için varsayılan gün sayısı
+    if (dateMode === 'date') {
+       document.getElementById('lpSince').innerHTML = '<b>' + formatDateTr(state.d) + "</b>'dan beri birlikte";
+    } else {
+       var days = daysBetween(state.d); 
+       document.getElementById('lpSince').innerHTML = (days >= 0 ? ('<b>' + days + '</b> gündür birlikte') : 'yakında birlikte');
+    }
     
     isAnimationPlaying = false; isFirstPlayDone = false; 
     document.getElementById('heartsContainer').innerHTML = '';
@@ -662,7 +687,6 @@
     playerWrapper.classList.remove('faded'); vinyl.classList.remove('playing'); tonearm.classList.remove('playing'); handIcon.classList.remove('show-hand', 'hidden-hand');
     hint.classList.remove('hidden-hint'); hint.textContent = 'Müzik için plağa dokun';
 
-    // Ana Final Mesajı ve Ortalama
     function triggerMainMessage() {
         pNoteEl.classList.add('hidden'); 
         if(pNoteEl.twTimeout) clearTimeout(pNoteEl.twTimeout);
@@ -674,7 +698,6 @@
 
         var typingDurationMs = state.msg.length * 55;
         setTimeout(function(){
-            // Metin bittikten 10 saniye sonra isimler ve mesaj hep birlikte kusursuzca ortalanır
             document.getElementById('textWrapper').classList.add('centered');
             msgEl.classList.add('shrunk');
         }, typingDurationMs + 10000);
@@ -693,11 +716,9 @@
           let loopCount = 0;
           
           slideshowInterval = setInterval(() => {
-             // 1. Ekranda not varsa önce onu karart (fade-out) ve daktiloyu durdur
              pNoteEl.classList.add('hidden');
              if(pNoteEl.twTimeout) clearTimeout(pNoteEl.twTimeout);
              
-             // 2. Notun silinmesi için 600ms bekle, SONRA kusursuz fotoğraf geçişini başlat
              setTimeout(() => {
                  let next = (currentSlide + 1) % slidesData.length;
                  let slides = container.querySelectorAll('.slide');
@@ -712,7 +733,6 @@
                  currentSlide = next;
                  if (currentSlide === 0) { loopCount++; }
 
-                 // 3. Fotoğraf yerleştikten (800ms) sonra yeni notu yazdır veya final mesajına geç
                  setTimeout(() => {
                      if (loopCount === 0) {
                         if(slidesData[currentSlide].note) {
@@ -724,9 +744,9 @@
                         mainMessageTriggered = true;
                      }
                  }, 800);
-             }, 600); // Fade-out (Kararma) bitiş süresi
+             }, 600); 
 
-          }, 4500); // Her fotoğraf 3.5 sn + 1 sn geçiş
+          }, 4500); 
        } else {
           setTimeout(() => {
               pNoteEl.classList.add('hidden');
@@ -736,7 +756,6 @@
        }
     }
 
-    // ANA TIKLAMA OLAYI
     lovePageBody.onclick = function(){
       if(isAnimationPlaying) return; 
       hint.classList.add('hidden-hint');
@@ -757,7 +776,6 @@
                 playerWrapper.classList.add('faded');
                 setTimeout(function(){
                     triggerHeartsExplosion(); 
-                    // Kalpler uçmaya başlar, 2.5 saniye sonra ekran temizlenmeye başlarken slaytlar girer
                     setTimeout(function(){
                         startSlideshowAnimations(); 
                     }, 2500);
@@ -782,7 +800,6 @@
   async function boot(){
     var hash = location.hash;
 
-    // Gizli Yönetim Paneli Girişi
     if(hash === '#bydpanel' || hash === '#yonetim') {
       show(views.builder);
       return;
