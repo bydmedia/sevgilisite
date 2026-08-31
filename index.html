@@ -200,7 +200,7 @@
   #lovepage{
     min-height:100vh; position:relative; overflow:hidden;
     display:flex; align-items:center; justify-content:center;
-    cursor: pointer; /* Sayfanın tamamı tıklanabilir hissi verir */
+    cursor: pointer; 
   }
   #lovepage .bg{
     position:absolute; inset:0; 
@@ -223,7 +223,6 @@
     padding:32px 22px 50px; display:flex; flex-direction:column; align-items:center; text-align:center;
   }
 
-  /* Kayma (Slide Up) Animasyonu İçin Sarmalayıcılar */
   .text-wrapper {
     display: flex; flex-direction: column; align-items: center;
     transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -241,7 +240,7 @@
   /* ÇİÇEKLİ PLAK VE KAYBOLMA (FADE) ANİMASYONU */
   .player-wrapper {
     position: relative;
-    height: 180px; /* Plak yüksekliği kadar alan kaplar */
+    height: 180px; 
     margin-top: 15px;
     margin-bottom: 5px;
     transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -249,13 +248,12 @@
     transform: scale(1) translateY(0);
   }
   
-  /* Plak tıklandığında bu class eklenecek */
   .player-wrapper.faded {
     opacity: 0;
-    height: 0; /* Boşluk kapanır */
+    height: 0; 
     margin-top: 0;
     margin-bottom: 0;
-    transform: scale(0.5) translateY(-50px); /* Küçülerek yukarı doğru kaybolur */
+    transform: scale(0.5) translateY(-50px); 
     pointer-events: none;
   }
 
@@ -283,7 +281,6 @@
 
   .vinyl{
     width:100%;height:100%;border-radius:50%;
-    /* Çok zarif, romantik çiçekli bir arka plan kullanıyoruz */
     background: 
       radial-gradient(circle at center, rgba(28,12,18,0.1) 0%, rgba(28,12,18,0.85) 100%),
       url('https://images.unsplash.com/photo-1551024739-78e9d60c45bc?q=80&w=400&auto=format&fit=crop') center/cover;
@@ -306,13 +303,13 @@
   }
   .tonearm svg{width:100%;height:100%;overflow:visible;}
 
-  /* ROMANTİK MESAJ ALANI (Daktilo Efekti İçin) */
+  /* ROMANTİK MESAJ ALANI */
   .special-message{
     margin-top: 30px; font-family: 'Dancing Script', cursive;
     font-size: clamp(28px, 7vw, 36px); color: #fcebd5;
     text-shadow: 0 4px 15px rgba(0,0,0,0.9); line-height: 1.35;
     padding: 0 15px; opacity: 0.95;
-    min-height: 100px; /* Yazı yazılırken sayfa çok oynamasın diye alan ayırdık */
+    min-height: 100px; 
   }
 
   .made-with{
@@ -409,10 +406,8 @@
   <div class="bg" id="lpBg"></div>
   <div class="veil"></div>
   
-  <!-- Tüm Tıklamaları Algılayacak Olan Ana Alan -->
   <div class="love-inner" id="loveInnerContainer">
     
-    <!-- Animasyonla kaybolacak Plak Alanı -->
     <div class="player-wrapper" id="playerWrapper">
       <div class="player" id="vinylPlayerBtn">
         <div class="play-hint" id="playHint">Müzik için plağa dokun</div>
@@ -428,7 +423,6 @@
       </div>
     </div>
     
-    <!-- Yukarı doğru kayacak ve daktilo ile doldurulacak Metin Alanı -->
     <div class="text-wrapper" id="textWrapper">
       <div class="names" id="lpNames"></div>
       <div class="since" id="lpSince"></div>
@@ -444,10 +438,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
 <script>
 (function(){
-  // !!! GÜNCELLENEN API KEY BURADA !!!
   const IMGBB_API_KEY = "db68f588bc4c15f9146ffc8bf98db703"; 
   
-  // ---------- Şık ve Temiz URL Encode/Decode İşlemleri ----------
+  // ---------- URL İşlemleri ----------
   function encodeState(state){
     var names = encodeURIComponent(state.n1) + '-' + encodeURIComponent(state.n2);
     var params = new URLSearchParams();
@@ -495,7 +488,7 @@
     Object.keys(views).forEach(function(k){ views[k].classList.toggle('hidden', views[k] !== view); });
   }
 
-  // ---------- Kırpma (Cropper) İşlemleri ----------
+  // ---------- Kırpma (Cropper) ----------
   var photoInput = document.getElementById('photoInput');
   var photoLabel = document.getElementById('photoLabel');
   var photoDrop = document.getElementById('photoDrop');
@@ -550,7 +543,7 @@
     }
   });
 
-  // ---------- Form Gönderimi (ImgBB API Upload) ----------
+  // ---------- Form Gönderimi ----------
   var form = document.getElementById('loveForm');
   var submitBtn = document.getElementById('submitBtn');
   var formErr = document.getElementById('formErr');
@@ -631,9 +624,9 @@
       show(views.builder); 
   });
 
-  // ---------- YouTube API & Love Page Render & Animasyonlar ----------
+  // ---------- YouTube API & Animasyonlar ----------
   var ytPlayerInstance;
-  var isTypingStarted = false; // Daktilo efektinin sadece bir kere çalışması için
+  var isTypingStarted = false; 
 
   function initYouTube(videoId) {
     if (window.YT && window.YT.Player) {
@@ -668,84 +661,66 @@
     var days = daysBetween(state.d);
     document.getElementById('lpSince').innerHTML = (days >= 0 ? ('<b>' + days + '</b> gündür birlikte') : 'yakında birlikte');
 
-    // Mesaj kutusunu ilk başta boş ve gizli yapıyoruz (Daktilo ile dolacak)
     var msgEl = document.getElementById('lpMessage');
     msgEl.innerHTML = '';
     msgEl.classList.add('hidden');
     isTypingStarted = false;
 
-    // YouTube kurulumu
     initYouTube(state.yt);
 
-    // Animasyon elementleri
     var playerWrapper = document.getElementById('playerWrapper');
     var hint = document.getElementById('playHint');
-    
-    // Eski tıklamaları temizlemek için clone yöntemi
     var lovePageBody = document.getElementById('lovepage');
-    lovePageBody.replaceWith(lovePageBody.cloneNode(true));
-    lovePageBody = document.getElementById('lovepage');
     
-    // Güncellenmiş element referanslarını tekrar alıyoruz
-    playerWrapper = document.getElementById('playerWrapper');
-    hint = document.getElementById('playHint');
-    msgEl = document.getElementById('lpMessage');
-    
-    // Plak ve animasyon CSS'lerini sıfırla
+    // Temizleme işlemleri
     playerWrapper.classList.remove('faded');
     hint.classList.remove('hidden-hint');
     hint.textContent = 'Müzik için plağa dokun';
 
-    // TÜM EKRANA TIKLAMA (Play/Pause + Animasyon Tetikleyicisi)
-    lovePageBody.addEventListener('click', function(){
-      // İpucu yazısını sonsuza kadar kaybet
+    // Sayfa üzerindeki tüm tıklamaları yönetecek asıl tetikleyici
+    lovePageBody.onclick = function(){
       hint.classList.add('hidden-hint');
 
       if(!ytPlayerInstance || typeof ytPlayerInstance.getPlayerState !== 'function') {
-        return; // YT API henüz yüklenmediyse bekle
+        return; 
       }
 
       var playerState = ytPlayerInstance.getPlayerState();
       
-      // Çalıyorsa duraklat
+      // Müzik çalıyorsa duraklat
       if(playerState === YT.PlayerState.PLAYING || playerState === YT.PlayerState.BUFFERING) {
         ytPlayerInstance.pauseVideo();
       } 
-      // Duruyorsa Başlat
+      // Duruyorsa başlat
       else {
         ytPlayerInstance.playVideo();
         
-        // Müzik ilk kez başlatıldıysa plak kaybolma ve Daktilo animasyonunu tetikle
+        // Müzik ilk kez başladıysa plak kaybolma ve Daktilo animasyonunu başlat
         if(!isTypingStarted) {
           isTypingStarted = true;
-          
-          // Plağı küçültüp yok eder ve yazıları yukarı kaydırır
           playerWrapper.classList.add('faded');
           
-          // Daktilo Efekti
           msgEl.classList.remove('hidden');
           var textToType = state.msg;
           var i = 0;
           
-          // Plak kaybolurken biraz bekle (800ms) sonra daktiloyu başlat
           setTimeout(function(){
             function typeWriter() {
               if (i < textToType.length) {
-                // Alt satıra geçişleri korur
                 if(textToType.charAt(i) === '\n') {
                   msgEl.innerHTML += '<br>';
                 } else {
                   msgEl.innerHTML += textToType.charAt(i);
                 }
                 i++;
-                setTimeout(typeWriter, 55); // Yazı yazma hızı (Milisaniye)
+                setTimeout(typeWriter, 55); 
               }
             }
             typeWriter();
           }, 800);
         }
       }
-    });
+    };
 
     show(views.lovepage);
   }
