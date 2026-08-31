@@ -356,6 +356,7 @@
 </head>
 <body>
 
+<!-- ================= BUILDER ================= -->
 <div id="builder">
   <div class="builder-wrap">
     <p class="eyebrow">SEVGİLİYE ÖZEL MÜŞTERİ PANELİ</p>
@@ -400,6 +401,7 @@
   </div>
 </div>
 
+<!-- ================= CROPPER MODAL ================= -->
 <div id="cropModal" class="hidden">
   <div class="cropper-header">
     <span class="cropper-title">Ekran Oranını Seçin</span>
@@ -417,6 +419,7 @@
   </div>
 </div>
 
+<!-- ================= RESULT (LINK EKRANI) ================= -->
 <div id="result" class="hidden">
   <div class="result-card">
     <div class="stamp">🔗</div>
@@ -433,11 +436,13 @@
   </div>
 </div>
 
+<!-- ================= LOADING EKRANI ================= -->
 <div id="loading" class="hidden">
   <div class="spinner"></div>
   <p>Aşk Hikayeniz Yükleniyor...</p>
 </div>
 
+<!-- ================= GENERATED LOVE PAGE ================= -->
 <div id="lovepage" class="hidden">
   <div class="bg" id="lpBg"></div>
   <div class="veil"></div>
@@ -476,8 +481,10 @@
   <div class="made-with">sevgiliye özel hazırlandı</div>
 </div>
 
+<!-- Cropper.js Kütüphanesi -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
 
+<!-- Firebase SDK & Ana Kod (Modüler Yapı) -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -499,7 +506,7 @@
 
   const IMGBB_API_KEY = "db68f588bc4c15f9146ffc8bf98db703"; 
 
-  // Temiz Link (Slug) Oluşturucu (Türkçe karakterleri güvenli İngilizceye çevirir)
+  // Temiz Link (Slug) Oluşturucu
   function createCleanSlug(n1, n2, date) {
     function trToEn(str) {
       return str.replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's').replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ç/g, 'c')
@@ -591,7 +598,6 @@
     var formData = new FormData(); formData.append("image", croppedPhotoData.split(',')[1]);
 
     try {
-      // 1. Resim ImgBB'ye yüklenir
       const imgRes = await fetch("https://api.imgbb.com/1/upload?key=" + IMGBB_API_KEY, { method: "POST", body: formData });
       const imgData = await imgRes.json();
       
@@ -600,13 +606,11 @@
       
       submitBtn.textContent = '2/2: Veritabanına Kaydediliyor...';
       
-      // 2. Firebase'e Yazılır
       const documentId = createCleanSlug(name1, name2, startDate);
       const stateToSave = { n1: name1, n2: name2, d: startDate, img: imageUrl, yt: ytId, msg: messageText };
       
       await setDoc(doc(db, "couples", documentId), stateToSave);
 
-      // 3. Link Oluşturulur
       var finalUrl = location.origin + location.pathname + '#' + documentId;
       document.getElementById('generatedLink').textContent = finalUrl;
       
@@ -716,7 +720,7 @@
     playerWrapper.classList.remove('faded'); vinyl.classList.remove('playing'); tonearm.classList.remove('playing'); handIcon.classList.remove('show-hand', 'hidden-hand');
     hint.classList.remove('hidden-hint'); hint.textContent = 'Müzik için plağa dokun';
 
-    // ANA TIKLAMA OLAYI (Modüler yapıda klonlamaya gerek kalmadan dinleyici ezme mantığı)
+    // ANA TIKLAMA OLAYI (Mobil Ses Kısıtlamasını Kırma)
     lovePageBody.onclick = function(){
       if(isAnimationPlaying) return; 
       hint.classList.add('hidden-hint');
@@ -729,12 +733,16 @@
       } else {
         if(!isFirstPlayDone) {
           isAnimationPlaying = true; isFirstPlayDone = true;
+          
+          // GÜNCELLEME: Müziği tam burada, kullanıcı tıkladığı saniyede başlatarak mobil engeli aşıyoruz.
+          ytPlayerInstance.playVideo(); 
+
           handIcon.classList.add('show-hand');
           setTimeout(function(){
             tonearm.classList.add('playing');
             setTimeout(function(){
                handIcon.classList.remove('show-hand'); handIcon.classList.add('hidden-hand');
-               ytPlayerInstance.playVideo(); vinyl.classList.add('playing');
+               vinyl.classList.add('playing');
                setTimeout(function(){
                   playerWrapper.classList.add('faded');
                   setTimeout(function(){
@@ -759,14 +767,14 @@
   async function boot(){
     var hash = location.hash;
     if(hash && hash.length > 1){
-      show(views.loading); // Linke girildiğinde yükleniyor ekranı gösterilir
+      show(views.loading); 
       var docId = hash.slice(1);
       try {
         const docSnap = await getDoc(doc(db, "couples", docId));
         if (docSnap.exists()) {
           renderLovePage(docSnap.data());
         } else {
-          show(views.builder); // Link yoksa form ekranına atar
+          show(views.builder); 
         }
       } catch (error) {
         console.error("Veri çekilemedi:", error);
