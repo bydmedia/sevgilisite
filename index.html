@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Sevgiliye Özel — Kişiye Özel Aşk Sitesi</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,10 +23,10 @@
     --shadow-deep: 0 30px 60px -20px rgba(0,0,0,.6);
   }
   *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
+  html,body{margin:0;padding:0; width: 100%; height: 100%;}
   body{
     font-family:'Manrope',sans-serif; background:var(--wine-950); color:var(--cream-100);
-    min-height:100vh; -webkit-font-smoothing:antialiased;
+    min-height:100vh; -webkit-font-smoothing:antialiased; overflow-x: hidden;
   }
   .hidden{display:none !important;}
 
@@ -67,10 +67,11 @@
   .field label{ display:block; font-size:13px; font-weight:600; color:var(--gold-300); margin-bottom:8px; }
   .field .hint{ display:block; font-weight:400; color:var(--ink-muted); font-size:12px; margin-top:5px; }
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-  input[type=text], input[type=number], input[type=date], input[type=url], textarea{ width:100%; padding:12px 14px; background:rgba(0,0,0,.22); border:1px solid rgba(255,255,255,.12); border-radius:10px; color:var(--cream-100); font-family:'Manrope',sans-serif; font-size:14.5px; outline:none; transition:border-color .15s ease; }
+  input[type=text], input[type=number], input[type=date], input[type=url], select, textarea{ width:100%; padding:12px 14px; background:rgba(0,0,0,.22); border:1px solid rgba(255,255,255,.12); border-radius:10px; color:var(--cream-100); font-family:'Manrope',sans-serif; font-size:14.5px; outline:none; transition:border-color .15s ease; }
   textarea{ resize:vertical; min-height:80px; }
   input::placeholder, textarea::placeholder{color:rgba(246,236,223,.35);}
-  input:focus, textarea:focus{border-color:var(--gold-400);}
+  input:focus, textarea:focus, select:focus{border-color:var(--gold-400);}
+  select option { background: var(--wine-900); color: white; }
   
   .file-drop{ border:1.5px dashed rgba(255,255,255,.18); border-radius:12px; padding:16px; text-align:center; cursor:pointer; color:var(--ink-muted); font-size:13.5px; background:rgba(0,0,0,.15); transition:all .15s ease; position:relative; display:block; margin-top: 10px; }
   .file-drop:hover{border-color:var(--gold-400);color:var(--cream-200);}
@@ -126,6 +127,25 @@
   #loading .spinner { width: 40px; height: 40px; border-radius: 50%; border: 3px solid rgba(201,161,90, 0.2); border-top-color: var(--gold-400); animation: spin 1s linear infinite; margin-bottom: 20px; }
   #loading p { font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--gold-300); font-size: 22px; letter-spacing: 0.05em; }
 
+  /* ---------- VİRAL KONSEPT KATMANLARI ---------- */
+  #scratchOverlay {
+    position: fixed; inset: 0; z-index: 100; width: 100vw; height: 100vh; cursor: crosshair; touch-action: none;
+    transition: opacity 1.5s ease;
+  }
+  
+  #passwordOverlay {
+    position: fixed; inset: 0; z-index: 100; width: 100vw; height: 100vh;
+    background: radial-gradient(circle at center, var(--wine-900), var(--wine-950));
+    display: flex; align-items: center; justify-content: center; padding: 20px; transition: opacity 1s ease;
+  }
+  .pw-box { background: rgba(0,0,0,0.4); border: 1px solid rgba(201,161,90, 0.3); border-radius: 20px; padding: 40px 25px; text-align: center; max-width: 400px; width: 100%; box-shadow: var(--shadow-deep); backdrop-filter: blur(10px); }
+  .pw-icon { font-size: 40px; margin-bottom: 15px; }
+  .pw-question { font-family: 'Cormorant Garamond', serif; font-size: 24px; color: var(--gold-300); margin-bottom: 25px; line-height: 1.3; font-style: italic; }
+  .pw-input { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); color: #fff; text-align: center; font-size: 16px; outline: none; margin-bottom: 15px; font-family: 'Manrope', sans-serif;}
+  .pw-input:focus { border-color: var(--gold-400); }
+  .pw-btn { width: 100%; padding: 15px; border-radius: 12px; border: none; background: linear-gradient(180deg, var(--gold-300), var(--gold-400)); color: #1c0c12; font-weight: 700; font-size: 16px; cursor: pointer; transition: transform 0.2s; }
+  .pw-btn:active { transform: scale(0.97); }
+
   /* ---------- YOUTUBE GİZLİ OYNATICI ---------- */
   #ytplayer-hidden { position: absolute; top: -9999px; left: -9999px; width: 100px; height: 100px; opacity: 0.01; pointer-events: none; }
 
@@ -158,14 +178,12 @@
   .since{ font-size:14px; letter-spacing:.02em; color:var(--rose-300); margin-bottom:10px; text-shadow:0 2px 8px rgba(0,0,0,0.5); }
   .since b{color:var(--cream-100);font-weight:700;}
 
-  /* İsimlerin Zıplamasını Önleyen Bağımsız Mesaj Kapsayıcısı */
   .message-container {
     position: absolute;
     top: 100%; left: 50%; transform: translateX(-50%);
     width: 90vw; max-width: 560px; display: flex; flex-direction: column; align-items: center; pointer-events: none;
   }
 
-  /* 10 Saniye Sonrası İsimler ve Metnin Hep Birlikte Aşağı Ortalanması */
   .text-wrapper.centered { transform: translateY(26vh); }
   
   .photo-note-display { margin-top: 15px; font-family: 'Dancing Script', cursive; font-size: clamp(24px, 6vw, 30px); color: var(--gold-300); text-shadow: 0 4px 15px rgba(0,0,0,0.9); opacity: 1; transform: translateY(0); transition: opacity 0.6s ease, transform 0.6s ease; width: 100%; }
@@ -175,7 +193,7 @@
   .special-message.hidden { opacity: 0; display: none; }
   .special-message.shrunk { font-size: clamp(20px, 5vw, 24px); margin-top: 45px; opacity: 0.85; }
 
-  /* ÇİÇEKLİ PLAK VE KAYBOLMA (FADE) ANİMASYONU */
+  /* ÇİÇEKLİ PLAK */
   .player-wrapper { position: relative; height: 180px; margin-top: 15px; margin-bottom: 5px; transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1); opacity: 1; transform: scale(1) translateY(0); }
   .player-wrapper.faded { opacity: 0; height: 0; margin-top: 0; margin-bottom: 0; transform: scale(0.2) translateY(-100px); pointer-events: none; }
   .player{ position:relative; width:min(45vw, 170px); height:min(45vw, 170px); display:flex;align-items:center;justify-content:center; transition: transform 0.2s ease; }
@@ -223,7 +241,6 @@
       <li>Ekrana dokunulduğunda başlayan animasyonlu kalp şöleni</li>
     </ul>
 
-    <!-- Whatsapp Numarası Güncellendi -->
     <a href="https://wa.me/905437677317?text=Merhaba, sevgiliye özel site hizmetiniz hakkında bilgi almak istiyorum." class="whatsapp-btn" target="_blank">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
       WhatsApp'tan Sipariş Ver
@@ -241,6 +258,30 @@
     <p class="lede">Ajansınıza özel sistem. Müşterinizin bilgilerini girin ve veritabanı destekli ultra kısa bağlantınızı anında oluşturun.</p>
 
     <form class="card" id="loveForm" autocomplete="off">
+      
+      <!-- KONSEPT SEÇİMİ (YENİ) -->
+      <div class="field">
+        <label>Açılış Konsepti (Tema Seçimi)</label>
+        <select id="conceptSelect">
+          <option value="classic">🌟 Klasik (Plak ve Slayt Doğrudan Başlar)</option>
+          <option value="scratch">🎁 Kazı Kazan Ekranı (Ekrana Sürterek Sürprizi Açar - Viral)</option>
+          <option value="password">🔒 Şifreli Kutu / Aşk Testi (Soru Bilinmeden Açılmaz - Viral)</option>
+        </select>
+      </div>
+
+      <!-- ŞİFRELİ KUTU İÇİN GİZLİ SORULAR -->
+      <div id="passwordFields" class="hidden" style="background: rgba(201,161,90,0.1); padding: 15px; border-radius: 12px; margin-bottom: 20px;">
+        <div class="field">
+          <label style="color:var(--gold-400);">Gizli Soru (Ekranda Sorulacak)</label>
+          <input type="text" id="secretQuestion" placeholder="Örn: İlk buluştuğumuz kafe neresiydi?">
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label style="color:var(--gold-400);">Doğru Cevap (Kilidi Açacak Kelime)</label>
+          <input type="text" id="secretAnswer" placeholder="Örn: Starbucks">
+          <span class="hint">Cevap büyük/küçük harfe duyarlı değildir, müşteri rahatça girebilir.</span>
+        </div>
+      </div>
+
       <div class="field">
         <label>İsimler</label>
         <div class="row2">
@@ -252,7 +293,6 @@
       <div class="field">
         <label>Başlangıç Tarihi ve Gösterimi</label>
         <input type="date" id="startDate" required>
-        <!-- Tarih Gösterim Şekli Seçimi -->
         <div class="radio-group">
           <label class="radio-label">
             <input type="radio" name="dateMode" value="days" checked> 
@@ -260,7 +300,7 @@
           </label>
           <label class="radio-label">
             <input type="radio" name="dateMode" value="date"> 
-            Tarih ve Metin Göster (Örn: 15 Mayıs 2026'dan beri birlikte)
+            Tarih ve Metin Göster (Örn: 15 Mayıs 2026'dan beri)
           </label>
           <label class="radio-label">
             <input type="radio" name="dateMode" value="exact"> 
@@ -288,7 +328,6 @@
         <textarea id="messageText" placeholder="Fotoğraf döngüsü bittikten sonra daktilo efektiyle çıkacak ana mesaj..." maxlength="250" required></textarea>
       </div>
 
-      <!-- Müzik Döngü Ayarları -->
       <div class="field">
         <label>Arka Planda Çalacak Şarkı (YouTube Linki)</label>
         <input type="url" id="songUrl" placeholder="https://www.youtube.com/watch?v=..." required>
@@ -296,14 +335,12 @@
       
       <div class="field row2">
         <div>
-          <label>Şarkı Başlangıç Saniyesi</label>
+          <label>Şarkı Başlangıç (Sn)</label>
           <input type="number" id="songStart" placeholder="Örn: 45 (Boşsa 0)" min="0">
-          <span class="hint" style="font-size:11px;">Müzik kaçıncı saniyeden başlasın?</span>
         </div>
         <div>
-          <label>Çalma Süresi (Saniye)</label>
+          <label>Çalma Süresi (Sn)</label>
           <input type="number" id="songDuration" placeholder="Örn: 30 (Boşsa tümü)" min="1">
-          <span class="hint" style="font-size:11px;">Belirtilen saniye çalıp başa döner.</span>
         </div>
       </div>
 
@@ -348,13 +385,28 @@
   </div>
 </div>
 
-<!-- ================= LOADING EKRANI (Varsayılan Açılış) ================= -->
-<div id="loading">
+<!-- ================= LOADING EKRANI ================= -->
+<div id="loading" class="hidden">
   <div class="spinner"></div>
   <p>Aşk Hikayeniz Yükleniyor...</p>
 </div>
 
-<!-- ================= 3. TESLİMAT EKRANI (AŞK SAYFASI) ================= -->
+<!-- ================= 3. TESLİMAT EKRANI (AŞK SAYFASI VE VİRAL MODÜLLER) ================= -->
+
+<!-- Viral Konsept 1: Kazı Kazan -->
+<canvas id="scratchOverlay" class="hidden"></canvas>
+
+<!-- Viral Konsept 2: Şifreli Kutu -->
+<div id="passwordOverlay" class="hidden">
+  <div class="pw-box">
+    <div class="pw-icon">🔒</div>
+    <h2 class="pw-question" id="pwQuestionText">Gizli Soru?</h2>
+    <input type="text" class="pw-input" id="pwAnswerInput" placeholder="Cevabınız..." autocomplete="off">
+    <button class="pw-btn" id="pwSubmitBtn">Kilidi Aç ve Sürprizi Gör</button>
+    <p id="pwError" class="err" style="margin-top:10px;">Cevap yanlış, lütfen tekrar deneyin.</p>
+  </div>
+</div>
+
 <div id="lovepage" class="hidden">
   <div id="bgSlideshow"></div> 
   <div class="veil"></div>
@@ -382,8 +434,6 @@
     <div class="text-wrapper" id="textWrapper">
       <div class="names" id="lpNames"></div>
       <div class="since" id="lpSince"></div>
-      
-      <!-- İsimlerin zıplamasını engelleyen sabit (absolute) metin katmanı -->
       <div class="message-container">
         <div class="photo-note-display hidden" id="photoNoteDisplay"></div>
         <div class="special-message hidden" id="lpMessage"></div>
@@ -416,10 +466,7 @@
   const IMGBB_API_KEY = "db68f588bc4c15f9146ffc8bf98db703"; 
 
   function createCleanSlug(n1, n2, date) {
-    function trToEn(str) {
-      return str.replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's').replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ç/g, 'c')
-                .replace(/Ğ/g, 'G').replace(/Ü/g, 'U').replace(/Ş/g, 'S').replace(/İ/g, 'I').replace(/Ö/g, 'O').replace(/Ç/g, 'C');
-    }
+    function trToEn(str) { return str.replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's').replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ç/g, 'c').replace(/Ğ/g, 'G').replace(/Ü/g, 'U').replace(/Ş/g, 'S').replace(/İ/g, 'I').replace(/Ö/g, 'O').replace(/Ç/g, 'C'); }
     var clean1 = trToEn(n1.trim()).replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '');
     var clean2 = trToEn(n2.trim()).replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '');
     return clean1 + '-' + clean2 + '-' + date;
@@ -427,8 +474,7 @@
 
   function daysBetween(dateStr){
     var start = new Date(dateStr + 'T00:00:00');
-    var now = new Date();
-    return Math.floor((now - start) / (1000*60*60*24));
+    var now = new Date(); return Math.floor((now - start) / (1000*60*60*24));
   }
 
   function formatDateTr(dateStr) {
@@ -441,8 +487,7 @@
      var date = new Date(dateStr + 'T00:00:00');
      var d = String(date.getDate()).padStart(2, '0');
      var m = String(date.getMonth() + 1).padStart(2, '0');
-     var y = date.getFullYear();
-     return d + "." + m + "." + y;
+     return d + "." + m + "." + date.getFullYear();
   }
 
   function getYTVideoId(url) {
@@ -452,6 +497,13 @@
 
   var views = { landing: document.getElementById('landing'), builder: document.getElementById('builder'), result: document.getElementById('result'), lovepage: document.getElementById('lovepage'), loading: document.getElementById('loading') };
   function show(view){ Object.keys(views).forEach(function(k){ views[k].classList.toggle('hidden', views[k] !== view); }); }
+
+  // Builder Konsept Şifre Ekranı Göster/Gizle
+  document.getElementById('conceptSelect').addEventListener('change', function(e){
+      var pwFields = document.getElementById('passwordFields');
+      if(e.target.value === 'password') pwFields.classList.remove('hidden');
+      else pwFields.classList.add('hidden');
+  });
 
   // ---------- ALBÜM VE KIRPMA İŞLEMLERİ ----------
   var photoInput = document.getElementById('photoInput');
@@ -463,38 +515,28 @@
     var showNotes = document.getElementById('enableNotesCb').checked;
     
     uploadedPhotos.forEach((item, index) => {
-      var wrapper = document.createElement('div');
-      wrapper.className = 'gallery-item';
-      
+      var wrapper = document.createElement('div'); wrapper.className = 'gallery-item';
       var thumb = document.createElement('div'); thumb.className = 'thumb-item'; thumb.style.backgroundImage = `url(${item.b64})`;
       var delBtn = document.createElement('div'); delBtn.className = 'thumb-delete'; delBtn.innerHTML = '×';
       delBtn.onclick = function() { uploadedPhotos.splice(index, 1); renderGallery(); };
       thumb.appendChild(delBtn); wrapper.appendChild(thumb);
       
       if(showNotes) {
-         var inp = document.createElement('input');
-         inp.type = 'text'; inp.className = 'photo-note-input';
-         inp.placeholder = (index + 1) + '. fotoğraf için kısa not...';
-         inp.value = item.text || "";
-         inp.oninput = function() { item.text = this.value; };
-         wrapper.appendChild(inp);
+         var inp = document.createElement('input'); inp.type = 'text'; inp.className = 'photo-note-input';
+         inp.placeholder = (index + 1) + '. fotoğraf için kısa not...'; inp.value = item.text || "";
+         inp.oninput = function() { item.text = this.value; }; wrapper.appendChild(inp);
       }
-      
       gallery.appendChild(wrapper);
     });
   }
   
-  document.getElementById('enableNotesCb').addEventListener('change', function(e) {
-     document.getElementById('photoGallery').classList.toggle('show-notes', e.target.checked);
-     renderGallery();
-  });
-
+  document.getElementById('enableNotesCb').addEventListener('change', function(e) { document.getElementById('photoGallery').classList.toggle('show-notes', e.target.checked); renderGallery(); });
+  
   var ratioBtns = document.querySelectorAll('.cropper-ratios button');
   ratioBtns.forEach(function(btn){
     btn.addEventListener('click', function(){
-      ratioBtns.forEach(function(b){ b.classList.remove('active'); });
-      btn.classList.add('active');
-      if(cropper){ cropper.setAspectRatio(isNaN(parseFloat(btn.getAttribute('data-ratio'))) ? NaN : parseFloat(btn.getAttribute('data-ratio'))); }
+      ratioBtns.forEach(function(b){ b.classList.remove('active'); }); btn.classList.add('active');
+      if(cropper) cropper.setAspectRatio(isNaN(parseFloat(btn.getAttribute('data-ratio'))) ? NaN : parseFloat(btn.getAttribute('data-ratio')));
     });
   });
 
@@ -502,8 +544,7 @@
     if(e.target.files && e.target.files[0]){
       var reader = new FileReader();
       reader.onload = function(evt){
-        document.getElementById('cropImage').src = evt.target.result;
-        document.getElementById('cropModal').classList.remove('hidden');
+        document.getElementById('cropImage').src = evt.target.result; document.getElementById('cropModal').classList.remove('hidden');
         if(cropper) cropper.destroy();
         var initialRatio = parseFloat(document.querySelector('.cropper-ratios button.active').getAttribute('data-ratio'));
         cropper = new window.Cropper(document.getElementById('cropImage'), { viewMode: 1, aspectRatio: isNaN(initialRatio) ? NaN : initialRatio, autoCropArea: 0.9, background: false });
@@ -512,20 +553,12 @@
     }
   });
 
-  document.getElementById('cropCancel').addEventListener('click', function(e){
-    e.preventDefault(); document.getElementById('cropModal').classList.add('hidden');
-    photoInput.value = ''; if(cropper){ cropper.destroy(); cropper = null; }
-  });
-
+  document.getElementById('cropCancel').addEventListener('click', function(e){ e.preventDefault(); document.getElementById('cropModal').classList.add('hidden'); photoInput.value = ''; if(cropper){ cropper.destroy(); cropper = null; } });
   document.getElementById('cropConfirm').addEventListener('click', function(e){
     e.preventDefault();
     if(cropper){
-      uploadedPhotos.push({
-         b64: cropper.getCroppedCanvas({ maxWidth: 1200, maxHeight: 1200 }).toDataURL('image/jpeg', 0.8),
-         text: ""
-      });
-      renderGallery(); document.getElementById('cropModal').classList.add('hidden');
-      cropper.destroy(); cropper = null; photoInput.value = '';
+      uploadedPhotos.push({ b64: cropper.getCroppedCanvas({ maxWidth: 1200, maxHeight: 1200 }).toDataURL('image/jpeg', 0.8), text: "" });
+      renderGallery(); document.getElementById('cropModal').classList.add('hidden'); cropper.destroy(); cropper = null; photoInput.value = '';
     }
   });
 
@@ -536,20 +569,23 @@
 
   form.addEventListener('submit', async function(e){
     e.preventDefault(); formErr.classList.remove('show');
+    var concept = document.getElementById('conceptSelect').value;
+    var sq = document.getElementById('secretQuestion').value.trim();
+    var sa = document.getElementById('secretAnswer').value.trim();
+    
     var name1 = document.getElementById('name1').value.trim();
     var name2 = document.getElementById('name2').value.trim();
     var startDate = document.getElementById('startDate').value;
     var messageText = document.getElementById('messageText').value.trim();
     var ytId = getYTVideoId(document.getElementById('songUrl').value.trim());
     var dateMode = document.querySelector('input[name="dateMode"]:checked').value; 
-
-    // Yeni Müzik Döngü Değerleri
     var ytStart = parseInt(document.getElementById('songStart').value) || 0;
     var ytDur = parseInt(document.getElementById('songDuration').value) || 0;
 
     if(!name1 || !name2 || !startDate || !messageText){ formErr.textContent = 'Tüm alanları doldurun.'; formErr.classList.add('show'); return; }
     if(uploadedPhotos.length === 0){ formErr.textContent = 'En az 1 fotoğraf eklemelisiniz.'; formErr.classList.add('show'); return; }
     if(!ytId){ formErr.textContent = 'Geçerli bir YouTube linki girin.'; formErr.classList.add('show'); return; }
+    if(concept === 'password' && (!sq || !sa)) { formErr.textContent = 'Şifreli kutu için Gizli Soru ve Cevap girmelisiniz.'; formErr.classList.add('show'); return; }
 
     submitBtn.disabled = true; 
     try {
@@ -565,28 +601,14 @@
       
       submitBtn.textContent = 'Veritabanına Kaydediliyor...';
       const documentId = createCleanSlug(name1, name2, startDate);
-      
-      const stateToSave = { 
-        n1: name1, n2: name2, d: startDate, mode: dateMode, 
-        img: cloudImgData, yt: ytId, ytStart: ytStart, ytDur: ytDur, msg: messageText 
-      };
+      const stateToSave = { n1: name1, n2: name2, d: startDate, mode: dateMode, img: cloudImgData, yt: ytId, ytStart: ytStart, ytDur: ytDur, msg: messageText, cpt: concept, q: sq, a: sa };
       
       await setDoc(doc(db, "couples", documentId), stateToSave);
-
-      var finalUrl = location.origin + location.pathname + '#' + documentId;
-      document.getElementById('generatedLink').textContent = finalUrl;
+      var finalUrl = location.origin + location.pathname + '#' + documentId; document.getElementById('generatedLink').textContent = finalUrl;
       
-      document.getElementById('copyBtn').onclick = function(){
-        navigator.clipboard.writeText(finalUrl).then(function(){
-          document.getElementById('copyBtn').textContent = 'Kopyalandı ✓';
-          setTimeout(function(){ document.getElementById('copyBtn').textContent = 'Linki Kopyala'; }, 2000);
-        });
-      };
-      
+      document.getElementById('copyBtn').onclick = function(){ navigator.clipboard.writeText(finalUrl).then(function(){ document.getElementById('copyBtn').textContent = 'Kopyalandı ✓'; setTimeout(function(){ document.getElementById('copyBtn').textContent = 'Linki Kopyala'; }, 2000); }); };
       document.getElementById('previewBtn').onclick = function(){ location.hash = documentId; boot(); };
-      
       submitBtn.disabled = false; submitBtn.textContent = 'Müşteriye Özel Link Oluştur'; show(views.result);
-
     } catch (error) {
       console.error(error); formErr.textContent = 'Bir hata oluştu. İnternetinizi kontrol edin.'; formErr.classList.add('show');
       submitBtn.disabled = false; submitBtn.textContent = 'Müşteriye Özel Link Oluştur';
@@ -595,11 +617,8 @@
 
   document.getElementById('backBtn').addEventListener('click', function(){ location.hash = '#bydpanel'; show(views.builder); });
 
-  /* ---------- YOUTUBE API VE MÜZİK DÖNGÜ (LOOP) SİSTEMİ ---------- */
-  var ytPlayerInstance;
-  var isAnimationPlaying = false; 
-  var isFirstPlayDone = false;
-  var slideshowInterval;
+  /* ---------- YOUTUBE API VE SİSTEM ---------- */
+  var ytPlayerInstance; var isAnimationPlaying = false; var isFirstPlayDone = false; var slideshowInterval;
 
   function initYouTube(state) {
     if (window.YT && window.YT.Player) { createPlayer(state); } else {
@@ -613,276 +632,222 @@
     var container = document.getElementById('ytplayer-hidden'); container.innerHTML = ''; 
     var newDiv = document.createElement('div'); newDiv.id = 'yt-iframe-placeholder'; container.appendChild(newDiv);
     var sTime = parseInt(state.ytStart) || 0;
-    
     ytPlayerInstance = new YT.Player('yt-iframe-placeholder', {
       height: '100', width: '100', videoId: state.yt, 
       playerVars: { 'autoplay': 0, 'controls': 0, 'origin': window.location.origin, 'playsinline': 1, 'start': sTime },
-      events: {
-         'onStateChange': function(event) {
-            // Şarkı kendi sonuna ulaşırsa başa (belirlenen saniyeye) sar.
-            if (event.data === YT.PlayerState.ENDED) {
-               event.target.seekTo(sTime);
-               event.target.playVideo();
-            }
-         }
-      }
+      events: { 'onStateChange': function(event) { if (event.data === YT.PlayerState.ENDED) { event.target.seekTo(sTime); event.target.playVideo(); } } }
     });
   }
 
-  // Kalp Patlaması ve Ekrandan Tamamen Silinmesi
   function triggerHeartsExplosion() {
-    var container = document.getElementById('heartsContainer');
-    container.innerHTML = '';
+    var container = document.getElementById('heartsContainer'); container.innerHTML = '';
     var heartCount = window.innerWidth > 600 ? 50 : 35;
     for(var i=0; i<heartCount; i++) {
         var h = document.createElement('div'); h.className = 'heart-particle';
         var size = Math.random() * 20 + 15;
         h.innerHTML = '<svg viewBox="0 0 32 29.6" width="'+size+'" height="'+size+'" fill="var(--rose-300)"><path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/></svg>';
         h.style.left = (Math.random() * 90 + 5) + 'vw';
-        
-        var duration = Math.random() * 1.5 + 1.5; 
-        var delay = Math.random() * 0.3;
+        var duration = Math.random() * 1.5 + 1.5; var delay = Math.random() * 0.3;
         h.style.animation = 'flyUp ' + duration + 's ease-in ' + delay + 's forwards';
         container.appendChild(h);
     }
     setTimeout(() => { container.innerHTML = ''; }, 3500);
   }
 
-  // Çoklu Element İçin Ortak Daktilo Efekti
   function startTypewriter(text, el, speed = 55) {
-    if(el.twTimeout) clearTimeout(el.twTimeout);
-    var i = 0; 
-    el.innerHTML = '<span class="tw-text"></span><span class="tw-cursor">|</span>';
-    var twText = el.querySelector('.tw-text');
+    if(el.twTimeout) clearTimeout(el.twTimeout); var i = 0; 
+    el.innerHTML = '<span class="tw-text"></span><span class="tw-cursor">|</span>'; var twText = el.querySelector('.tw-text');
     function type() {
       if(i < text.length) {
         if(text.charAt(i) === '\n') { twText.innerHTML += '<br>'; } else { twText.innerHTML += text.charAt(i); }
-        i++; 
-        el.twTimeout = setTimeout(type, speed); 
-      } else { 
-        var cursor = el.querySelector('.tw-cursor');
-        if(cursor) cursor.classList.add('fade-out-cursor'); 
-      }
+        i++; el.twTimeout = setTimeout(type, speed); 
+      } else { var cursor = el.querySelector('.tw-cursor'); if(cursor) cursor.classList.add('fade-out-cursor'); }
     }
     type();
   }
 
-  function renderLovePage(state){
-    clearInterval(slideshowInterval); 
-    if(window.ytLoopInterval) clearInterval(window.ytLoopInterval); // Müzik tarama döngüsünü sıfırla
-    
-    var slidesData = [];
-    if (!Array.isArray(state.img)) {
-       slidesData.push({ url: state.img, note: "" });
-    } else {
-       state.img.forEach(item => {
-          if (typeof item === 'string') slidesData.push({ url: item, note: "" });
-          else slidesData.push({ url: item.url, note: item.note || "" });
-       });
-    }
+  // VIRAL 1: KAZI KAZAN
+  function initScratchCard(onComplete) {
+     var canvas = document.getElementById('scratchOverlay'); canvas.classList.remove('hidden');
+     canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+     var ctx = canvas.getContext('2d');
+     
+     // Yaldızlı arka plan
+     var gradient = ctx.createRadialGradient(canvas.width/2, canvas.height/2, 0, canvas.width/2, canvas.height/2, canvas.height);
+     gradient.addColorStop(0, '#dcb772'); gradient.addColorStop(1, '#8a6a2c');
+     ctx.fillStyle = gradient; ctx.fillRect(0, 0, canvas.width, canvas.height);
+     
+     ctx.font = "bold 24px 'Manrope'"; ctx.fillStyle = "#1c0c12"; ctx.textAlign = "center";
+     ctx.fillText("Sürprizi Görmek İçin Ekranı Kazı 👆", canvas.width/2, canvas.height/2);
+     
+     ctx.globalCompositeOperation = 'destination-out';
+     var isDrawing = false; var scrubCount = 0; var completed = false;
 
-    var container = document.getElementById('bgSlideshow'); 
-    container.innerHTML = '';
+     function scrub(e) {
+        if(completed || !isDrawing) return;
+        var rect = canvas.getBoundingClientRect();
+        var x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+        var y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+        
+        ctx.beginPath(); ctx.arc(x, y, 40, 0, Math.PI * 2); ctx.fill();
+        scrubCount++;
+        if(scrubCount > 120) { // 120 fırça darbesi yeterli
+           completed = true; canvas.style.opacity = '0';
+           setTimeout(() => { canvas.classList.add('hidden'); onComplete(); }, 1500);
+        }
+     }
+     canvas.onmousedown = () => { isDrawing = true; }; canvas.onmouseup = () => { isDrawing = false; }; canvas.onmousemove = scrub;
+     canvas.ontouchstart = () => { isDrawing = true; }; canvas.ontouchend = () => { isDrawing = false; }; canvas.ontouchmove = scrub;
+  }
+
+  // VIRAL 2: ŞİFRE KUTUSU
+  function initPasswordBox(question, answer, onComplete) {
+     var pwOverlay = document.getElementById('passwordOverlay');
+     pwOverlay.classList.remove('hidden');
+     document.getElementById('pwQuestionText').textContent = question || "Şifre nedir?";
+     var errEl = document.getElementById('pwError'); errEl.style.display = 'none';
+     var input = document.getElementById('pwAnswerInput'); input.value = '';
+     
+     document.getElementById('pwSubmitBtn').onclick = function() {
+        if(input.value.trim().toLocaleLowerCase('tr-TR') === answer.trim().toLocaleLowerCase('tr-TR')) {
+           pwOverlay.style.opacity = '0'; errEl.style.display = 'none';
+           setTimeout(() => { pwOverlay.classList.add('hidden'); onComplete(); }, 1000);
+        } else {
+           errEl.style.display = 'block';
+        }
+     };
+  }
+
+  function renderLovePage(state){
+    clearInterval(slideshowInterval); if(window.ytLoopInterval) clearInterval(window.ytLoopInterval); 
+    var slidesData = [];
+    if (!Array.isArray(state.img)) slidesData.push({ url: state.img, note: "" });
+    else state.img.forEach(item => { if (typeof item === 'string') slidesData.push({ url: item, note: "" }); else slidesData.push({ url: item.url, note: item.note || "" }); });
+
+    var container = document.getElementById('bgSlideshow'); container.innerHTML = '';
     slidesData.forEach((slideItem, index) => {
-      var slide = document.createElement('div'); 
-      slide.className = 'slide' + (index === 0 ? ' active' : '');
-      slide.style.backgroundImage = `url('${slideItem.url}')`; 
-      container.appendChild(slide);
+      var slide = document.createElement('div'); slide.className = 'slide' + (index === 0 ? ' active' : ''); slide.style.backgroundImage = `url('${slideItem.url}')`; container.appendChild(slide);
     });
     
     document.getElementById('lpNames').textContent = state.n1 + ' & ' + state.n2;
-    
     var dateMode = state.mode || 'days'; 
-    if (dateMode === 'date') {
-       document.getElementById('lpSince').innerHTML = '<b>' + formatDateTr(state.d) + "</b>'dan beri birlikte";
-    } else if (dateMode === 'exact') {
-       document.getElementById('lpSince').innerHTML = '<b>' + formatDateSimple(state.d) + '</b>';
-    } else {
-       var days = daysBetween(state.d); 
-       document.getElementById('lpSince').innerHTML = (days >= 0 ? ('<b>' + days + '</b> gündür birlikte') : 'yakında birlikte');
-    }
+    if (dateMode === 'date') document.getElementById('lpSince').innerHTML = '<b>' + formatDateTr(state.d) + "</b>'dan beri birlikte";
+    else if (dateMode === 'exact') document.getElementById('lpSince').innerHTML = '<b>' + formatDateSimple(state.d) + '</b>';
+    else { var days = daysBetween(state.d); document.getElementById('lpSince').innerHTML = (days >= 0 ? ('<b>' + days + '</b> gündür birlikte') : 'yakında birlikte'); }
     
-    isAnimationPlaying = false; isFirstPlayDone = false; 
-    document.getElementById('heartsContainer').innerHTML = '';
+    isAnimationPlaying = false; isFirstPlayDone = false; document.getElementById('heartsContainer').innerHTML = '';
     
-    var msgEl = document.getElementById('lpMessage'); 
-    msgEl.innerHTML = ''; msgEl.classList.add('hidden'); msgEl.classList.remove('shrunk');
-    if(msgEl.twTimeout) clearTimeout(msgEl.twTimeout);
-
+    var msgEl = document.getElementById('lpMessage'); msgEl.innerHTML = ''; msgEl.classList.add('hidden'); msgEl.classList.remove('shrunk'); if(msgEl.twTimeout) clearTimeout(msgEl.twTimeout);
     document.getElementById('textWrapper').classList.remove('centered');
     
-    var pNoteEl = document.getElementById('photoNoteDisplay');
-    pNoteEl.innerHTML = ''; pNoteEl.classList.add('hidden');
-    if(pNoteEl.twTimeout) clearTimeout(pNoteEl.twTimeout);
-
-    initYouTube(state); // Oynatıcıyı durumu ile (süre bilgileriyle) başlat
+    var pNoteEl = document.getElementById('photoNoteDisplay'); pNoteEl.innerHTML = ''; pNoteEl.classList.add('hidden'); if(pNoteEl.twTimeout) clearTimeout(pNoteEl.twTimeout);
+    initYouTube(state); 
 
     var lovePageBody = document.getElementById('lovepage');
-    var playerWrapper = document.getElementById('playerWrapper');
-    var vinyl = document.getElementById('vinyl');
-    var tonearm = document.getElementById('tonearm');
-    var handIcon = document.getElementById('handIcon');
-    var hint = document.getElementById('playHint');
+    var playerWrapper = document.getElementById('playerWrapper'); var vinyl = document.getElementById('vinyl'); var tonearm = document.getElementById('tonearm');
+    var handIcon = document.getElementById('handIcon'); var hint = document.getElementById('playHint');
     
     playerWrapper.classList.remove('faded'); vinyl.classList.remove('playing'); tonearm.classList.remove('playing'); handIcon.classList.remove('show-hand', 'hidden-hand');
-    hint.classList.remove('hidden-hint'); hint.textContent = 'Müzik için plağa dokun';
-
-    // Salise Salise Müzik Limit Kontrolü
+    
+    // Müzik Limit Kontrolü
     window.ytLoopInterval = setInterval(() => {
        if(ytPlayerInstance && typeof ytPlayerInstance.getCurrentTime === 'function') {
-          var cTime = ytPlayerInstance.getCurrentTime();
-          var sTime = parseInt(state.ytStart) || 0;
-          var dTime = parseInt(state.ytDur) || 0;
-          
-          if (dTime > 0 && cTime >= (sTime + dTime) - 0.2) {
-             ytPlayerInstance.seekTo(sTime);
-          }
+          var cTime = ytPlayerInstance.getCurrentTime(); var sTime = parseInt(state.ytStart) || 0; var dTime = parseInt(state.ytDur) || 0;
+          if (dTime > 0 && cTime >= (sTime + dTime) - 0.2) ytPlayerInstance.seekTo(sTime);
        }
     }, 250);
 
     function triggerMainMessage() {
-        pNoteEl.classList.add('hidden'); 
-        if(pNoteEl.twTimeout) clearTimeout(pNoteEl.twTimeout);
-
-        msgEl.classList.remove('hidden'); 
-        msgEl.style.display = 'block';
-        startTypewriter(state.msg, msgEl); 
-        isAnimationPlaying = false;
-
-        var typingDurationMs = state.msg.length * 55;
-        setTimeout(function(){
-            document.getElementById('textWrapper').classList.add('centered');
-            msgEl.classList.add('shrunk');
-        }, typingDurationMs + 10000);
+        pNoteEl.classList.add('hidden'); if(pNoteEl.twTimeout) clearTimeout(pNoteEl.twTimeout);
+        msgEl.classList.remove('hidden'); msgEl.style.display = 'block'; startTypewriter(state.msg, msgEl); isAnimationPlaying = false;
+        var typingDurationMs = state.msg.length * 55; setTimeout(function(){ document.getElementById('textWrapper').classList.add('centered'); msgEl.classList.add('shrunk'); }, typingDurationMs + 10000);
     }
 
     function startSlideshowAnimations() {
        let mainMessageTriggered = false; 
-
-       if(slidesData[0].note) {
-          pNoteEl.classList.remove('hidden');
-          startTypewriter(slidesData[0].note, pNoteEl);
-       }
-
+       if(slidesData[0].note) { pNoteEl.classList.remove('hidden'); startTypewriter(slidesData[0].note, pNoteEl); }
        if(slidesData.length > 1) {
-          let currentSlide = 0;
-          let loopCount = 0;
-          
+          let currentSlide = 0; let loopCount = 0;
           slideshowInterval = setInterval(() => {
-             // Notu yavaşça karartarak (fade-out) gizle
-             pNoteEl.classList.add('hidden');
-             if(pNoteEl.twTimeout) clearTimeout(pNoteEl.twTimeout);
-             
-             // Not tamamen silindikten (600ms) sonra pürüzsüz slayt geçişini başlat
+             pNoteEl.classList.add('hidden'); if(pNoteEl.twTimeout) clearTimeout(pNoteEl.twTimeout);
              setTimeout(() => {
-                 let next = (currentSlide + 1) % slidesData.length;
-                 let slides = container.querySelectorAll('.slide');
-                 
-                 slides[currentSlide].classList.remove('active');
-                 slides[currentSlide].classList.add('last-active');
-                 slides[next].classList.add('active');
-                 
-                 let prev = currentSlide;
-                 setTimeout(() => { slides[prev].classList.remove('last-active'); }, 1000);
-
-                 currentSlide = next;
-                 if (currentSlide === 0) { loopCount++; }
-
-                 // Geçiş oturduktan (800ms) sonra yeni notu Daktilo ile başlat
+                 let next = (currentSlide + 1) % slidesData.length; let slides = container.querySelectorAll('.slide');
+                 slides[currentSlide].classList.remove('active'); slides[currentSlide].classList.add('last-active'); slides[next].classList.add('active');
+                 let prev = currentSlide; setTimeout(() => { slides[prev].classList.remove('last-active'); }, 1000);
+                 currentSlide = next; if (currentSlide === 0) { loopCount++; }
                  setTimeout(() => {
-                     if (loopCount === 0) {
-                        if(slidesData[currentSlide].note) {
-                           pNoteEl.classList.remove('hidden');
-                           startTypewriter(slidesData[currentSlide].note, pNoteEl);
-                        }
-                     } else if (loopCount === 1 && !mainMessageTriggered) {
-                        triggerMainMessage();
-                        mainMessageTriggered = true;
-                     }
+                     if (loopCount === 0) { if(slidesData[currentSlide].note) { pNoteEl.classList.remove('hidden'); startTypewriter(slidesData[currentSlide].note, pNoteEl); }
+                     } else if (loopCount === 1 && !mainMessageTriggered) { triggerMainMessage(); mainMessageTriggered = true; }
                  }, 800);
              }, 600); 
-
           }, 4500); 
-       } else {
-          setTimeout(() => {
-              pNoteEl.classList.add('hidden');
-              if(pNoteEl.twTimeout) clearTimeout(pNoteEl.twTimeout);
-              setTimeout(() => { triggerMainMessage(); }, 600);
-          }, 3500);
-       }
+       } else { setTimeout(() => { pNoteEl.classList.add('hidden'); if(pNoteEl.twTimeout) clearTimeout(pNoteEl.twTimeout); setTimeout(() => { triggerMainMessage(); }, 600); }, 3500); }
     }
 
-    // ANA TIKLAMA OLAYI
-    lovePageBody.onclick = function(){
-      if(isAnimationPlaying) return; 
-      hint.classList.add('hidden-hint');
-      if(!ytPlayerInstance || typeof ytPlayerInstance.getPlayerState !== 'function') return; 
-
-      if(!isFirstPlayDone) {
+    // ANA ATEŞLEYİCİ (Deneyimi Başlatan Fonksiyon)
+    function startLovePageExperience() {
         isAnimationPlaying = true; isFirstPlayDone = true;
-        
-        ytPlayerInstance.seekTo(parseInt(state.ytStart) || 0); // Tam başlama saniyesine oturtur
-        ytPlayerInstance.playVideo(); 
-
+        ytPlayerInstance.seekTo(parseInt(state.ytStart) || 0); ytPlayerInstance.playVideo(); 
         handIcon.classList.add('show-hand');
         setTimeout(function(){
           tonearm.classList.add('playing');
           setTimeout(function(){
-              handIcon.classList.remove('show-hand'); handIcon.classList.add('hidden-hand');
-              vinyl.classList.add('playing');
+              handIcon.classList.remove('show-hand'); handIcon.classList.add('hidden-hand'); vinyl.classList.add('playing');
               setTimeout(function(){
                 playerWrapper.classList.add('faded');
-                setTimeout(function(){
-                    triggerHeartsExplosion(); // Kalpler anında patlar
-                    setTimeout(function(){
-                        startSlideshowAnimations(); // Kalpler kaybolduktan sonra temiz ekranda başlar
-                    }, 2500);
-                }, 800); 
+                setTimeout(function(){ triggerHeartsExplosion(); setTimeout(function(){ startSlideshowAnimations(); }, 2500); }, 800); 
               }, 1200); 
           }, 600); 
         }, 400); 
+    }
+
+    // KONSEPT YÖNETİMİ
+    var concept = state.cpt || 'classic';
+    if(concept === 'scratch') {
+        hint.classList.add('hidden-hint');
+        initScratchCard(function() { startLovePageExperience(); });
+    } else if(concept === 'password') {
+        hint.classList.add('hidden-hint');
+        initPasswordBox(state.q, state.a, function() { startLovePageExperience(); });
+    } else {
+        hint.classList.remove('hidden-hint'); hint.textContent = 'Müzik için plağa dokun';
+    }
+
+    // Klasik Dokunma Olayı (Yalnızca Klasik Konsept için ilk başlatıcı)
+    lovePageBody.onclick = function(){
+      if(isAnimationPlaying) return; 
+      
+      // Eğer overlay (kazı/şifre) aktifse, tıklamalar hiçbir şey yapmaz.
+      if ((concept === 'scratch' || concept === 'password') && !isFirstPlayDone) return;
+
+      hint.classList.add('hidden-hint');
+      if(!ytPlayerInstance || typeof ytPlayerInstance.getPlayerState !== 'function') return; 
+
+      if(!isFirstPlayDone) {
+        startLovePageExperience(); // Klasik başlama
         return;
       }
 
+      // İkinci Tıklama (Müzik Durdur/Başlat)
       var playerState = ytPlayerInstance.getPlayerState();
-      if(playerState === YT.PlayerState.PLAYING || playerState === YT.PlayerState.BUFFERING) {
-         ytPlayerInstance.pauseVideo();
-      } else {
-        ytPlayerInstance.playVideo();
-      }
+      if(playerState === YT.PlayerState.PLAYING || playerState === YT.PlayerState.BUFFERING) ytPlayerInstance.pauseVideo();
+      else ytPlayerInstance.playVideo();
     };
+
     show(views.lovepage);
   }
 
   async function boot(){
     var hash = location.hash;
-
-    if(hash === '#bydpanel' || hash === '#yonetim') {
-      show(views.builder);
-      return;
-    }
-
+    if(hash === '#bydpanel' || hash === '#yonetim') { show(views.builder); return; }
     if(hash && hash.length > 1){
-      show(views.loading); 
-      var docId = hash.slice(1);
-      try {
-        const docSnap = await getDoc(doc(db, "couples", docId));
-        if (docSnap.exists()) {
-          renderLovePage(docSnap.data());
-        } else {
-          show(views.landing); 
-        }
-      } catch (error) {
-        console.error("Veri çekilemedi:", error);
-        show(views.landing);
-      }
-    } else {
-      show(views.landing);
-    }
+      show(views.loading); var docId = hash.slice(1);
+      try { const docSnap = await getDoc(doc(db, "couples", docId)); if (docSnap.exists()) { renderLovePage(docSnap.data()); } else { show(views.landing); } } 
+      catch (error) { console.error("Veri çekilemedi:", error); show(views.landing); }
+    } else { show(views.landing); }
   }
 
-  window.addEventListener('hashchange', boot); 
-  boot();
+  window.addEventListener('hashchange', boot); boot();
 </script>
 </body>
 </html>
