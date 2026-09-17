@@ -111,16 +111,20 @@
   #cropCancel{ background:rgba(255,255,255,0.1); color:#fff; }
   #cropConfirm{ background:linear-gradient(180deg, var(--gold-300), var(--gold-400)); color:#1c0c12; }
 
-  /* ---------- RESULT VIEW (Link Ekranı) ---------- */
+  /* ---------- RESULT VIEW (Link & QR Ekranı) ---------- */
   #result{ min-height:100vh; display:flex; align-items:center; justify-content:center; padding:48px 20px; }
   .result-card{ max-width:480px;width:100%; background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015)); border:1px solid rgba(255,255,255,.08); border-radius:18px; padding:34px; text-align:center; box-shadow:var(--shadow-deep); }
   .result-card .stamp{ width:52px;height:52px;border-radius:50%; margin:0 auto 18px; background:radial-gradient(circle at 35% 35%, var(--gold-300), var(--gold-400) 60%, #8a6a2c 100%); display:flex;align-items:center;justify-content:center; font-size:22px; }
   .link-box{ margin-top:22px; background:rgba(0,0,0,.25); border:1px solid rgba(255,255,255,.12); border-radius:10px; padding:15px 14px; font-size:13.5px; color:var(--cream-200); word-break:break-all; text-align:center; font-weight:700; user-select:all; }
-  .btn-row{display:flex;gap:10px;margin-top:16px;}
-  .btn-row button{ flex:1; padding:15px; border-radius:12px; border:none; font-family:'Manrope',sans-serif; font-weight:700; font-size:15px; cursor:pointer; }
+  
+  .qr-container { background: #fff; padding: 12px; border-radius: 12px; display: inline-block; margin-top: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+  .qr-container img { display: block; width: 150px; height: 150px; }
+
+  .btn-row{display:flex; flex-wrap: wrap; gap:10px; margin-top:20px;}
+  .btn-row button{ flex:1 1 45%; padding:15px; border-radius:12px; border:none; font-family:'Manrope',sans-serif; font-weight:700; font-size:14.5px; cursor:pointer; }
   .btn-primary{background:linear-gradient(180deg, var(--gold-300), var(--gold-400));color:#241019;}
   .btn-secondary{background:rgba(255,255,255,.08);color:var(--cream-100);border:1px solid rgba(255,255,255,.14);}
-  .back-link{display:inline-block;margin-top:22px;color:var(--ink-muted);font-size:13px;text-decoration:underline;cursor:pointer;background:none;border:none;font-family:'Manrope',sans-serif;}
+  .back-link{display:inline-block;margin-top:25px;color:var(--ink-muted);font-size:13px;text-decoration:underline;cursor:pointer;background:none;border:none;font-family:'Manrope',sans-serif;}
 
   /* ---------- LOADING EKRANI ---------- */
   #loading{ min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; }
@@ -152,7 +156,6 @@
   /* ---------- LOVE PAGE & ANİMASYONLAR ---------- */
   #lovepage{ min-height:100vh; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; cursor: pointer; background: var(--wine-950); }
   
-  /* Arka Plan KUSURSUZ Slayt Geçişi */
   #bgSlideshow { position: absolute; inset: 0; z-index: 0; }
   .slide { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: opacity 1s ease-in-out; filter: blur(2px) brightness(0.6) saturate(1.1); animation: slowZoom 30s infinite alternate ease-in-out; z-index: 0; }
   .slide.active { opacity: 1; z-index: 2; }
@@ -161,7 +164,6 @@
   @keyframes slowZoom { 0% { transform: scale(1); } 100% { transform: scale(1.04); } }
   #lovepage .veil{ position:absolute;inset:0; z-index: 1; background:linear-gradient(180deg, rgba(28,12,18,.5) 0%, rgba(28,12,18,.35) 40%, rgba(28,12,18,.95) 100%); }
   
-  /* Kalplerin Tek Seferlik Patlayıp Ekrandan Çıkması */
   .hearts-container { position: absolute; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
   .heart-particle { position: absolute; bottom: -50px; opacity: 0; }
   @keyframes flyUp {
@@ -172,7 +174,6 @@
 
   .love-inner{ position:relative; z-index:2; width:100%; max-width:560px; padding:32px 22px 50px; display:flex; flex-direction:column; align-items:center; text-align:center; }
   
-  /* METİN VE İSİM ALANI */
   .text-wrapper { position: relative; display: flex; flex-direction: column; align-items: center; transition: transform 1.8s cubic-bezier(0.4, 0, 0.2, 1); transform: translateY(0); z-index: 5; }
   .names{ font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:600; font-size:clamp(32px,8vw,48px); color:var(--cream-100); margin:0 0 4px; text-shadow:0 6px 24px rgba(0,0,0,.6); }
   .since{ font-size:14px; letter-spacing:.02em; color:var(--rose-300); margin-bottom:10px; text-shadow:0 2px 8px rgba(0,0,0,0.5); }
@@ -368,19 +369,28 @@
   </div>
 </div>
 
-<!-- RESULT (LINK EKRANI) -->
+<!-- RESULT (LINK VE QR EKRANI) -->
 <div id="result" class="hidden">
   <div class="result-card">
     <div class="stamp">🔗</div>
     <h1 class="title" style="font-size:26px;margin-bottom:8px;">Linkiniz Hazır!</h1>
     <p class="lede" style="margin:0 auto; font-size:14px; line-height:1.7;">
-      Veriler başarıyla Firebase'e yazıldı. Müşterinize aşağıdaki süper kısa linki gönderebilirsiniz.
+      Veriler başarıyla Firebase'e yazıldı. Müşterinize aşağıdaki süper kısa linki ve QR kodunu gönderebilirsiniz.
     </p>
+    
     <div class="link-box" id="generatedLink">URL Hesaplanıyor...</div>
-    <div class="btn-row">
-      <button class="btn-primary" id="copyBtn">Linki Kopyala</button>
-      <button class="btn-secondary" id="previewBtn">Müşteri Gözünden Önizle</button>
+    
+    <!-- YENİ: QR KOD BÖLÜMÜ -->
+    <div class="qr-container">
+       <img id="qrCodeImg" src="" alt="QR Kod">
     </div>
+
+    <div class="btn-row">
+      <button class="btn-primary" id="copyBtn" style="flex: 1 1 100%;">Linki Kopyala</button>
+      <button class="btn-secondary" id="previewBtn">Önizle</button>
+      <button class="btn-secondary" id="downloadQrBtn">QR İndir</button>
+    </div>
+
     <button class="back-link" id="backBtn">← Yeni bir müşteri oluştur</button>
   </div>
 </div>
@@ -604,10 +614,36 @@
       const stateToSave = { n1: name1, n2: name2, d: startDate, mode: dateMode, img: cloudImgData, yt: ytId, ytStart: ytStart, ytDur: ytDur, msg: messageText, cpt: concept, q: sq, a: sa };
       
       await setDoc(doc(db, "couples", documentId), stateToSave);
-      var finalUrl = location.origin + location.pathname + '#' + documentId; document.getElementById('generatedLink').textContent = finalUrl;
+      var finalUrl = location.origin + location.pathname + '#' + documentId; 
+      
+      // QR KOD OLUŞTURUCU (API)
+      var qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=" + encodeURIComponent(finalUrl) + "&color=1c0c12&bgcolor=ffffff";
+      document.getElementById('qrCodeImg').src = qrUrl;
+
+      document.getElementById('generatedLink').textContent = finalUrl;
       
       document.getElementById('copyBtn').onclick = function(){ navigator.clipboard.writeText(finalUrl).then(function(){ document.getElementById('copyBtn').textContent = 'Kopyalandı ✓'; setTimeout(function(){ document.getElementById('copyBtn').textContent = 'Linki Kopyala'; }, 2000); }); };
       document.getElementById('previewBtn').onclick = function(){ location.hash = documentId; boot(); };
+      
+      // QR Kod İndirme İşlemi
+      document.getElementById('downloadQrBtn').onclick = async function() {
+         const btn = this; btn.textContent = "İndiriliyor...";
+         try {
+             const response = await fetch(qrUrl);
+             const blob = await response.blob();
+             const downloadUrl = URL.createObjectURL(blob);
+             const a = document.createElement('a');
+             a.href = downloadUrl;
+             a.download = "SevgiliyeOzel-QR-" + documentId + ".png";
+             document.body.appendChild(a); a.click(); document.body.removeChild(a);
+             btn.textContent = "QR İndir";
+         } catch(err) {
+             console.error("İndirme hatası", err);
+             window.open(qrUrl, '_blank'); // Hata olursa yeni sekmede açsın
+             btn.textContent = "QR İndir";
+         }
+      };
+
       submitBtn.disabled = false; submitBtn.textContent = 'Müşteriye Özel Link Oluştur'; show(views.result);
     } catch (error) {
       console.error(error); formErr.textContent = 'Bir hata oluştu. İnternetinizi kontrol edin.'; formErr.classList.add('show');
@@ -672,7 +708,6 @@
      canvas.width = window.innerWidth; canvas.height = window.innerHeight;
      var ctx = canvas.getContext('2d');
      
-     // Yaldızlı arka plan
      var gradient = ctx.createRadialGradient(canvas.width/2, canvas.height/2, 0, canvas.width/2, canvas.height/2, canvas.height);
      gradient.addColorStop(0, '#dcb772'); gradient.addColorStop(1, '#8a6a2c');
      ctx.fillStyle = gradient; ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -691,7 +726,7 @@
         
         ctx.beginPath(); ctx.arc(x, y, 40, 0, Math.PI * 2); ctx.fill();
         scrubCount++;
-        if(scrubCount > 120) { // 120 fırça darbesi yeterli
+        if(scrubCount > 120) { 
            completed = true; canvas.style.opacity = '0';
            setTimeout(() => { canvas.classList.add('hidden'); onComplete(); }, 1500);
         }
@@ -749,7 +784,6 @@
     
     playerWrapper.classList.remove('faded'); vinyl.classList.remove('playing'); tonearm.classList.remove('playing'); handIcon.classList.remove('show-hand', 'hidden-hand');
     
-    // Müzik Limit Kontrolü
     window.ytLoopInterval = setInterval(() => {
        if(ytPlayerInstance && typeof ytPlayerInstance.getCurrentTime === 'function') {
           var cTime = ytPlayerInstance.getCurrentTime(); var sTime = parseInt(state.ytStart) || 0; var dTime = parseInt(state.ytDur) || 0;
@@ -784,7 +818,7 @@
        } else { setTimeout(() => { pNoteEl.classList.add('hidden'); if(pNoteEl.twTimeout) clearTimeout(pNoteEl.twTimeout); setTimeout(() => { triggerMainMessage(); }, 600); }, 3500); }
     }
 
-    // ANA ATEŞLEYİCİ (Deneyimi Başlatan Fonksiyon)
+    // ANA ATEŞLEYİCİ
     function startLovePageExperience() {
         isAnimationPlaying = true; isFirstPlayDone = true;
         ytPlayerInstance.seekTo(parseInt(state.ytStart) || 0); ytPlayerInstance.playVideo(); 
@@ -801,7 +835,6 @@
         }, 400); 
     }
 
-    // KONSEPT YÖNETİMİ
     var concept = state.cpt || 'classic';
     if(concept === 'scratch') {
         hint.classList.add('hidden-hint');
@@ -813,22 +846,14 @@
         hint.classList.remove('hidden-hint'); hint.textContent = 'Müzik için plağa dokun';
     }
 
-    // Klasik Dokunma Olayı (Yalnızca Klasik Konsept için ilk başlatıcı)
     lovePageBody.onclick = function(){
       if(isAnimationPlaying) return; 
-      
-      // Eğer overlay (kazı/şifre) aktifse, tıklamalar hiçbir şey yapmaz.
       if ((concept === 'scratch' || concept === 'password') && !isFirstPlayDone) return;
-
       hint.classList.add('hidden-hint');
       if(!ytPlayerInstance || typeof ytPlayerInstance.getPlayerState !== 'function') return; 
 
-      if(!isFirstPlayDone) {
-        startLovePageExperience(); // Klasik başlama
-        return;
-      }
+      if(!isFirstPlayDone) { startLovePageExperience(); return; }
 
-      // İkinci Tıklama (Müzik Durdur/Başlat)
       var playerState = ytPlayerInstance.getPlayerState();
       if(playerState === YT.PlayerState.PLAYING || playerState === YT.PlayerState.BUFFERING) ytPlayerInstance.pauseVideo();
       else ytPlayerInstance.playVideo();
