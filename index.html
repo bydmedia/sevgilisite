@@ -3,160 +3,175 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Sevgiliye Özel — Kişiye Özel Aşk Sitesi</title>
+<title>Sevgiliye Özel — Dijital Hediye Ajansı</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Dancing+Script:wght@600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- LÜKS FONTLAR EKLENDİ (Playfair Display & Montserrat) -->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Dancing+Script:wght@600;700&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" />
 
 <style>
+  /* YENİ PREMIUM RENK PALETİ */
   :root{
-    --wine-950:#1c0c12;
-    --wine-900:#2a1019;
-    --wine-800:#3a1622;
-    --rose-300:#e8b4b8;
-    --gold-400:#c9a15a;
-    --gold-300:#dcb772;
-    --cream-100:#f6ecdf;
-    --cream-200:#efe1cd;
-    --ink-muted:#c9a9ab;
-    --shadow-deep: 0 30px 60px -20px rgba(0,0,0,.6);
+    --bg-dark: #09090b; /* Lüks Gece Siyahı */
+    --bg-card: #18181b; /* Kart Arka Planı */
+    --text-main: #f8fafc; /* Parlak Beyaz */
+    --text-muted: #94a3b8; /* Gümüş Gri */
+    --accent-pink: #f43f5e; /* Vurucu Canlı Pembe */
+    --accent-grad: linear-gradient(135deg, #f43f5e 0%, #fb7185 100%); /* Lüks Pembe Geçiş */
+    --accent-glow: rgba(244, 63, 94, 0.25);
+    
+    /* Love Page Eski Değişkenleri (Bozulmaması için korundu) */
+    --wine-950:#1c0c12; --wine-900:#2a1019; --rose-300:#e8b4b8; --gold-400:#c9a15a; --gold-300:#dcb772; --cream-100:#f6ecdf; --cream-200:#efe1cd;
   }
+  
   *{box-sizing:border-box;}
-  html,body{margin:0;padding:0; width: 100%; height: 100%;}
-  body{ font-family:'Manrope',sans-serif; background:var(--wine-950); color:var(--cream-100); -webkit-font-smoothing:antialiased; overflow-x: hidden; }
+  html,body{margin:0;padding:0; width: 100%; height: 100%; scroll-behavior: smooth;}
+  body{ font-family:'Montserrat', sans-serif; background:var(--bg-dark); color:var(--text-main); -webkit-font-smoothing:antialiased; overflow-x: hidden; }
   .hidden{display:none !important;}
 
   /* ---------- MODERN YENİ VİTRİN (LANDING PAGE) ---------- */
-  #landing { display: block; width: 100%; min-height: 100vh; background: radial-gradient(circle at top, rgba(201,161,90,.08), transparent 50%), var(--wine-950); padding-bottom: 80px; }
+  #landing { display: block; width: 100%; min-height: 100vh; background: radial-gradient(circle at 50% -20%, #2e0f1d, var(--bg-dark) 60%); padding-bottom: 80px; }
   
-  /* Üst Menü */
-  .navbar { position: fixed; top: 0; left: 0; width: 100%; background: rgba(28, 12, 18, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; z-index: 900; }
-  .logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: var(--gold-300); text-decoration: none; }
-  .nav-links { display: flex; gap: 20px; }
-  .nav-links a { color: var(--cream-200); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; cursor: pointer; }
-  .nav-links a:hover { color: var(--gold-400); }
+  /* Üst Menü & Marka Logosu */
+  .navbar { position: fixed; top: 0; left: 0; width: 100%; background: rgba(9, 9, 11, 0.75); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; padding: 18px 5%; z-index: 900; }
+  
+  .logo { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 8px; letter-spacing: -0.5px; }
+  .logo-icon { font-size: 20px; filter: drop-shadow(0 0 8px var(--accent-glow)); }
+  .logo-text { background: linear-gradient(to right, #ffffff, #fda4af); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  
+  .nav-links { display: flex; gap: 24px; }
+  .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.3s; cursor: pointer; letter-spacing: 0.5px; }
+  .nav-links a:hover { color: var(--text-main); }
 
   /* Hero Alanı */
-  .hero-section { padding: 140px 20px 60px; text-align: center; max-width: 800px; margin: 0 auto; }
-  .hero-eyebrow { display: inline-block; padding: 6px 14px; background: rgba(201,161,90,0.1); border: 1px solid rgba(201,161,90,0.3); border-radius: 50px; font-size: 12px; letter-spacing: 0.1em; color: var(--gold-300); font-weight: 600; text-transform: uppercase; margin-bottom: 20px; }
-  .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 8vw, 64px); line-height: 1.1; margin: 0 0 20px; }
-  .hero-title em { color: var(--rose-300); font-style: italic; }
-  .hero-desc { font-size: 17px; color: var(--ink-muted); line-height: 1.7; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto; }
+  .hero-section { padding: 160px 20px 60px; text-align: center; max-width: 850px; margin: 0 auto; }
+  .hero-eyebrow { display: inline-block; padding: 8px 18px; background: rgba(244, 63, 94, 0.1); border: 1px solid rgba(244, 63, 94, 0.2); border-radius: 50px; font-size: 12px; letter-spacing: 0.15em; color: #fda4af; font-weight: 600; text-transform: uppercase; margin-bottom: 25px; box-shadow: 0 0 20px var(--accent-glow); }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(42px, 8vw, 70px); font-weight: 700; line-height: 1.1; margin: 0 0 25px; letter-spacing: -1px; }
+  .hero-title em { background: var(--accent-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-style: normal; }
+  .hero-desc { font-size: 17px; color: var(--text-muted); line-height: 1.8; font-weight: 300; margin-bottom: 45px; max-width: 650px; margin-left: auto; margin-right: auto; }
   
-  .btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: linear-gradient(180deg, var(--gold-300), var(--gold-400)); color: #1c0c12; padding: 16px 36px; border-radius: 99px; font-weight: 700; font-size: 16px; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; border: none; cursor: pointer; }
-  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 30px -5px rgba(201,161,90, 0.4); }
+  .btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: var(--accent-grad); color: #fff; padding: 18px 40px; border-radius: 99px; font-weight: 600; font-size: 16px; text-decoration: none; transition: all 0.3s ease; border: none; cursor: pointer; box-shadow: 0 10px 25px -5px var(--accent-glow); }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 35px -5px rgba(244, 63, 94, 0.4); }
   
   /* Ortak Kısım Başlıkları */
-  .section-title { font-family: 'Cormorant Garamond', serif; font-size: 36px; text-align: center; color: var(--cream-100); margin-bottom: 40px; margin-top: 80px; }
-  .section-title span { color: var(--gold-300); font-style: italic; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 700; text-align: center; color: var(--text-main); margin-bottom: 50px; margin-top: 100px; }
+  .section-title span { background: var(--accent-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
   /* Paketler (Pricing Grid) */
-  .pricing-container { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 0 20px; }
-  .price-card { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 40px 30px; position: relative; display: flex; flex-direction: column; }
-  .price-card.popular { border-color: rgba(201,161,90,0.5); background: linear-gradient(180deg, rgba(201,161,90,0.08), rgba(0,0,0,0.3)); }
-  .price-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--gold-400); color: #1c0c12; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.05em; }
-  .price-name { font-size: 20px; font-family: 'Cormorant Garamond', serif; font-weight: 600; color: var(--cream-100); margin-bottom: 10px; }
-  .price-amount { font-size: 36px; font-weight: 700; color: var(--gold-300); margin-bottom: 25px; }
-  .price-amount span { font-size: 16px; color: var(--ink-muted); font-weight: 400; }
-  .feature-list { list-style: none; padding: 0; margin: 0 0 30px 0; flex: 1; }
-  .feature-list li { display: flex; align-items: flex-start; gap: 12px; font-size: 14.5px; color: var(--cream-200); margin-bottom: 15px; line-height: 1.5; }
-  .feature-list li svg { flex-shrink: 0; width: 18px; height: 18px; fill: var(--gold-400); margin-top: 3px; }
+  .pricing-container { max-width: 950px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; padding: 0 20px; }
+  .price-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 24px; padding: 45px 35px; position: relative; display: flex; flex-direction: column; backdrop-filter: blur(10px); transition: transform 0.3s, border-color 0.3s; }
+  .price-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.1); }
+  .price-card.popular { border-color: rgba(244, 63, 94, 0.3); background: linear-gradient(180deg, rgba(244, 63, 94, 0.05), rgba(255,255,255,0.02)); box-shadow: 0 20px 40px -10px var(--accent-glow); }
+  .price-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--accent-grad); color: #fff; font-size: 11px; font-weight: 700; padding: 6px 16px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.1em; box-shadow: 0 4px 15px var(--accent-glow); }
+  .price-name { font-size: 22px; font-family: 'Playfair Display', serif; font-weight: 700; color: var(--text-main); margin-bottom: 15px; }
+  .price-amount { font-size: 42px; font-weight: 700; color: var(--text-main); margin-bottom: 30px; letter-spacing: -1px; }
+  .price-amount span { font-size: 15px; color: var(--text-muted); font-weight: 400; letter-spacing: 0; }
+  
+  .feature-list { list-style: none; padding: 0; margin: 0 0 35px 0; flex: 1; }
+  .feature-list li { display: flex; align-items: flex-start; gap: 14px; font-size: 15px; color: var(--text-muted); margin-bottom: 18px; line-height: 1.6; font-weight: 400; }
+  .feature-list li strong { color: var(--text-main); font-weight: 600; }
+  .feature-list li svg { flex-shrink: 0; width: 20px; height: 20px; color: var(--accent-pink); margin-top: 2px; }
+
+  .btn-outline { display: block; text-align: center; background: transparent; color: var(--text-main); border: 1px solid rgba(255,255,255,0.2); padding: 16px; border-radius: 12px; font-weight: 600; text-decoration: none; transition: all 0.3s; }
+  .btn-outline:hover { background: rgba(255,255,255,0.05); }
 
   /* SSS (Akordiyon) */
-  .faq-container { max-width: 700px; margin: 0 auto; padding: 0 20px; }
-  .faq-item { border-bottom: 1px solid rgba(255,255,255,0.08); padding: 18px 0; }
-  .faq-item details { width: 100%; cursor: pointer; }
-  .faq-item summary { display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 16px; color: var(--cream-100); list-style: none; outline: none; }
+  .faq-container { max-width: 750px; margin: 0 auto; padding: 0 20px; display: flex; flex-direction: column; gap: 15px; }
+  .faq-item { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; transition: background 0.3s; }
+  .faq-item:hover { background: rgba(255,255,255,0.04); }
+  .faq-item details { width: 100%; cursor: pointer; padding: 20px; }
+  .faq-item summary { display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 16px; color: var(--text-main); list-style: none; outline: none; }
   .faq-item summary::-webkit-details-marker { display: none; }
-  .faq-item summary::after { content: '+'; font-size: 20px; color: var(--gold-400); transition: transform 0.3s; }
+  .faq-item summary::after { content: '+'; font-size: 24px; font-weight: 300; color: var(--accent-pink); transition: transform 0.3s; }
   .faq-item details[open] summary::after { content: '−'; transform: rotate(180deg); }
-  .faq-answer { padding-top: 12px; font-size: 14.5px; color: var(--ink-muted); line-height: 1.6; }
+  .faq-answer { padding-top: 15px; font-size: 15px; color: var(--text-muted); line-height: 1.7; font-weight: 300; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 15px; }
 
-  .landing-footer { text-align: center; margin-top: 80px; font-size: 12px; color: rgba(255,255,255,0.2); }
+  .landing-footer { text-align: center; margin-top: 100px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.05); font-size: 13px; color: var(--text-muted); font-weight: 300; }
 
   /* ---------- BUILDER (FORM) VIEW & DİĞER EKRANLAR ---------- */
-  /* NOT: Bu kısımlar tamamen korundu, sadece vitrin CSS'i eklendi */
-  #builder{ min-height:100vh; display:flex; align-items:center; justify-content:center; padding:48px 20px; background: radial-gradient(1100px 600px at 15% -10%, rgba(201,161,90,.10), transparent 60%), radial-gradient(900px 500px at 100% 110%, rgba(232,180,184,.10), transparent 55%), var(--wine-950); }
+  #builder{ min-height:100vh; display:flex; align-items:center; justify-content:center; padding:48px 20px; background: radial-gradient(1100px 600px at 15% -10%, rgba(244,63,94,.05), transparent 60%), radial-gradient(900px 500px at 100% 110%, rgba(201,161,90,.05), transparent 55%), var(--bg-dark); }
   .builder-wrap{width:100%;max-width:560px;}
-  .eyebrow{ font-size:13px; letter-spacing:.03em; color:var(--gold-300); margin:0 0 10px; }
-  h1.title{ font-family:'Cormorant Garamond',serif; font-weight:600; font-size:clamp(34px,6vw,46px); line-height:1.08; margin:0 0 14px; color:var(--cream-100); }
-  h1.title em{font-style:italic;color:var(--rose-300);}
-  .lede{ color:var(--ink-muted); font-size:15.5px; line-height:1.6; margin:0 0 34px; max-width:46ch; }
-  form.card{ background:linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.015)); border:1px solid rgba(255,255,255,.08); border-radius:18px; padding:30px; box-shadow:var(--shadow-deep); }
-  .field{margin-bottom:20px;}
-  .field label{ display:block; font-size:13px; font-weight:600; color:var(--gold-300); margin-bottom:8px; }
-  .field .hint{ display:block; font-weight:400; color:var(--ink-muted); font-size:12px; margin-top:5px; }
-  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-  input[type=text], input[type=number], input[type=date], input[type=url], select, textarea{ width:100%; padding:12px 14px; background:rgba(0,0,0,.22); border:1px solid rgba(255,255,255,.12); border-radius:10px; color:var(--cream-100); font-family:'Manrope',sans-serif; font-size:14.5px; outline:none; transition:border-color .15s ease; }
+  .eyebrow{ font-size:13px; letter-spacing:.03em; color:var(--accent-pink); margin:0 0 10px; font-weight:600; text-transform:uppercase;}
+  h1.title{ font-family:'Playfair Display',serif; font-weight:700; font-size:clamp(34px,6vw,46px); line-height:1.08; margin:0 0 14px; color:var(--text-main); }
+  h1.title em{font-style:italic; background: var(--accent-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;}
+  .lede{ color:var(--text-muted); font-size:15.5px; line-height:1.6; margin:0 0 34px; max-width:46ch; font-weight:300;}
+  form.card{ background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,.08); border-radius:24px; padding:35px; box-shadow:0 20px 40px rgba(0,0,0,0.5); backdrop-filter:blur(10px);}
+  .field{margin-bottom:24px;}
+  .field label{ display:block; font-size:13.5px; font-weight:600; color:var(--text-main); margin-bottom:10px; }
+  .field .hint{ display:block; font-weight:300; color:var(--text-muted); font-size:12px; margin-top:6px; }
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  input[type=text], input[type=number], input[type=date], input[type=url], select, textarea{ width:100%; padding:14px 16px; background:rgba(0,0,0,.3); border:1px solid rgba(255,255,255,.1); border-radius:12px; color:var(--text-main); font-family:'Montserrat',sans-serif; font-size:14.5px; outline:none; transition:border-color .2s ease; }
   textarea{ resize:vertical; min-height:80px; }
-  input::placeholder, textarea::placeholder{color:rgba(246,236,223,.35);}
-  input:focus, textarea:focus, select:focus{border-color:var(--gold-400);}
-  select option { background: var(--wine-900); color: white; }
+  input::placeholder, textarea::placeholder{color:rgba(255,255,255,.2);}
+  input:focus, textarea:focus, select:focus{border-color:var(--accent-pink);}
+  select option { background: var(--bg-card); color: white; }
   
-  .file-drop{ border:1.5px dashed rgba(255,255,255,.18); border-radius:12px; padding:16px; text-align:center; cursor:pointer; color:var(--ink-muted); font-size:13.5px; background:rgba(0,0,0,.15); transition:all .15s ease; position:relative; display:block; margin-top: 10px; }
-  .file-drop:hover{border-color:var(--gold-400);color:var(--cream-200);}
+  .file-drop{ border:1.5px dashed rgba(255,255,255,.15); border-radius:14px; padding:20px; text-align:center; cursor:pointer; color:var(--text-muted); font-size:14px; background:rgba(0,0,0,.2); transition:all .2s ease; position:relative; display:block; margin-top: 10px; font-weight:500;}
+  .file-drop:hover{border-color:var(--accent-pink);color:var(--text-main);}
   .file-drop input[type=file]{ position:absolute;inset:0;opacity:0;cursor:pointer; }
-  .file-drop.has-file{border-style:solid;border-color:var(--gold-400);color:var(--cream-100); background:rgba(201,161,90,0.1);}
+  .file-drop.has-file{border-style:solid;border-color:var(--accent-pink);color:var(--text-main); background:rgba(244,63,94,0.05);}
   
-  #photoGallery { display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; }
-  .gallery-item { display: flex; align-items: center; gap: 12px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
-  .thumb-item { width: 60px; height: 60px; border-radius: 8px; background-size: cover; background-position: center; position: relative; border: 2px solid rgba(255,255,255,0.1); flex-shrink: 0; }
-  .thumb-delete { position: absolute; top: -6px; right: -6px; background: #e8b4b8; color: #1c0c12; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.5); z-index: 10; }
-  .photo-note-input { display: none; flex: 1; padding: 10px 12px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: var(--cream-100); font-family: 'Manrope', sans-serif; font-size: 13px; outline: none; }
-  .photo-note-input:focus { border-color: var(--gold-400); }
+  #photoGallery { display: flex; flex-direction: column; gap: 12px; margin-bottom: 12px; }
+  .gallery-item { display: flex; align-items: center; gap: 14px; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.05); }
+  .thumb-item { width: 64px; height: 64px; border-radius: 10px; background-size: cover; background-position: center; position: relative; border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; }
+  .thumb-delete { position: absolute; top: -8px; right: -8px; background: var(--text-main); color: var(--bg-dark); width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.5); z-index: 10; font-weight:bold;}
+  .photo-note-input { display: none; flex: 1; padding: 12px 14px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: var(--text-main); font-family: 'Montserrat', sans-serif; font-size: 13.5px; outline: none; }
+  .photo-note-input:focus { border-color: var(--accent-pink); }
   #photoGallery.show-notes .photo-note-input { display: block; }
   
-  .radio-group { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
-  .radio-label { display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: var(--cream-200); cursor: pointer; }
-  .radio-label input[type="radio"] { width: auto; margin: 0; cursor: pointer; accent-color: var(--gold-400); }
+  .radio-group { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+  .radio-label { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text-muted); cursor: pointer; font-weight:400;}
+  .radio-label input[type="radio"] { width: 18px; height: 18px; margin: 0; cursor: pointer; accent-color: var(--accent-pink); }
 
-  .submit-btn{ width:100%; padding:15px; margin-top:6px; border:none; border-radius:12px; background:linear-gradient(180deg, var(--gold-300), var(--gold-400)); color:#241019; font-family:'Manrope',sans-serif; font-weight:700; font-size:15px; cursor:pointer; letter-spacing:.01em; }
-  .submit-btn:disabled{opacity:.6;cursor:wait;}
-  .err{ color:#f0a3a3; font-size:12.5px; margin-top:6px; display:none; }
+  .submit-btn{ width:100%; padding:18px; margin-top:10px; border:none; border-radius:14px; background:var(--accent-grad); color:#fff; font-family:'Montserrat',sans-serif; font-weight:700; font-size:16px; cursor:pointer; box-shadow: 0 10px 20px -5px var(--accent-glow); transition:transform 0.2s;}
+  .submit-btn:active{transform:scale(0.98);}
+  .submit-btn:disabled{opacity:.6;cursor:wait;transform:none;}
+  .err{ color:#fda4af; font-size:13px; margin-top:8px; display:none; }
   .err.show{display:block;}
 
   #cropModal{ position:fixed; inset:0; background:rgba(0,0,0,0.98); z-index:9999; display:flex; flex-direction:column; }
-  .cropper-header { background: #1c0c12; padding: 20px 15px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
-  .cropper-title { display: block; color: var(--gold-300); font-size: 14px; font-weight: 600; margin-bottom: 12px; }
-  .cropper-ratios { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
-  .cropper-ratios button { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: var(--cream-100); padding: 8px 14px; border-radius: 8px; font-family: 'Manrope', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s ease; }
-  .cropper-ratios button.active { background: rgba(201,161,90,0.15); border-color: var(--gold-400); color: var(--gold-400); font-weight:700; }
+  .cropper-header { background: var(--bg-card); padding: 20px 15px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .cropper-title { display: block; color: var(--text-main); font-size: 15px; font-weight: 600; margin-bottom: 15px; }
+  .cropper-ratios { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .cropper-ratios button { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-muted); padding: 10px 16px; border-radius: 10px; font-family: 'Montserrat', sans-serif; font-size: 13.5px; font-weight: 500; cursor: pointer; transition: all 0.2s ease; }
+  .cropper-ratios button.active { background: rgba(244,63,94,0.1); border-color: var(--accent-pink); color: var(--accent-pink); font-weight:600; }
   .cropper-area{ flex:1; min-height:0; display:flex; align-items:center; justify-content:center; }
   .cropper-area img{ max-width:100%; max-height:100%; display:block; }
-  .cropper-actions{ padding:20px; background:#1c0c12; display:flex; gap:12px; border-top:1px solid rgba(255,255,255,0.1); }
-  .cropper-actions button{ flex:1; padding:15px; border-radius:10px; border:none; font-family:'Manrope',sans-serif; font-weight:700; font-size:15px; cursor:pointer; }
+  .cropper-actions{ padding:20px; background:var(--bg-card); display:flex; gap:15px; border-top:1px solid rgba(255,255,255,0.05); }
+  .cropper-actions button{ flex:1; padding:16px; border-radius:12px; border:none; font-family:'Montserrat',sans-serif; font-weight:600; font-size:15px; cursor:pointer; }
   #cropCancel{ background:rgba(255,255,255,0.1); color:#fff; }
-  #cropConfirm{ background:linear-gradient(180deg, var(--gold-300), var(--gold-400)); color:#1c0c12; }
+  #cropConfirm{ background:var(--accent-grad); color:#fff; }
 
   #result{ min-height:100vh; display:flex; align-items:center; justify-content:center; padding:48px 20px; }
-  .result-card{ max-width:480px;width:100%; background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015)); border:1px solid rgba(255,255,255,.08); border-radius:18px; padding:34px; text-align:center; box-shadow:var(--shadow-deep); }
-  .result-card .stamp{ width:52px;height:52px;border-radius:50%; margin:0 auto 18px; background:radial-gradient(circle at 35% 35%, var(--gold-300), var(--gold-400) 60%, #8a6a2c 100%); display:flex;align-items:center;justify-content:center; font-size:22px; }
-  .link-box{ margin-top:22px; background:rgba(0,0,0,.25); border:1px solid rgba(255,255,255,.12); border-radius:10px; padding:15px 14px; font-size:13.5px; color:var(--cream-200); word-break:break-all; text-align:center; font-weight:700; user-select:all; }
-  .qr-container { background: #fff; padding: 12px; border-radius: 12px; display: inline-block; margin-top: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-  .qr-container img { display: block; width: 150px; height: 150px; }
-  .btn-row{display:flex; flex-wrap: wrap; gap:10px; margin-top:20px;}
-  .btn-row button{ flex:1 1 45%; padding:15px; border-radius:12px; border:none; font-family:'Manrope',sans-serif; font-weight:700; font-size:14.5px; cursor:pointer; }
-  .btn-primary{background:linear-gradient(180deg, var(--gold-300), var(--gold-400));color:#241019;}
-  .btn-secondary{background:rgba(255,255,255,.08);color:var(--cream-100);border:1px solid rgba(255,255,255,.14);}
-  .back-link{display:inline-block;margin-top:25px;color:var(--ink-muted);font-size:13px;text-decoration:underline;cursor:pointer;background:none;border:none;font-family:'Manrope',sans-serif;}
+  .result-card{ max-width:480px;width:100%; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,.08); border-radius:24px; padding:40px; text-align:center; box-shadow:0 20px 40px rgba(0,0,0,0.5); backdrop-filter:blur(10px);}
+  .result-card .stamp{ width:60px;height:60px;border-radius:50%; margin:0 auto 20px; background:var(--accent-grad); display:flex;align-items:center;justify-content:center; font-size:24px; box-shadow: 0 10px 20px var(--accent-glow);}
+  .link-box{ margin-top:25px; background:rgba(0,0,0,.3); border:1px solid rgba(255,255,255,.1); border-radius:12px; padding:18px; font-size:14px; color:var(--text-main); word-break:break-all; text-align:center; font-weight:600; user-select:all; }
+  .qr-container { background: #fff; padding: 15px; border-radius: 16px; display: inline-block; margin-top: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+  .qr-container img { display: block; width: 160px; height: 160px; }
+  .btn-row{display:flex; flex-wrap: wrap; gap:12px; margin-top:25px;}
+  .btn-row button{ flex:1 1 45%; padding:16px; border-radius:12px; border:none; font-family:'Montserrat',sans-serif; font-weight:600; font-size:14.5px; cursor:pointer; }
+  .btn-secondary{background:rgba(255,255,255,.05);color:var(--text-main);border:1px solid rgba(255,255,255,.1);}
+  .back-link{display:inline-block;margin-top:30px;color:var(--text-muted);font-size:14px;text-decoration:underline;cursor:pointer;background:none;border:none;font-family:'Montserrat',sans-serif;}
 
-  #loading{ min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; }
-  #loading .spinner { width: 40px; height: 40px; border-radius: 50%; border: 3px solid rgba(201,161,90, 0.2); border-top-color: var(--gold-400); animation: spin 1s linear infinite; margin-bottom: 20px; }
-  #loading p { font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--gold-300); font-size: 22px; letter-spacing: 0.05em; }
+  #loading{ min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; background:var(--bg-dark); }
+  #loading .spinner { width: 45px; height: 45px; border-radius: 50%; border: 3px solid rgba(244, 63, 94, 0.1); border-top-color: var(--accent-pink); animation: spin 1s linear infinite; margin-bottom: 25px; }
+  #loading p { font-family: 'Playfair Display', serif; font-style: italic; color: var(--text-muted); font-size: 20px; letter-spacing: 0.5px; }
 
+  /* ---------- VİRAL KONSEPT KATMANLARI ---------- */
   #scratchOverlay { position: fixed; inset: 0; z-index: 100; width: 100vw; height: 100vh; cursor: crosshair; touch-action: none; transition: opacity 1.5s ease; }
-  #passwordOverlay { position: fixed; inset: 0; z-index: 100; width: 100vw; height: 100vh; background: radial-gradient(circle at center, var(--wine-900), var(--wine-950)); display: flex; align-items: center; justify-content: center; padding: 20px; transition: opacity 1s ease; }
-  .pw-box { background: rgba(0,0,0,0.4); border: 1px solid rgba(201,161,90, 0.3); border-radius: 20px; padding: 40px 25px; text-align: center; max-width: 400px; width: 100%; box-shadow: var(--shadow-deep); backdrop-filter: blur(10px); }
-  .pw-icon { font-size: 40px; margin-bottom: 15px; }
-  .pw-question { font-family: 'Cormorant Garamond', serif; font-size: 24px; color: var(--gold-300); margin-bottom: 25px; line-height: 1.3; font-style: italic; }
-  .pw-input { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); color: #fff; text-align: center; font-size: 16px; outline: none; margin-bottom: 15px; font-family: 'Manrope', sans-serif;}
-  .pw-input:focus { border-color: var(--gold-400); }
-  .pw-btn { width: 100%; padding: 15px; border-radius: 12px; border: none; background: linear-gradient(180deg, var(--gold-300), var(--gold-400)); color: #1c0c12; font-weight: 700; font-size: 16px; cursor: pointer; transition: transform 0.2s; }
+  #passwordOverlay { position: fixed; inset: 0; z-index: 100; width: 100vw; height: 100vh; background: radial-gradient(circle at center, var(--bg-card), var(--bg-dark)); display: flex; align-items: center; justify-content: center; padding: 20px; transition: opacity 1s ease; }
+  .pw-box { background: rgba(0,0,0,0.4); border: 1px solid rgba(244,63,94, 0.2); border-radius: 24px; padding: 45px 30px; text-align: center; max-width: 420px; width: 100%; box-shadow: 0 20px 50px rgba(0,0,0,0.6); backdrop-filter: blur(15px); }
+  .pw-icon { font-size: 45px; margin-bottom: 20px; filter:drop-shadow(0 0 10px var(--accent-glow));}
+  .pw-question { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--text-main); margin-bottom: 30px; line-height: 1.3; font-style: italic; }
+  .pw-input { width: 100%; padding: 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.3); color: #fff; text-align: center; font-size: 16px; outline: none; margin-bottom: 20px; font-family: 'Montserrat', sans-serif;}
+  .pw-input:focus { border-color: var(--accent-pink); }
+  .pw-btn { width: 100%; padding: 18px; border-radius: 12px; border: none; background: var(--accent-grad); color: #fff; font-weight: 700; font-size: 16px; cursor: pointer; transition: transform 0.2s; box-shadow: 0 10px 20px -5px var(--accent-glow);}
   .pw-btn:active { transform: scale(0.97); }
 
   #ytplayer-hidden { position: absolute; top: 10px; left: 10px; width: 10px; height: 10px; opacity: 0; pointer-events: none; z-index: 0; }
 
+  /* ---------- LOVE PAGE & ANİMASYONLAR (Buraya dokunulmadı, sinematik yapı korundu) ---------- */
   #lovepage{ min-height:100vh; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; cursor: pointer; background: var(--wine-950); }
   #bgSlideshow { position: absolute; inset: 0; z-index: 0; }
   .slide { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: opacity 1s ease-in-out; filter: blur(2px) brightness(0.6) saturate(1.1); animation: slowZoom 30s infinite alternate ease-in-out; z-index: 0; }
@@ -172,7 +187,7 @@
   .love-inner{ position:relative; z-index:2; width:100%; max-width:560px; padding:32px 22px 50px; display:flex; flex-direction:column; align-items:center; text-align:center; }
   .text-wrapper { position: relative; display: flex; flex-direction: column; align-items: center; transition: transform 1.8s cubic-bezier(0.4, 0, 0.2, 1); transform: translateY(0); z-index: 5; }
   .names{ font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:600; font-size:clamp(32px,8vw,48px); color:var(--cream-100); margin:0 0 4px; text-shadow:0 6px 24px rgba(0,0,0,.6); }
-  .since{ font-size:14px; letter-spacing:.02em; color:var(--rose-300); margin-bottom:10px; text-shadow:0 2px 8px rgba(0,0,0,0.5); }
+  .since{ font-family:'Montserrat',sans-serif; font-size:14px; letter-spacing:.02em; color:var(--rose-300); margin-bottom:10px; text-shadow:0 2px 8px rgba(0,0,0,0.5); }
   .since b{color:var(--cream-100);font-weight:700;}
 
   .message-container { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); width: 90vw; max-width: 560px; display: flex; flex-direction: column; align-items: center; pointer-events: none; }
@@ -188,7 +203,7 @@
   .player-wrapper { position: relative; height: 180px; margin-top: 15px; margin-bottom: 5px; transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1); opacity: 1; transform: scale(1) translateY(0); }
   .player-wrapper.faded { opacity: 0; height: 0; margin-top: 0; margin-bottom: 0; transform: scale(0.2) translateY(-100px); pointer-events: none; }
   .player{ position:relative; width:min(45vw, 170px); height:min(45vw, 170px); display:flex;align-items:center;justify-content:center; transition: transform 0.2s ease; }
-  .play-hint { position:absolute; top:-35px; font-size:13px; color:var(--gold-300); animation: bounce 2s infinite; font-weight:600; text-shadow:0 2px 5px rgba(0,0,0,0.8); pointer-events:none; white-space: nowrap; transition: opacity 0.5s ease, visibility 0.5s; opacity: 1; visibility: visible; }
+  .play-hint { position:absolute; top:-35px; font-family:'Montserrat',sans-serif; font-size:12px; color:var(--gold-300); animation: bounce 2s infinite; font-weight:600; text-shadow:0 2px 5px rgba(0,0,0,0.8); pointer-events:none; white-space: nowrap; transition: opacity 0.5s ease, visibility 0.5s; opacity: 1; visibility: visible; letter-spacing:0.5px;}
   .play-hint.hidden-hint { opacity: 0; visibility: hidden; }
   @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 
@@ -208,153 +223,135 @@
   .tw-cursor { font-weight: 300; color: var(--gold-300); animation: blink 1s infinite; }
   .fade-out-cursor { display: none; }
   @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-  .made-with{ position:absolute;bottom:14px;left:0;right:0; text-align:center;z-index:2; font-size:11px;color:rgba(246,236,223,.3); }
+  .made-with{ position:absolute;bottom:14px;left:0;right:0; text-align:center;z-index:2; font-family:'Montserrat',sans-serif; font-size:11px;color:rgba(246,236,223,.3); }
   @keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
 </style>
 </head>
 <body>
 
-<!-- ================= 1. YENİ VİTRİN / TANITIM EKRANI ================= -->
+<!-- ================= 1. YENİ LÜKS VİTRİN / TANITIM EKRANI ================= -->
 <div id="landing" class="hidden">
   
-  <!-- Navbar -->
+  <!-- Üst Navbar -->
   <header class="navbar">
-    <a href="#" class="logo">SevgilimeÖzel</a>
+    <a href="#" class="logo">
+      <span class="logo-icon">✨</span>
+      <span class="logo-text">SevgilimeÖzel</span>
+    </a>
     <nav class="nav-links">
       <a onclick="document.getElementById('paketler').scrollIntoView({behavior:'smooth'}); return false;">Paketler</a>
       <a onclick="document.getElementById('sss').scrollIntoView({behavior:'smooth'}); return false;">S.S.S.</a>
     </nav>
   </header>
 
-  <!-- Hero -->
+  <!-- Hero Banner -->
   <section class="hero-section">
     <span class="hero-eyebrow">DİJİTAL HEDİYE AJANSI</span>
     <h1 class="hero-title">Aşkınızı <em>Dijital</em> Bir Eserle Ölümsüzleştirin.</h1>
     <p class="hero-desc">
-      Klasik hediyeleri unutun. Size özel şarkınız, uçuşan kalpler, anı fotoğraflarınız ve daktilo efektiyle yazılan özel mesajınız... Tamamen size özel kalıcı bir web sayfası tasarlıyoruz.
+      Klasik hediyeleri unutun. Size özel çalan şarkınız, uçuşan kalpler, anı fotoğraflarınız ve daktilo efektiyle yazılan özel mesajınız... Onun için sonsuza dek kalıcı bir web sayfası tasarlıyoruz.
     </p>
     <a href="https://wa.me/905437677317?text=Merhaba, sevgiliye özel site hizmetiniz hakkında bilgi almak istiyorum." class="btn-primary" target="_blank">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-      WhatsApp'tan Sipariş Ver
+      Sipariş İçin WhatsApp
     </a>
   </section>
 
-  <!-- Paketler -->
-  <section id="paketler" style="padding-top: 40px;">
-    <h2 class="section-title">Hizmet <em>Paketlerimiz</em></h2>
+  <!-- Paketler Bölümü -->
+  <section id="paketler" style="padding-top: 20px;">
+    <h2 class="section-title">Hizmet <span>Paketlerimiz</span></h2>
     <div class="pricing-container">
       
-      <!-- Standart Paket -->
+      <!-- Standart -->
       <div class="price-card">
         <h3 class="price-name">Standart Aşk Paketi</h3>
         <div class="price-amount">249 ₺ <span>/ tek seferlik</span></div>
         <ul class="feature-list">
-          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Sınırsız Fotoğraf Albümü</li>
-          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Seçtiğiniz Şarkı (YouTube Altyapısı)</li>
-          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Daktilo Efektli Özel Mesaj</li>
-          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Kalıcı Özel Link (örn: Ahmet-Ayse)</li>
-          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> QR Kod Gönderimi</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Sınırsız Fotoğraf Albümü</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Seçtiğiniz Şarkı Eklentisi</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Daktilo Efektli Ana Mesaj</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Kişisel URL (örn: Ahmet-Ayse)</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Baskıya Uygun QR Kod</li>
         </ul>
-        <a href="https://wa.me/905437677317?text=Merhaba, Standart Aşk Paketi almak istiyorum." class="btn-primary" target="_blank" style="width:100%; background:rgba(255,255,255,0.1); color:#fff;">Bu Paketi Seç</a>
+        <a href="https://wa.me/905437677317?text=Merhaba, Standart Aşk Paketi siparişi vermek istiyorum." class="btn-outline" target="_blank">Bu Paketi Seç</a>
       </div>
 
-      <!-- Premium Paket -->
+      <!-- Premium / Viral -->
       <div class="price-card popular">
         <div class="price-badge">En Çok Tercih Edilen</div>
         <h3 class="price-name">Viral Sürpriz Paketi</h3>
         <div class="price-amount">349 ₺ <span>/ tek seferlik</span></div>
         <ul class="feature-list">
-          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Standart Paketteki Her Şey</li>
-          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> <strong>Kazı-Kazan Ekranı (Viral)</strong></li>
-          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> <strong>Şifreli Aşk Testi (Kilitli Ekran)</strong></li>
-          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Müzik İstenilen Saniyeden Başlar</li>
-          <li><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Öncelikli VIP Teslimat (1 Saatte)</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Standart Paketteki Her Şey</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Kazı-Kazan Ekranı (Viral)</strong></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> <strong>Şifreli Aşk Testi Kilit Ekranı</strong></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Özel Müzik Süresi Belirleme</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Öncelikli Teslimat (1 Saatte)</li>
         </ul>
-        <a href="https://wa.me/905437677317?text=Merhaba, Viral Sürpriz Paketi almak istiyorum." class="btn-primary" target="_blank" style="width:100%;">Bu Paketi Seç</a>
+        <a href="https://wa.me/905437677317?text=Merhaba, Viral Sürpriz Paketi siparişi vermek istiyorum." class="btn-primary" style="width:100%; border-radius:12px; padding:16px;" target="_blank">Bu Paketi Seç</a>
       </div>
 
     </div>
   </section>
 
-  <!-- SSS -->
+  <!-- SSS Bölümü -->
   <section id="sss" style="padding-top: 40px;">
-    <h2 class="section-title">Sıkça Sorulan <em>Sorular</em></h2>
+    <h2 class="section-title">Sıkça Sorulan <span>Sorular</span></h2>
     <div class="faq-container">
       
       <div class="faq-item">
         <details>
           <summary>Siparişim ne kadar sürede teslim edilir?</summary>
-          <div class="faq-answer">Ödemenizi ve bilgilerinizi (fotoğraflar, mesaj, müzik linki vb.) bize ilettikten sonra, size özel linkiniz ve yüksek çözünürlüklü QR kodunuz genellikle 1-2 saat içinde hazırlanıp WhatsApp üzerinden teslim edilir.</div>
+          <div class="faq-answer">Gerekli bilgileri (fotoğraflar, mesaj, müzik linki vb.) bize ilettikten sonra, size özel linkiniz ve yüksek çözünürlüklü QR kodunuz 1-2 saat içinde hazırlanıp gönderilir.</div>
         </details>
       </div>
 
       <div class="faq-item">
         <details>
           <summary>Web sitemizin linki ne kadar süre açık kalacak?</summary>
-          <div class="faq-answer">Linkiniz sunucularımızda süresiz (ömür boyu) olarak barındırılır. Herhangi bir aylık/yıllık yenileme ücreti yoktur. Siteniz asla silinmez.</div>
+          <div class="faq-answer">Linkiniz sunucularımızda süresiz olarak barındırılır. Herhangi bir aylık/yıllık yenileme ücreti yoktur, asla silinmez.</div>
         </details>
       </div>
 
       <div class="faq-item">
         <details>
-          <summary>Fotoğraf sınırınız var mı?</summary>
-          <div class="faq-answer">Hayır, sistemimize teknik olarak sınır koymadık. İstediğiniz kadar fotoğraf ekletebilirsiniz. Ancak en iyi sinematik deneyim için 5 ile 15 arası fotoğraf en idealidir.</div>
-        </details>
-      </div>
-
-      <div class="faq-item">
-        <details>
-          <summary>Viral Konseptler (Kazı-Kazan / Şifre) nasıl çalışır?</summary>
-          <div class="faq-answer">Sıradan bir açılış yerine, sevgiliniz linke tıkladığında ekranı parmağıyla kazıyarak (Kazı-Kazan) sürprizi açığa çıkarabilir. Ya da belirlediğiniz gizli bir soruyu (Örn: "İlk buluştuğumuz kafe?") doğru cevaplayana kadar hediye kilitli kalır. Bu özellikler Premium pakete dahildir.</div>
-        </details>
-      </div>
-
-      <div class="faq-item">
-        <details>
-          <summary>Yüklediğim fotoğrafları başkaları görebilir mi?</summary>
-          <div class="faq-answer">Kesinlikle hayır. Size özel oluşturulan karmaşık ve benzersiz linki (Örn: sevgilimeozel.com.tr/#Ahmet-Ayse-2026) siz kimseyle paylaşmadığınız sürece Google'da bulunması veya üçüncü şahısların görmesi imkansızdır.</div>
-        </details>
-      </div>
-
-      <div class="faq-item">
-        <details>
-          <summary>İleride fotoğrafları veya müziği değiştirebilir miyim?</summary>
-          <div class="faq-answer">Teslimattan sonraki ilk 24 saat içinde ücretsiz revizyon hakkınız bulunmaktadır. Dilediğiniz ufak değişiklikleri hemen yapabiliriz.</div>
+          <summary>Viral Konseptler (Kazı-Kazan / Şifre) nedir?</summary>
+          <div class="faq-answer">Premium pakette, sayfanın açılışına eğlence katıyoruz. Sevgiliniz ekrandaki puslu alanı parmağıyla kazıyarak veya belirlediğiniz gizli bir soruyu doğru yanıtlayarak asıl sürprize (müzik ve fotoğraflara) ulaşır. TikTok ve Reels'te paylaşmak için harika bir detaydır!</div>
         </details>
       </div>
 
       <div class="faq-item">
         <details>
           <summary>Sitemizin linki nasıl görünecek?</summary>
-          <div class="faq-answer">Linkiniz markasız ve tamamen size özel temiz bir uzantıya sahip olur. Örneğin: <b>sevgilimeozel.com.tr/#Bora-Selin-14022026</b> şeklinde görünür.</div>
+          <div class="faq-answer">Markasız ve temiz bir uzantıya sahip olur. Örnek: <b>sevgilimeozel.com.tr/#Ahmet-Ayse-2026</b> şeklinde gözükür.</div>
         </details>
       </div>
 
       <div class="faq-item">
         <details>
-          <summary>Müzikler iPhone cihazlarda da sorunsuz çalıyor mu?</summary>
-          <div class="faq-answer">Evet! Geliştirdiğimiz özel "Touch-Bypass" kodlama mimarisi sayesinde, Apple ve Google'ın otomatik ses engellemelerini aşıyor ve tüm telefonlarda müziğin ilk dokunuşta kusursuzca başlamasını sağlıyoruz.</div>
+          <summary>Yüklediğim fotoğrafları başkaları görebilir mi?</summary>
+          <div class="faq-answer">Kesinlikle hayır. Size özel oluşturulan karmaşık linki siz kimseyle paylaşmadığınız sürece Google'da bulunması imkansızdır. Sistem tamamen şifrelidir.</div>
+        </details>
+      </div>
+
+      <div class="faq-item">
+        <details>
+          <summary>Müzikler iPhone cihazlarda sorunsuz çalıyor mu?</summary>
+          <div class="faq-answer">Evet! Geliştirdiğimiz "Touch-Bypass" kodlama mimarisi ile, Apple'ın otomatik ses engellemelerini aşıyor ve müziğin ilk dokunuşta her telefonda kusursuz başlamasını sağlıyoruz.</div>
         </details>
       </div>
 
       <div class="faq-item">
         <details>
           <summary>QR kod ne işime yarayacak?</summary>
-          <div class="faq-answer">Hediyenizin yanında fiziksel bir hediye de veriyorsanız (çiçek, çikolata kutusu, kupa, kolye kutusu), size gönderdiğimiz QR kodu kağıda bastırıp bu hediyelerin üzerine iliştirebilirsiniz. Telefon kamerasını okuttukları an web siteniz açılır.</div>
-        </details>
-      </div>
-
-      <div class="faq-item">
-        <details>
-          <summary>Çiftlere özel "Geçen Gün" sayacı nasıl çalışır?</summary>
-          <div class="faq-answer">Bize verdiğiniz ilişki başlangıç tarihinden (veya evlilik tarihinden) bugüne kadar geçen süreyi sistem otomatik olarak hesaplar. "150 gündür birlikte" gibi bir ibareyle her gün canlı olarak güncellenir. İsterseniz bu sayaç yerine sadece net tarihi de yazdırabilirsiniz.</div>
+          <div class="faq-answer">Fiziksel bir hediye veriyorsanız (çiçek, çikolata veya hediye kutusu), size gönderdiğimiz QR kodu bastırıp üzerine iliştirebilirsiniz. Telefon kamerasını okuttukları an web siteniz büyüsüyle açılır.</div>
         </details>
       </div>
 
       <div class="faq-item">
         <details>
           <summary>Ödemeyi nasıl yapabilirim?</summary>
-          <div class="faq-answer">Kurumsal IBAN hesabımıza Havale/EFT yoluyla veya dilerseniz güvenli ödeme altyapısıyla (kredi/banka kartı) ödemenizi gerçekleştirebilirsiniz.</div>
+          <div class="faq-answer">Kurumsal IBAN hesabımıza Havale/EFT yoluyla güvenle ödemenizi gerçekleştirebilirsiniz. İşlem sonrası tasarımınız derhal başlar.</div>
         </details>
       </div>
 
@@ -367,9 +364,9 @@
 <!-- ================= 2. BUILDER / YÖNETİM PANELİ EKRANI ================= -->
 <div id="builder" class="hidden">
   <div class="builder-wrap">
-    <p class="eyebrow">SEVGİLİYE ÖZEL MÜŞTERİ PANELİ</p>
+    <p class="eyebrow">AJANS YÖNETİM PANELİ</p>
     <h1 class="title">İki isim, <em>bir şarkı</em><br>ve dönen bir plak.</h1>
-    <p class="lede">Ajansınıza özel sistem. Müşterinizin bilgilerini girin ve veritabanı destekli ultra kısa bağlantınızı anında oluşturun.</p>
+    <p class="lede">Müşterinizin bilgilerini girin ve veritabanı destekli ultra kısa bağlantınızı anında oluşturun.</p>
 
     <form class="card" id="loveForm" autocomplete="off">
       
@@ -382,13 +379,13 @@
         </select>
       </div>
 
-      <div id="passwordFields" class="hidden" style="background: rgba(201,161,90,0.1); padding: 15px; border-radius: 12px; margin-bottom: 20px;">
+      <div id="passwordFields" class="hidden" style="background: rgba(244,63,94,0.05); padding: 15px; border-radius: 12px; margin-bottom: 20px; border:1px solid rgba(244,63,94,0.1);">
         <div class="field">
-          <label style="color:var(--gold-400);">Gizli Soru (Ekranda Sorulacak)</label>
+          <label style="color:var(--accent-pink);">Gizli Soru (Ekranda Sorulacak)</label>
           <input type="text" id="secretQuestion" placeholder="Örn: İlk buluştuğumuz kafe neresiydi?">
         </div>
         <div class="field" style="margin-bottom:0;">
-          <label style="color:var(--gold-400);">Doğru Cevap (Kilidi Açacak Kelime)</label>
+          <label style="color:var(--accent-pink);">Doğru Cevap (Kilidi Açacak Kelime)</label>
           <input type="text" id="secretAnswer" placeholder="Örn: Starbucks">
           <span class="hint">Cevap büyük/küçük harfe duyarlı değildir, müşteri rahatça girebilir.</span>
         </div>
@@ -424,7 +421,7 @@
       <div class="field">
         <label>Arka Plan Fotoğrafları (Albüm)</label>
         <div style="margin-bottom: 15px;">
-           <label style="display:flex; align-items:center; gap:8px; font-size:13px; font-weight:normal; cursor:pointer; color: var(--cream-200);">
+           <label style="display:flex; align-items:center; gap:8px; font-size:13px; font-weight:normal; cursor:pointer; color: var(--text-muted);">
              <input type="checkbox" id="enableNotesCb"> Her fotoğraf için ayrı bir kısa not eklemek istiyorum
            </label>
         </div>
@@ -467,8 +464,8 @@
   <div class="cropper-header">
     <span class="cropper-title">Ekran Oranını Seçin</span>
     <div class="cropper-ratios">
-      <button type="button" data-ratio="0.5625" class="active">📱 Mobil (Dikey)</button>
-      <button type="button" data-ratio="1.7777">💻 PC (Yatay)</button>
+      <button type="button" data-ratio="0.5625" class="active">📱 Mobil</button>
+      <button type="button" data-ratio="1.7777">💻 PC</button>
       <button type="button" data-ratio="1">⬛ Kare</button>
       <button type="button" data-ratio="NaN">🆓 Serbest</button>
     </div>
@@ -486,7 +483,7 @@
     <div class="stamp">🔗</div>
     <h1 class="title" style="font-size:26px;margin-bottom:8px;">Linkiniz Hazır!</h1>
     <p class="lede" style="margin:0 auto; font-size:14px; line-height:1.7;">
-      Veriler başarıyla Firebase'e yazıldı. Müşterinize aşağıdaki süper kısa linki ve QR kodunu gönderebilirsiniz.
+      Veriler başarıyla Firebase'e yazıldı. Müşterinize aşağıdaki linki ve QR kodunu gönderebilirsiniz.
     </p>
     
     <div class="link-box" id="generatedLink">URL Hesaplanıyor...</div>
@@ -558,7 +555,6 @@
         <div class="special-message hidden" id="lpMessage"></div>
       </div>
     </div>
-    
     <div id="ytplayer-hidden"></div>
   </div>
 </div>
@@ -576,8 +572,7 @@
     projectId: "sevgilisite-3d949",
     storageBucket: "sevgilisite-3d949.firebasestorage.app",
     messagingSenderId: "1037615267527",
-    appId: "1:1037615267527:web:e23c3dd29aefb65ff888e2",
-    measurementId: "G-4HSJ8GTD2R"
+    appId: "1:1037615267527:web:e23c3dd29aefb65ff888e2"
   };
 
   const app = initializeApp(firebaseConfig);
@@ -810,9 +805,9 @@
      canvas.width = window.innerWidth; canvas.height = window.innerHeight;
      var ctx = canvas.getContext('2d');
      var gradient = ctx.createRadialGradient(canvas.width/2, canvas.height/2, 0, canvas.width/2, canvas.height/2, canvas.height);
-     gradient.addColorStop(0, '#dcb772'); gradient.addColorStop(1, '#8a6a2c');
+     gradient.addColorStop(0, '#f43f5e'); gradient.addColorStop(1, '#9f1239'); /* Pembe-Bordo Yaldız */
      ctx.fillStyle = gradient; ctx.fillRect(0, 0, canvas.width, canvas.height);
-     ctx.font = "bold 24px 'Manrope'"; ctx.fillStyle = "#1c0c12"; ctx.textAlign = "center"; ctx.fillText("Sürprizi Görmek İçin Ekranı Kazı 👆", canvas.width/2, canvas.height/2);
+     ctx.font = "bold 26px 'Playfair Display'"; ctx.fillStyle = "#ffffff"; ctx.textAlign = "center"; ctx.fillText("Sürprizi Görmek İçin Ekranı Kazı ✨", canvas.width/2, canvas.height/2);
      ctx.globalCompositeOperation = 'destination-out';
      var isDrawing = false; var scrubCount = 0; var completed = false;
 
@@ -859,10 +854,11 @@
     else { var days = daysBetween(state.d); document.getElementById('lpSince').innerHTML = (days >= 0 ? ('<b>' + days + '</b> gündür birlikte') : 'yakında birlikte'); }
     
     isAnimationPlaying = false; isFirstPlayDone = false; document.getElementById('heartsContainer').innerHTML = '';
+    
     var msgEl = document.getElementById('lpMessage'); msgEl.innerHTML = ''; msgEl.classList.add('hidden'); msgEl.classList.remove('shrunk'); if(msgEl.twTimeout) clearTimeout(msgEl.twTimeout);
     document.getElementById('textWrapper').classList.remove('centered');
-    var pNoteEl = document.getElementById('photoNoteDisplay'); pNoteEl.innerHTML = ''; pNoteEl.classList.add('hidden'); if(pNoteEl.twTimeout) clearTimeout(pNoteEl.twTimeout);
     
+    var pNoteEl = document.getElementById('photoNoteDisplay'); pNoteEl.innerHTML = ''; pNoteEl.classList.add('hidden'); if(pNoteEl.twTimeout) clearTimeout(pNoteEl.twTimeout);
     initYouTube(state); 
 
     var lovePageBody = document.getElementById('lovepage');
@@ -943,7 +939,7 @@
 
   async function boot(){
     var hash = location.hash;
-    var internalLinks = ['#paketler', '#sss']; // Landing page içi kaydırmalar
+    var internalLinks = ['#paketler', '#sss']; 
     if (internalLinks.includes(hash)) return;
 
     if(hash === '#bydpanel' || hash === '#yonetim') { show(views.builder); return; }
