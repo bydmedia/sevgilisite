@@ -150,8 +150,17 @@
   .pw-btn { width: 100%; padding: 15px; border-radius: 12px; border: none; background: linear-gradient(180deg, var(--gold-300), var(--gold-400)); color: #1c0c12; font-weight: 700; font-size: 16px; cursor: pointer; transition: transform 0.2s; }
   .pw-btn:active { transform: scale(0.97); }
 
-  /* ---------- YOUTUBE GİZLİ OYNATICI ---------- */
-  #ytplayer-hidden { position: absolute; top: -9999px; left: -9999px; width: 100px; height: 100px; opacity: 0.01; pointer-events: none; }
+  /* ---------- YOUTUBE GİZLİ OYNATICI (SAFARİ BYPASS İÇİN GÜNCELLENDİ) ---------- */
+  #ytplayer-hidden { 
+      position: absolute; 
+      top: 10px; 
+      left: 10px; 
+      width: 10px; 
+      height: 10px; 
+      opacity: 0; 
+      pointer-events: none; 
+      z-index: 0; 
+  }
 
   /* ---------- LOVE PAGE & ANİMASYONLAR ---------- */
   #lovepage{ min-height:100vh; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; cursor: pointer; background: var(--wine-950); }
@@ -260,7 +269,6 @@
 
     <form class="card" id="loveForm" autocomplete="off">
       
-      <!-- KONSEPT SEÇİMİ (YENİ) -->
       <div class="field">
         <label>Açılış Konsepti (Tema Seçimi)</label>
         <select id="conceptSelect">
@@ -270,7 +278,6 @@
         </select>
       </div>
 
-      <!-- ŞİFRELİ KUTU İÇİN GİZLİ SORULAR -->
       <div id="passwordFields" class="hidden" style="background: rgba(201,161,90,0.1); padding: 15px; border-radius: 12px; margin-bottom: 20px;">
         <div class="field">
           <label style="color:var(--gold-400);">Gizli Soru (Ekranda Sorulacak)</label>
@@ -380,7 +387,6 @@
     
     <div class="link-box" id="generatedLink">URL Hesaplanıyor...</div>
     
-    <!-- YENİ: QR KOD BÖLÜMÜ -->
     <div class="qr-container">
        <img id="qrCodeImg" src="" alt="QR Kod">
     </div>
@@ -508,7 +514,6 @@
   var views = { landing: document.getElementById('landing'), builder: document.getElementById('builder'), result: document.getElementById('result'), lovepage: document.getElementById('lovepage'), loading: document.getElementById('loading') };
   function show(view){ Object.keys(views).forEach(function(k){ views[k].classList.toggle('hidden', views[k] !== view); }); }
 
-  // Builder Konsept Şifre Ekranı Göster/Gizle
   document.getElementById('conceptSelect').addEventListener('change', function(e){
       var pwFields = document.getElementById('passwordFields');
       if(e.target.value === 'password') pwFields.classList.remove('hidden');
@@ -520,8 +525,7 @@
   var cropper = null; var uploadedPhotos = []; 
 
   function renderGallery() {
-    var gallery = document.getElementById('photoGallery');
-    gallery.innerHTML = '';
+    var gallery = document.getElementById('photoGallery'); gallery.innerHTML = '';
     var showNotes = document.getElementById('enableNotesCb').checked;
     
     uploadedPhotos.forEach((item, index) => {
@@ -616,32 +620,21 @@
       await setDoc(doc(db, "couples", documentId), stateToSave);
       var finalUrl = location.origin + location.pathname + '#' + documentId; 
       
-      // QR KOD OLUŞTURUCU (API)
       var qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=" + encodeURIComponent(finalUrl) + "&color=1c0c12&bgcolor=ffffff";
       document.getElementById('qrCodeImg').src = qrUrl;
-
       document.getElementById('generatedLink').textContent = finalUrl;
       
       document.getElementById('copyBtn').onclick = function(){ navigator.clipboard.writeText(finalUrl).then(function(){ document.getElementById('copyBtn').textContent = 'Kopyalandı ✓'; setTimeout(function(){ document.getElementById('copyBtn').textContent = 'Linki Kopyala'; }, 2000); }); };
       document.getElementById('previewBtn').onclick = function(){ location.hash = documentId; boot(); };
       
-      // QR Kod İndirme İşlemi
       document.getElementById('downloadQrBtn').onclick = async function() {
          const btn = this; btn.textContent = "İndiriliyor...";
          try {
-             const response = await fetch(qrUrl);
-             const blob = await response.blob();
-             const downloadUrl = URL.createObjectURL(blob);
-             const a = document.createElement('a');
-             a.href = downloadUrl;
-             a.download = "SevgiliyeOzel-QR-" + documentId + ".png";
-             document.body.appendChild(a); a.click(); document.body.removeChild(a);
-             btn.textContent = "QR İndir";
-         } catch(err) {
-             console.error("İndirme hatası", err);
-             window.open(qrUrl, '_blank'); // Hata olursa yeni sekmede açsın
-             btn.textContent = "QR İndir";
-         }
+             const response = await fetch(qrUrl); const blob = await response.blob();
+             const downloadUrl = URL.createObjectURL(blob); const a = document.createElement('a');
+             a.href = downloadUrl; a.download = "SevgiliyeOzel-QR-" + documentId + ".png";
+             document.body.appendChild(a); a.click(); document.body.removeChild(a); btn.textContent = "QR İndir";
+         } catch(err) { window.open(qrUrl, '_blank'); btn.textContent = "QR İndir"; }
       };
 
       submitBtn.disabled = false; submitBtn.textContent = 'Müşteriye Özel Link Oluştur'; show(views.result);
@@ -653,8 +646,9 @@
 
   document.getElementById('backBtn').addEventListener('click', function(){ location.hash = '#bydpanel'; show(views.builder); });
 
-  /* ---------- YOUTUBE API VE SİSTEM ---------- */
+  /* ---------- YOUTUBE MOBİL (TOUCH-BYPASS) MOTORU ---------- */
   var ytPlayerInstance; var isAnimationPlaying = false; var isFirstPlayDone = false; var slideshowInterval;
+  var audioUnlocked = false;
 
   function initYouTube(state) {
     if (window.YT && window.YT.Player) { createPlayer(state); } else {
@@ -668,11 +662,27 @@
     var container = document.getElementById('ytplayer-hidden'); container.innerHTML = ''; 
     var newDiv = document.createElement('div'); newDiv.id = 'yt-iframe-placeholder'; container.appendChild(newDiv);
     var sTime = parseInt(state.ytStart) || 0;
+    
+    // Mobil Safari/Chrome bypass: Video önce SESSİZ(mute:1) ve OTOMATİK(autoplay:1) başlatılır.
     ytPlayerInstance = new YT.Player('yt-iframe-placeholder', {
-      height: '100', width: '100', videoId: state.yt, 
-      playerVars: { 'autoplay': 0, 'controls': 0, 'origin': window.location.origin, 'playsinline': 1, 'start': sTime },
-      events: { 'onStateChange': function(event) { if (event.data === YT.PlayerState.ENDED) { event.target.seekTo(sTime); event.target.playVideo(); } } }
+      height: '10', width: '10', videoId: state.yt, 
+      playerVars: { 'autoplay': 1, 'controls': 0, 'origin': window.location.origin, 'playsinline': 1, 'mute': 1 },
+      events: { 
+         'onReady': function(event) { event.target.playVideo(); },
+         'onStateChange': function(event) { if (event.data === YT.PlayerState.ENDED) { event.target.seekTo(sTime); event.target.playVideo(); } } 
+      }
     });
+  }
+
+  // İlk Dokunuşta Sesi Açar (Touch Bypass)
+  function unlockAudio(state) {
+      if(!audioUnlocked && ytPlayerInstance && typeof ytPlayerInstance.unMute === 'function') {
+          ytPlayerInstance.unMute();
+          ytPlayerInstance.setVolume(100);
+          ytPlayerInstance.seekTo(parseInt(state.ytStart) || 0);
+          ytPlayerInstance.playVideo();
+          audioUnlocked = true;
+      }
   }
 
   function triggerHeartsExplosion() {
@@ -703,7 +713,7 @@
   }
 
   // VIRAL 1: KAZI KAZAN
-  function initScratchCard(onComplete) {
+  function initScratchCard(state, onComplete) {
      var canvas = document.getElementById('scratchOverlay'); canvas.classList.remove('hidden');
      canvas.width = window.innerWidth; canvas.height = window.innerHeight;
      var ctx = canvas.getContext('2d');
@@ -731,12 +741,15 @@
            setTimeout(() => { canvas.classList.add('hidden'); onComplete(); }, 1500);
         }
      }
-     canvas.onmousedown = () => { isDrawing = true; }; canvas.onmouseup = () => { isDrawing = false; }; canvas.onmousemove = scrub;
-     canvas.ontouchstart = () => { isDrawing = true; }; canvas.ontouchend = () => { isDrawing = false; }; canvas.ontouchmove = scrub;
+     // İlk tıklamada bypass motoru çalışır
+     canvas.onmousedown = (e) => { isDrawing = true; unlockAudio(state); scrub(e); }; 
+     canvas.onmouseup = () => { isDrawing = false; }; canvas.onmousemove = scrub;
+     canvas.ontouchstart = (e) => { isDrawing = true; unlockAudio(state); scrub(e); }; 
+     canvas.ontouchend = () => { isDrawing = false; }; canvas.ontouchmove = scrub;
   }
 
   // VIRAL 2: ŞİFRE KUTUSU
-  function initPasswordBox(question, answer, onComplete) {
+  function initPasswordBox(state, question, answer, onComplete) {
      var pwOverlay = document.getElementById('passwordOverlay');
      pwOverlay.classList.remove('hidden');
      document.getElementById('pwQuestionText').textContent = question || "Şifre nedir?";
@@ -745,6 +758,7 @@
      
      document.getElementById('pwSubmitBtn').onclick = function() {
         if(input.value.trim().toLocaleLowerCase('tr-TR') === answer.trim().toLocaleLowerCase('tr-TR')) {
+           unlockAudio(state); // İlk tıklamada bypass motoru çalışır
            pwOverlay.style.opacity = '0'; errEl.style.display = 'none';
            setTimeout(() => { pwOverlay.classList.add('hidden'); onComplete(); }, 1000);
         } else {
@@ -754,7 +768,7 @@
   }
 
   function renderLovePage(state){
-    clearInterval(slideshowInterval); if(window.ytLoopInterval) clearInterval(window.ytLoopInterval); 
+    clearInterval(slideshowInterval); if(window.ytLoopInterval) clearInterval(window.ytLoopInterval); audioUnlocked = false;
     var slidesData = [];
     if (!Array.isArray(state.img)) slidesData.push({ url: state.img, note: "" });
     else state.img.forEach(item => { if (typeof item === 'string') slidesData.push({ url: item, note: "" }); else slidesData.push({ url: item.url, note: item.note || "" }); });
@@ -785,9 +799,9 @@
     playerWrapper.classList.remove('faded'); vinyl.classList.remove('playing'); tonearm.classList.remove('playing'); handIcon.classList.remove('show-hand', 'hidden-hand');
     
     window.ytLoopInterval = setInterval(() => {
-       if(ytPlayerInstance && typeof ytPlayerInstance.getCurrentTime === 'function') {
+       if(ytPlayerInstance && typeof ytPlayerInstance.getCurrentTime === 'function' && audioUnlocked) {
           var cTime = ytPlayerInstance.getCurrentTime(); var sTime = parseInt(state.ytStart) || 0; var dTime = parseInt(state.ytDur) || 0;
-          if (dTime > 0 && cTime >= (sTime + dTime) - 0.2) ytPlayerInstance.seekTo(sTime);
+          if (dTime > 0 && cTime >= (sTime + dTime) - 0.2) { ytPlayerInstance.seekTo(sTime); ytPlayerInstance.playVideo(); }
        }
     }, 250);
 
@@ -818,10 +832,9 @@
        } else { setTimeout(() => { pNoteEl.classList.add('hidden'); if(pNoteEl.twTimeout) clearTimeout(pNoteEl.twTimeout); setTimeout(() => { triggerMainMessage(); }, 600); }, 3500); }
     }
 
-    // ANA ATEŞLEYİCİ
+    // ANA ATEŞLEYİCİ (Deneyimi Başlatan Fonksiyon)
     function startLovePageExperience() {
         isAnimationPlaying = true; isFirstPlayDone = true;
-        ytPlayerInstance.seekTo(parseInt(state.ytStart) || 0); ytPlayerInstance.playVideo(); 
         handIcon.classList.add('show-hand');
         setTimeout(function(){
           tonearm.classList.add('playing');
@@ -835,13 +848,14 @@
         }, 400); 
     }
 
+    // KONSEPT YÖNETİMİ
     var concept = state.cpt || 'classic';
     if(concept === 'scratch') {
         hint.classList.add('hidden-hint');
-        initScratchCard(function() { startLovePageExperience(); });
+        initScratchCard(state, function() { startLovePageExperience(); });
     } else if(concept === 'password') {
         hint.classList.add('hidden-hint');
-        initPasswordBox(state.q, state.a, function() { startLovePageExperience(); });
+        initPasswordBox(state, state.q, state.a, function() { startLovePageExperience(); });
     } else {
         hint.classList.remove('hidden-hint'); hint.textContent = 'Müzik için plağa dokun';
     }
@@ -849,10 +863,15 @@
     lovePageBody.onclick = function(){
       if(isAnimationPlaying) return; 
       if ((concept === 'scratch' || concept === 'password') && !isFirstPlayDone) return;
+      
       hint.classList.add('hidden-hint');
       if(!ytPlayerInstance || typeof ytPlayerInstance.getPlayerState !== 'function') return; 
 
-      if(!isFirstPlayDone) { startLovePageExperience(); return; }
+      if(!isFirstPlayDone) { 
+         unlockAudio(state); // Klasik konseptte ilk dokunuşta sesi açar
+         startLovePageExperience(); 
+         return; 
+      }
 
       var playerState = ytPlayerInstance.getPlayerState();
       if(playerState === YT.PlayerState.PLAYING || playerState === YT.PlayerState.BUFFERING) ytPlayerInstance.pauseVideo();
